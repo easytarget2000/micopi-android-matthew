@@ -3,5 +3,5 @@ Complete rework of the established Micopi app using the [Matthew](http://github.
 
 This project is being developed in tandem with Matthew. Requirements are created for Micopi, implemented in Matthew and added here.
 
-## See also:
+## See also:
 [Micopi for iOS](https://github.com/easytargetmixel/micopi_ios)
