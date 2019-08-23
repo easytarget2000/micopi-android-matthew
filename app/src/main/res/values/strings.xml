@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Micopi</string>
+    <string name="appName">Micopi</string>
+    <string name="launchMenuSelectButtonTitle">Select contacts</string>
 </resources>
