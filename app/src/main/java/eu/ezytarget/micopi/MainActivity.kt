@@ -6,14 +6,14 @@ import android.provider.ContactsContract
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.onegravity.contactpicker.contact.ContactDescription
+import com.onegravity.contactpicker.contact.ContactSortOrder
+import com.onegravity.contactpicker.core.ContactPickerActivity
+import com.onegravity.contactpicker.picture.ContactPictureType
 
 
 class MainActivity : AppCompatActivity() {
 
-    var contactPickerIntent = Intent(
-        Intent.ACTION_PICK,
-        ContactsContract.CommonDataKinds.Phone.CONTENT_URI
-    )
     lateinit var viewModel: LaunchViewModel
 
     /*
@@ -26,8 +26,17 @@ class MainActivity : AppCompatActivity() {
         setupViewModel()
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        viewModel.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
+    }
+
     fun onContactPickerButtonClicked(view: View) {
-        viewModel.onContactPickerButtonClicked()
+        viewModel.onContactPickerButtonClicked(activity = this)
     }
 
     /*
@@ -36,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(this).get(LaunchViewModel::class.java)
-        viewModel.listener = object: LaunchSelectionListener {
+        viewModel.selectionListener = object : LaunchSelectionListener {
             override fun onContactPickerSelected() {
                 startContactPickerIntent()
             }
@@ -44,9 +53,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startContactPickerIntent() {
+        var contactPickerIntent = Intent(this, ContactPickerActivity::class.java)
+            .putExtra(
+                ContactPickerActivity.EXTRA_THEME,
+                R.style.AppTheme
+            )
+            .putExtra(
+                ContactPickerActivity.EXTRA_CONTACT_BADGE_TYPE,
+                ContactPictureType.ROUND.name
+            )
+            .putExtra(ContactPickerActivity.EXTRA_SHOW_CHECK_ALL, true)
+            .putExtra(
+                ContactPickerActivity.EXTRA_CONTACT_DESCRIPTION,
+                ContactDescription.ADDRESS.name
+            )
+            .putExtra(
+                ContactPickerActivity.EXTRA_CONTACT_DESCRIPTION_TYPE,
+                ContactsContract.CommonDataKinds.Email.TYPE_WORK
+            )
+            .putExtra(
+                ContactPickerActivity.EXTRA_CONTACT_SORT_ORDER,
+                ContactSortOrder.AUTOMATIC.name
+            )
         startActivityForResult(contactPickerIntent, CONTACT_PICKER_REQUEST_CODE)
     }
-
 
 
     companion object {
