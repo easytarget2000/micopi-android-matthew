@@ -19,6 +19,7 @@
         <com.google.android.material.button.MaterialButton
             android:layout_width="match_parent"
             android:text="@string/launchMenuSelectButtonTitle"
+            android:onClick="onContactPickerButtonClicked"
             android:layout_height="wrap_content" />
 
     </androidx.cardview.widget.CardView>
