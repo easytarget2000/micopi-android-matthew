@@ -1,15 +1,18 @@
-package eu.ezytarget.micopi
+package eu.ezytarget.micopi.main_menu
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import eu.ezytarget.micopi.R
 
 
 class MainActivity : AppCompatActivity() {
 
-    var contactPickerIntentBuilder: ContactPickerIntentBuilder = ContactPickerIntentBuilder()
-    lateinit var viewModel: LaunchViewModel
+    var contactPickerIntentBuilder: ContactPickerIntentBuilder =
+        ContactPickerIntentBuilder()
+    private lateinit var viewModel: MainMenuViewModel
 
     /*
     Activity Life Cycle
@@ -19,6 +22,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupViewModel()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CONTACT_PICKER_REQUEST_CODE) {
+            viewModel.handleContactPickerData(data)
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -39,8 +49,9 @@ class MainActivity : AppCompatActivity() {
      */
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this).get(LaunchViewModel::class.java)
-        viewModel.selectionListener = object : LaunchSelectionListener {
+        viewModel = ViewModelProviders.of(this).get(MainMenuViewModel::class.java)
+        viewModel.selectionListener = object :
+            MainMenuSelectionListener {
             override fun onContactPickerSelected(allowMultipleSelection: Boolean) {
                 startContactPickerIntent(allowMultipleSelection)
             }

@@ -1,13 +1,15 @@
-package eu.ezytarget.micopi
+package eu.ezytarget.micopi.main_menu
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 
-class LaunchViewModel: ViewModel() {
+class MainMenuViewModel: ViewModel() {
 
-    var selectionListener: LaunchSelectionListener? = null
-    var contactPermissionManager: ReadContactsPermissionManager = ReadContactsPermissionManager()
+    var selectionListener: MainMenuSelectionListener? = null
+    var contactPermissionManager: ReadContactsPermissionManager =
+        ReadContactsPermissionManager()
     private var allowMultipleSelection = true
 
     fun onContactPickerButtonClicked(activity: Activity) {
@@ -35,6 +37,10 @@ class LaunchViewModel: ViewModel() {
             permissions,
             grantResults
         )
+    }
+
+    fun handleContactPickerData(data: Intent?) {
+
     }
 
     private fun selectContactPicker() {

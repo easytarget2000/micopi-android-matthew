@@ -1,4 +1,4 @@
-package eu.ezytarget.micopi
+package eu.ezytarget.micopi.main_menu
 
 import android.app.Activity
 import com.wafflecopter.multicontactpicker.LimitColumn
