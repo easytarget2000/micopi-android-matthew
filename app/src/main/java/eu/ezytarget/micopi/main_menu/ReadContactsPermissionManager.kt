@@ -7,7 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.app.ActivityCompat
-import eu.ezytarget.micopi.PermissionManagerCallback
+import eu.ezytarget.micopi.common.PermissionManagerCallback
 
 
 class ReadContactsPermissionManager {

@@ -1,3 +1,3 @@
-package eu.ezytarget.micopi
+package eu.ezytarget.micopi.common
 
 typealias PermissionManagerCallback = (Boolean) -> Unit
