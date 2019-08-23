@@ -8,18 +8,19 @@ class LaunchViewModel: ViewModel() {
 
     var selectionListener: LaunchSelectionListener? = null
     var contactPermissionManager: ReadContactsPermissionManager = ReadContactsPermissionManager()
+    private var allowMultipleSelection = true
 
     fun onContactPickerButtonClicked(activity: Activity) {
         if (!contactPermissionManager.hasReadContactsPermission(activity)) {
             contactPermissionManager.requestWriteContactsPermission(activity) {
                 val permissionGranted = it
                 if (permissionGranted) {
-                    selectionListener?.onContactPickerSelected()
+                    selectContactPicker()
                 }
             }
             return
         }
-        selectionListener?.onContactPickerSelected()
+        selectContactPicker()
     }
 
     fun onRequestPermissionsResult(
@@ -34,5 +35,9 @@ class LaunchViewModel: ViewModel() {
             permissions,
             grantResults
         )
+    }
+
+    private fun selectContactPicker() {
+        selectionListener?.onContactPickerSelected(allowMultipleSelection)
     }
 }

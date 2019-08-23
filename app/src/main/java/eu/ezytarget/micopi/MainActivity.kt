@@ -41,14 +41,15 @@ class MainActivity : AppCompatActivity() {
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(this).get(LaunchViewModel::class.java)
         viewModel.selectionListener = object : LaunchSelectionListener {
-            override fun onContactPickerSelected() {
-                startContactPickerIntent()
+            override fun onContactPickerSelected(allowMultipleSelection: Boolean) {
+                startContactPickerIntent(allowMultipleSelection)
             }
         }
     }
 
-    private fun startContactPickerIntent() {
+    private fun startContactPickerIntent(allowMultipleSelection: Boolean) {
         contactPickerIntentBuilder.startIntent(
+            allowMultipleSelection,
             sourceActivity = this,
             requestCode = CONTACT_PICKER_REQUEST_CODE
         )
