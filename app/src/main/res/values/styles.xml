@@ -9,7 +9,7 @@
 <!--        This attribute is supported in SDK >= 21.-->
 <!--        It will be ignored without known issues by older Android version.-->
         <item name="android:navigationBarColor" tools:ignore="NewApi">
-            @android:color/transparent
+            @color/navigationBarColor
         </item>
     </style>
 
