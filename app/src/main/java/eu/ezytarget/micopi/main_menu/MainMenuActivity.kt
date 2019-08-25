@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import eu.ezytarget.micopi.R
 
 
-class MainActivity : AppCompatActivity() {
+class MainMenuActivity : AppCompatActivity() {
 
     var contactPickerIntentBuilder: ContactPickerIntentBuilder =
         ContactPickerIntentBuilder()

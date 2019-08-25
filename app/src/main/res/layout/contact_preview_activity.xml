@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_contact"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/contactPreviewImageView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/contactPreviewImageContentDescription"
+        android:minHeight="240dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/contactPreviewImageView"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/text_contact_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginRight="80dp"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:id="@+id/group_contact_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/margin_small">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/button_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/contactPreviewPickButtonText"
+                android:focusable="true"
+                android:src="@android:drawable/ic_menu_search"
+                android:tint="@android:color/white"
+                app:backgroundTint="@color/colorAccent"
+                app:elevation="3dp"
+                app:fabSize="mini" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/button_prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/contactPreviewPreviousImageButtonText"
+                android:focusable="true"
+                android:src="@android:drawable/ic_media_previous"
+                android:tint="@android:color/white"
+                app:backgroundTint="@color/colorAccent"
+                app:elevation="3dp"
+                app:fabSize="mini" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/button_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/contactPreviewNextImageButtonText"
+                android:focusable="true"
+                android:src="@android:drawable/ic_media_next"
+                android:tint="@android:color/white"
+                app:backgroundTint="@color/colorAccent"
+                app:elevation="3dp"
+                app:fabSize="mini" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/button_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:contentDescription="@string/save_image_file"
+                android:onClick="onButtonClicked"
+                android:src="@drawable/ic_save_white_36dp"
+                android:tint="@android:color/white"
+                app:backgroundTint="@color/accent"
+                app:elevation="3dp"
+                app:fabSize="mini" />
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_assign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/group_contact_actions"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:contentDescription="@string/contactPreviewAssignButtonText"
+            android:focusable="true"
+            android:onClick="onButtonClicked"
+            android:src="@android:drawable/ic_menu_save"
+            android:tint="@android:color/white"
+            app:backgroundTint="@color/colorAccent"
+            app:elevation="3dp"
+            tools:ignore="RtlHardcoded" />
+
+    </RelativeLayout>
+
+    <!--    <include layout="@layout/include_back_button" />-->
+    <!--    <include layout="@layout/include_success_arrow" />-->
+
+</RelativeLayout>
+

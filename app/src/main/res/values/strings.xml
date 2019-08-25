@@ -1,4 +1,9 @@
 <resources>
     <string name="appName">Micopi</string>
     <string name="launchMenuSelectButtonTitle">Select contacts</string>
+    <string name="contactPreviewImageContentDescription">Generated image</string>
+    <string name="contactPreviewPickButtonText">Pick contact</string>
+    <string name="contactPreviewAssignButtonText">Assign to contact</string>
+    <string name="contactPreviewNextImageButtonText">Next image</string>
+    <string name="contactPreviewPreviousImageButtonText">Previous image</string>
 </resources>
