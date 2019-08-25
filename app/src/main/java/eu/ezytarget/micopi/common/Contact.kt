@@ -1,4 +1,6 @@
 package eu.ezytarget.micopi.common
 
-data class Contact(val name: String) {
+import java.io.Serializable
+
+data class Contact(val name: String): Serializable{
 }

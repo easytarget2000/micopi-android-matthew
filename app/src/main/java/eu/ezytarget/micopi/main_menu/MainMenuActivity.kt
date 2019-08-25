@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.Contact
+import eu.ezytarget.micopi.contact_preview.ContactPreviewActivity
 
 
 class MainMenuActivity : AppCompatActivity() {
@@ -72,7 +73,9 @@ class MainMenuActivity : AppCompatActivity() {
     }
 
     private fun startContactPreviewActivity(contact: Contact) {
-
+        val contactPreviewIntent = Intent(ContactPreviewActivity.ACTION_IDENTIFIER)
+        contactPreviewIntent.putExtra(ContactPreviewActivity.CONTACT_INTENT_EXTRA_NAME, contact)
+        startActivity(contactPreviewIntent)
     }
 
     companion object {
