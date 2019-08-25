@@ -1,8 +1,6 @@
 package eu.ezytarget.micopi.contact_preview
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.Activity
 import eu.ezytarget.micopi.common.Contact
