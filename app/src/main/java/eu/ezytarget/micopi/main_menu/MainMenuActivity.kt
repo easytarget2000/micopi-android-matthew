@@ -6,11 +6,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import eu.ezytarget.micopi.R
+import eu.ezytarget.micopi.common.Activity
 import eu.ezytarget.micopi.common.Contact
 import eu.ezytarget.micopi.contact_preview.ContactPreviewActivity
 
 
-class MainMenuActivity : AppCompatActivity() {
+class MainMenuActivity : Activity() {
 
     var contactPickerIntentBuilder: ContactPickerIntentBuilder =
         ContactPickerIntentBuilder()
@@ -51,7 +52,7 @@ class MainMenuActivity : AppCompatActivity() {
      */
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this).get(MainMenuViewModel::class.java)
+        viewModel = getViewModel(MainMenuViewModel::class)
         viewModel.selectionListener = object :
             MainMenuSelectionListener {
             override fun onContactPickerSelected(allowMultipleSelection: Boolean) {
