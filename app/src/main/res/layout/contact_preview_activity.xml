@@ -2,6 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_contact"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,13 +11,15 @@
     <!-- Main Content-->
 
     <ScrollView
+        android:id="@+id/contactPreviewScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="64dp">
 
             <ImageView
                 android:id="@+id/contactPreviewImageView"
@@ -54,19 +57,16 @@
                     android:id="@+id/button_prev"
                     style="@style/ContactPreviewSecondaryButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_arrow_back_black_24dp"
-                    android:src="@android:drawable/ic_media_previous"
                     android:text="@string/contactPreviewPreviousImageButtonText" />
 
                 <Button
                     android:id="@+id/button_next"
                     style="@style/ContactPreviewSecondaryButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_arrow_back_black_24dp"
                     android:src="@android:drawable/ic_media_next"
                     android:text="@string/contactPreviewNextImageButtonText" />
 
@@ -74,7 +74,7 @@
                     android:id="@+id/button_save"
                     style="@style/ContactPreviewSecondaryButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:src="@android:drawable/ic_menu_save"
                     android:text="@string/contactPreviewSaveButtonText" />
@@ -86,6 +86,19 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:text="@string/contactPreviewAssignButtonText"
+        android:textColor="@color/fabForeground"
+        app:backgroundTint="@color/fabBackground"
+        app:icon="@drawable/ic_done_black_24dp"
+        app:iconTint="@color/fabForeground" />
 
     <!--    <include layout="@layout/include_back_button" />-->
     <!--    <include layout="@layout/include_success_arrow" />-->
