@@ -53,8 +53,7 @@ class MainMenuActivity : Activity() {
 
     private fun setupViewModel() {
         viewModel = getViewModel(MainMenuViewModel::class)
-        viewModel.selectionListener = object :
-            MainMenuSelectionListener {
+        viewModel.selectionListener = object : MainMenuSelectionListener {
             override fun onContactPickerSelected(allowMultipleSelection: Boolean) {
                 startContactPickerIntent(allowMultipleSelection)
             }
