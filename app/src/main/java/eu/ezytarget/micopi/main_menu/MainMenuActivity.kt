@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import eu.ezytarget.micopi.R
+import eu.ezytarget.micopi.common.Contact
 
 
 class MainMenuActivity : AppCompatActivity() {
@@ -20,7 +21,7 @@ class MainMenuActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_menu_activity)
         setupViewModel()
     }
 
@@ -55,6 +56,10 @@ class MainMenuActivity : AppCompatActivity() {
             override fun onContactPickerSelected(allowMultipleSelection: Boolean) {
                 startContactPickerIntent(allowMultipleSelection)
             }
+
+            override fun onContactSelected(contact: Contact) {
+                startContactPreviewActivity(contact)
+            }
         }
     }
 
@@ -66,6 +71,9 @@ class MainMenuActivity : AppCompatActivity() {
         )
     }
 
+    private fun startContactPreviewActivity(contact: Contact) {
+
+    }
 
     companion object {
         private const val CONTACT_PICKER_REQUEST_CODE = 300

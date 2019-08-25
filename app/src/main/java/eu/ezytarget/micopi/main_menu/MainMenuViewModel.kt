@@ -4,13 +4,19 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
+import java.lang.ref.WeakReference
 
 class MainMenuViewModel: ViewModel() {
 
-    var selectionListener: MainMenuSelectionListener? = null
     var contactPermissionManager: ReadContactsPermissionManager = ReadContactsPermissionManager()
     var contactPickerResultConverter: ContactPickerResultConverter = ContactPickerResultConverter()
     private var allowMultipleSelection = true
+    private var selectionListenerReference: WeakReference<MainMenuSelectionListener?>? = null
+    var selectionListener: MainMenuSelectionListener?
+        get() = selectionListenerReference?.get()
+        set(value) {
+            selectionListenerReference = WeakReference(value)
+        }
 
     fun onContactPickerButtonClicked(activity: Activity) {
         if (!contactPermissionManager.hasReadContactsPermission(activity)) {
@@ -45,6 +51,8 @@ class MainMenuViewModel: ViewModel() {
         if (contacts.isEmpty()) {
             return
         }
+
+        selectionListener?.onContactSelected(contacts.first())
     }
 
     private fun selectContactPicker() {
