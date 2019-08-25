@@ -7,94 +7,85 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <ImageView
-        android:id="@+id/contactPreviewImageView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/contactPreviewImageContentDescription"
-        android:minHeight="240dp" />
+    <!-- Main Content-->
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/contactPreviewImageView"
-        android:background="@android:color/white">
-
-        <TextView
-            android:id="@+id/text_contact_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="80dp"
-            android:layout_marginRight="80dp"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/group_contact_actions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="8dp"
-            android:gravity="end|bottom"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/button_search"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/contactPreviewImageView"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/contactPreviewFabMargin"
-                android:src="@android:drawable/ic_menu_search"
-                android:text="@string/contactPreviewPickButtonText"
-                app:backgroundTint="@android:color/transparent" />
+                android:adjustViewBounds="true"
+                android:background="@android:color/darker_gray"
+                android:contentDescription="@string/contactPreviewImageContentDescription"
+                android:minHeight="240dp" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/button_prev"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/text_contact_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/contactPreviewFabMargin"
-                android:contentDescription="@string/contactPreviewPreviousImageButtonText"
-                android:src="@android:drawable/ic_media_previous"
-                app:elevation="3dp"
-                app:fabSize="mini" />
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="80dp"
+                android:layout_marginRight="80dp"
+                android:layout_marginBottom="16dp"
+                android:text="Unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/button_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/contactPreviewFabMargin"
-                android:contentDescription="@string/contactPreviewNextImageButtonText"
-                android:src="@android:drawable/ic_media_next"
-                app:fabSize="mini" />
+            <!-- Secondary Buttons-->
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/button_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/contactPreviewFabMargin"
-                android:contentDescription="@string/contactPreviewSaveButtonText"
-                android:src="@android:drawable/ic_menu_save"
-                app:fabSize="mini" />
+            <View style="@style/HorizontalDivider" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/button_assign"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/contactPreviewFabMargin"
-                android:contentDescription="@string/contactPreviewAssignButtonText"
-                android:src="@android:drawable/ic_menu_save"
-                app:elevation="3dp" />
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_prev"
+                    style="@style/ContactPreviewSecondaryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_arrow_back_black_24dp"
+                    android:src="@android:drawable/ic_media_previous"
+                    android:text="@string/contactPreviewPreviousImageButtonText" />
+
+                <Button
+                    android:id="@+id/button_next"
+                    style="@style/ContactPreviewSecondaryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ic_arrow_back_black_24dp"
+                    android:src="@android:drawable/ic_media_next"
+                    android:text="@string/contactPreviewNextImageButtonText" />
+
+                <Button
+                    android:id="@+id/button_save"
+                    style="@style/ContactPreviewSecondaryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@android:drawable/ic_menu_save"
+                    android:text="@string/contactPreviewSaveButtonText" />
+
+            </LinearLayout>
+
+            <View style="@style/HorizontalDivider" />
 
         </LinearLayout>
 
-
-    </RelativeLayout>
+    </ScrollView>
 
     <!--    <include layout="@layout/include_back_button" />-->
     <!--    <include layout="@layout/include_success_arrow" />-->

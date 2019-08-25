@@ -6,4 +6,6 @@
 
     <color name="launchBackgroundColor">@color/colorPrimary</color>
     <color name="navigationBarColor">@color/colorPrimary</color>
+
+    <color name="dividerColor">@android:color/darker_gray</color>
 </resources>
