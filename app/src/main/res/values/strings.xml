@@ -6,4 +6,5 @@
     <string name="contactPreviewAssignButtonText">Assign to contact</string>
     <string name="contactPreviewNextImageButtonText">Next image</string>
     <string name="contactPreviewPreviousImageButtonText">Previous image</string>
+    <string name="contactPreviewSaveButtonText">Save to gallery</string>
 </resources>

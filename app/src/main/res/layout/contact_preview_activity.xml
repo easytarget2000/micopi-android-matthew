@@ -2,7 +2,6 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_contact"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -41,33 +40,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:gravity="end"
-            android:orientation="horizontal"
-            android:paddingBottom="@dimen/margin_small">
+            android:layout_margin="8dp"
+            android:gravity="end|bottom"
+            android:orientation="horizontal">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <Button
                 android:id="@+id/button_search"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@string/contactPreviewPickButtonText"
-                android:focusable="true"
+                android:layout_margin="@dimen/contactPreviewFabMargin"
                 android:src="@android:drawable/ic_menu_search"
-                android:tint="@android:color/white"
-                app:backgroundTint="@color/colorAccent"
-                app:elevation="3dp"
-                app:fabSize="mini" />
+                android:text="@string/contactPreviewPickButtonText"
+                app:backgroundTint="@android:color/transparent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_prev"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
+                android:layout_margin="@dimen/contactPreviewFabMargin"
                 android:contentDescription="@string/contactPreviewPreviousImageButtonText"
-                android:focusable="true"
                 android:src="@android:drawable/ic_media_previous"
-                android:tint="@android:color/white"
-                app:backgroundTint="@color/colorAccent"
                 app:elevation="3dp"
                 app:fabSize="mini" />
 
@@ -75,45 +68,31 @@
                 android:id="@+id/button_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
+                android:layout_margin="@dimen/contactPreviewFabMargin"
                 android:contentDescription="@string/contactPreviewNextImageButtonText"
-                android:focusable="true"
                 android:src="@android:drawable/ic_media_next"
-                android:tint="@android:color/white"
-                app:backgroundTint="@color/colorAccent"
-                app:elevation="3dp"
                 app:fabSize="mini" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/button_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@string/save_image_file"
-                android:onClick="onButtonClicked"
-                android:src="@drawable/ic_save_white_36dp"
-                android:tint="@android:color/white"
-                app:backgroundTint="@color/accent"
-                app:elevation="3dp"
+                android:layout_margin="@dimen/contactPreviewFabMargin"
+                android:contentDescription="@string/contactPreviewSaveButtonText"
+                android:src="@android:drawable/ic_menu_save"
                 app:fabSize="mini" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/button_assign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/contactPreviewFabMargin"
+                android:contentDescription="@string/contactPreviewAssignButtonText"
+                android:src="@android:drawable/ic_menu_save"
+                app:elevation="3dp" />
 
         </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/button_assign"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/group_contact_actions"
-            android:layout_alignParentRight="true"
-            android:clickable="true"
-            android:contentDescription="@string/contactPreviewAssignButtonText"
-            android:focusable="true"
-            android:onClick="onButtonClicked"
-            android:src="@android:drawable/ic_menu_save"
-            android:tint="@android:color/white"
-            app:backgroundTint="@color/colorAccent"
-            app:elevation="3dp"
-            tools:ignore="RtlHardcoded" />
 
     </RelativeLayout>
 
