@@ -14,13 +14,16 @@ class ContactPreviewViewModel : ViewModel() {
             contactWrapperLiveData.value = value
         }
 
-    private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper?> by lazy {
-        MutableLiveData<ContactHashWrapper?>(null)
-    }
+    private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
 
-    val contactName: LiveData<String> =
-        Transformations.map(contactWrapperLiveData) { contactWrapper ->
+    val contactName: LiveData<String>
+    get() {
+        return Transformations.map(contactWrapperLiveData) { contactWrapper ->
             contactWrapper?.contact?.name ?: ""
         }
+    }
 
+//    fun setContactHashWrapper(contactHashWrapper: ContactHashWrapper) {
+//        contactWrapperLiveData.value = contactHashWrapper
+//    }
 }

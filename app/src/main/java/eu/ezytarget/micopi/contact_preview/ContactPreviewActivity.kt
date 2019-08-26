@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.Activity
 import eu.ezytarget.micopi.common.ContactHashWrapper
