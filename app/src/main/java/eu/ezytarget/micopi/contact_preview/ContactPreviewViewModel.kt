@@ -19,11 +19,7 @@ class ContactPreviewViewModel : ViewModel() {
     val contactName: LiveData<String>
     get() {
         return Transformations.map(contactWrapperLiveData) { contactWrapper ->
-            contactWrapper?.contact?.name ?: ""
+            contactWrapper?.contact?.name ?: "a"
         }
     }
-
-//    fun setContactHashWrapper(contactHashWrapper: ContactHashWrapper) {
-//        contactWrapperLiveData.value = contactHashWrapper
-//    }
 }

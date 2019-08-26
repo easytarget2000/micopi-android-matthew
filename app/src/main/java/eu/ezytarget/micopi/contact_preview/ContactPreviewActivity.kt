@@ -16,7 +16,7 @@ class ContactPreviewActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModel = setupViewModel()
-        val binding = setupBinding(viewModel)
+        setupDataBinding(viewModel)
     }
 
     private fun setupViewModel(): ContactPreviewViewModel {
@@ -24,20 +24,16 @@ class ContactPreviewActivity : Activity() {
         val contactHashWrapper = intent.extras!![CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME]
                 as ContactHashWrapper
 
-//        val contactNameObserver = Observer<String> {
-//            showContactName(it)
-//        }
         viewModel.contactHashWrapper = contactHashWrapper
-
         return viewModel
     }
 
-    private fun setupBinding(viewModel: ContactPreviewViewModel): ViewDataBinding {
+    private fun setupDataBinding(viewModel: ContactPreviewViewModel) {
         val binding: ContactPreviewActivityBinding =
             DataBindingUtil.setContentView(this, R.layout.contact_preview_activity)
 
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        return binding
     }
 
     private fun showContactName(contactName: String) {
