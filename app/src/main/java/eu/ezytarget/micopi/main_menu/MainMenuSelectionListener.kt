@@ -1,6 +1,6 @@
 package eu.ezytarget.micopi.main_menu
 
-import eu.ezytarget.micopi.common.ContactHashWrapper
+import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
 interface MainMenuSelectionListener {
 

@@ -3,8 +3,8 @@ package eu.ezytarget.micopi.main_menu
 import android.content.Intent
 import com.wafflecopter.multicontactpicker.ContactResult
 import com.wafflecopter.multicontactpicker.MultiContactPicker
-import eu.ezytarget.micopi.common.Contact
-import eu.ezytarget.micopi.common.ContactHashWrapper
+import eu.ezytarget.micopi.common.data.Contact
+import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
 
 class ContactPickerResultConverter {

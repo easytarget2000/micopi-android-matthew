@@ -1,12 +1,10 @@
 package eu.ezytarget.micopi.contact_preview
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import eu.ezytarget.micopi.R
-import eu.ezytarget.micopi.common.Activity
-import eu.ezytarget.micopi.common.ContactHashWrapper
+import eu.ezytarget.micopi.common.ui.Activity
+import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.databinding.ContactPreviewActivityBinding
 
 class ContactPreviewActivity : Activity() {

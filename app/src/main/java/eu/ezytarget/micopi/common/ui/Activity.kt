@@ -1,4 +1,4 @@
-package eu.ezytarget.micopi.common
+package eu.ezytarget.micopi.common.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel

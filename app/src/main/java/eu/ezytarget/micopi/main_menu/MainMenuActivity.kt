@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import eu.ezytarget.micopi.R
-import eu.ezytarget.micopi.common.Activity
-import eu.ezytarget.micopi.common.ContactHashWrapper
+import eu.ezytarget.micopi.common.ui.Activity
+import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.contact_preview.ContactPreviewActivity
 
 
