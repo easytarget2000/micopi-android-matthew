@@ -1,9 +1,11 @@
 package eu.ezytarget.micopi.contact_preview
 
 import android.os.Bundle
+import android.widget.TextView
+import androidx.lifecycle.Observer
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.Activity
-import eu.ezytarget.micopi.common.Contact
+import eu.ezytarget.micopi.common.ContactHashWrapper
 
 class ContactPreviewActivity : Activity() {
 
@@ -17,12 +19,23 @@ class ContactPreviewActivity : Activity() {
 
     private fun setupViewModel() {
         viewModel = getViewModel(ContactPreviewViewModel::class)
-        val contact = intent.extras!![CONTACT_INTENT_EXTRA_NAME] as Contact
-        viewModel.contact = contact
+        val contactHashWrapper = intent.extras!![CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME]
+                as ContactHashWrapper
+
+        val contactNameObserver = Observer<String> {
+            showContactName(it)
+        }
+        viewModel.contactName.observe(this, contactNameObserver)
+        viewModel.contactWrapper = contactHashWrapper
+    }
+
+    private fun showContactName(contactName: String) {
+        val contactNameView: TextView = findViewById(R.id.contactPreviewNameView)
+        contactNameView.text = contactName
     }
 
     companion object {
         const val ACTION_IDENTIFIER = "eu.ezytarget.micopi.CONTACT_PREVIEW"
-        const val CONTACT_INTENT_EXTRA_NAME = "CONTACT"
+        const val CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME = "CONTACT_HASH_WRAPPER"
     }
 }

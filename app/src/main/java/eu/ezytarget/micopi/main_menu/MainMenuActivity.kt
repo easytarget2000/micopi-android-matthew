@@ -3,11 +3,9 @@ package eu.ezytarget.micopi.main_menu
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.Activity
-import eu.ezytarget.micopi.common.Contact
+import eu.ezytarget.micopi.common.ContactHashWrapper
 import eu.ezytarget.micopi.contact_preview.ContactPreviewActivity
 
 
@@ -58,8 +56,8 @@ class MainMenuActivity : Activity() {
                 startContactPickerIntent(allowMultipleSelection)
             }
 
-            override fun onContactSelected(contact: Contact) {
-                startContactPreviewActivity(contact)
+            override fun onContactSelected(contactHashWrapper: ContactHashWrapper) {
+                startContactPreviewActivity(contactHashWrapper)
             }
         }
     }
@@ -72,9 +70,12 @@ class MainMenuActivity : Activity() {
         )
     }
 
-    private fun startContactPreviewActivity(contact: Contact) {
+    private fun startContactPreviewActivity(contactHashWrapper: ContactHashWrapper) {
         val contactPreviewIntent = Intent(ContactPreviewActivity.ACTION_IDENTIFIER)
-        contactPreviewIntent.putExtra(ContactPreviewActivity.CONTACT_INTENT_EXTRA_NAME, contact)
+        contactPreviewIntent.putExtra(
+            ContactPreviewActivity.CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME,
+            contactHashWrapper
+        )
         startActivity(contactPreviewIntent)
     }
 
