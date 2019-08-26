@@ -2,10 +2,12 @@ package eu.ezytarget.micopi.contact_preview
 
 import android.os.Bundle
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.Activity
 import eu.ezytarget.micopi.common.ContactHashWrapper
+import eu.ezytarget.micopi.databinding.ContactPreviewActivityBinding
 
 class ContactPreviewActivity : Activity() {
 
@@ -13,11 +15,14 @@ class ContactPreviewActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.contact_preview_activity)
+//        setContentView(R.layout.contact_preview_activity)
         setupViewModel()
     }
 
     private fun setupViewModel() {
+        val binding: ContactPreviewActivityBinding
+                = DataBindingUtil.setContentView(this, R.layout.contact_preview_activity)
+
         viewModel = getViewModel(ContactPreviewViewModel::class)
         val contactHashWrapper = intent.extras!![CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME]
                 as ContactHashWrapper
@@ -25,8 +30,10 @@ class ContactPreviewActivity : Activity() {
         val contactNameObserver = Observer<String> {
             showContactName(it)
         }
-        viewModel.contactName.observe(this, contactNameObserver)
-        viewModel.contactWrapper = contactHashWrapper
+//        viewModel.contactName.observe(this, contactNameObserver)
+//        viewModel.contactWrapper = contactHashWrapper
+
+        binding.contactWrapper = contactHashWrapper
     }
 
     private fun showContactName(contactName: String) {

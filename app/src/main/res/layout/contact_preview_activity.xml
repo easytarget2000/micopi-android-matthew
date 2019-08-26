@@ -1,104 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Main Content-->
+    <data>
+        <variable
+            name="contactWrapper"
+            type="eu.ezytarget.micopi.common.ContactHashWrapper" />
+    </data>
 
-    <ScrollView
-        android:id="@+id/contactPreviewScrollView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <!-- Main Content-->
+
+        <ScrollView
+            android:id="@+id/contactPreviewScrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="64dp">
-
-            <ImageView
-                android:id="@+id/contactPreviewImageView"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:background="@android:color/darker_gray"
-                android:contentDescription="@string/contactPreviewImageContentDescription"
-                android:minHeight="240dp" />
-
-            <TextView
-                android:id="@+id/contactPreviewNameView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="80dp"
-                android:layout_marginRight="80dp"
-                android:layout_marginBottom="16dp"
-                android:text="Unknown"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <!-- Secondary Buttons-->
-
-            <View style="@style/HorizontalDivider" />
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingBottom="64dp">
 
-                <Button
-                    android:id="@+id/button_prev"
-                    style="@style/ContactPreviewSecondaryButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="@string/contactPreviewPreviousImageButtonText" />
+                <ImageView
+                    android:id="@+id/contactPreviewImageView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:background="@android:color/darker_gray"
+                    android:contentDescription="@string/contactPreviewImageContentDescription"
+                    android:minHeight="240dp" />
 
-                <Button
-                    android:id="@+id/button_next"
-                    style="@style/ContactPreviewSecondaryButton"
+                <TextView
+                    android:id="@+id/contactPreviewNameView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@android:drawable/ic_media_next"
-                    android:text="@string/contactPreviewNextImageButtonText" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="80dp"
+                    android:layout_marginRight="80dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@{contactWrapper.contact.name}"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
 
-                <Button
-                    android:id="@+id/button_save"
-                    style="@style/ContactPreviewSecondaryButton"
+                <!-- Secondary Buttons-->
+
+                <View style="@style/HorizontalDivider" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@android:drawable/ic_menu_save"
-                    android:text="@string/contactPreviewSaveButtonText" />
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_prev"
+                        style="@style/ContactPreviewSecondaryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/contactPreviewPreviousImageButtonText" />
+
+                    <Button
+                        android:id="@+id/button_next"
+                        style="@style/ContactPreviewSecondaryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_media_next"
+                        android:text="@string/contactPreviewNextImageButtonText" />
+
+                    <Button
+                        android:id="@+id/button_save"
+                        style="@style/ContactPreviewSecondaryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_menu_save"
+                        android:text="@string/contactPreviewSaveButtonText" />
+
+                </LinearLayout>
+
+                <View style="@style/HorizontalDivider" />
 
             </LinearLayout>
 
-            <View style="@style/HorizontalDivider" />
+        </ScrollView>
 
-        </LinearLayout>
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:text="@string/contactPreviewAssignButtonText"
+            android:textColor="@color/fabForeground"
+            app:backgroundTint="@color/fabBackground"
+            app:icon="@drawable/ic_done_black_24dp"
+            app:iconTint="@color/fabForeground" />
 
-    </ScrollView>
+        <!--    <include layout="@layout/include_back_button" />-->
+        <!--    <include layout="@layout/include_success_arrow" />-->
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:text="@string/contactPreviewAssignButtonText"
-        android:textColor="@color/fabForeground"
-        app:backgroundTint="@color/fabBackground"
-        app:icon="@drawable/ic_done_black_24dp"
-        app:iconTint="@color/fabForeground" />
+    </RelativeLayout>
 
-    <!--    <include layout="@layout/include_back_button" />-->
-    <!--    <include layout="@layout/include_success_arrow" />-->
-
-</RelativeLayout>
-
+</layout>
