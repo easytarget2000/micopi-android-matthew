@@ -10,9 +10,7 @@ import eu.ezytarget.micopi.common.ContactHashWrapper
 import eu.ezytarget.micopi.databinding.ContactPreviewActivityBinding
 
 class ContactPreviewActivity : Activity() {
-
-//    private lateinit var viewModel: ContactPreviewViewModel
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModel = setupViewModel()
@@ -34,11 +32,6 @@ class ContactPreviewActivity : Activity() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-    }
-
-    private fun showContactName(contactName: String) {
-        val contactNameView: TextView = findViewById(R.id.contactPreviewNameView)
-        contactNameView.text = contactName
     }
 
     companion object {
