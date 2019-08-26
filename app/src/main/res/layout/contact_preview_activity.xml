@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="contactWrapper"
-            type="eu.ezytarget.micopi.common.ContactHashWrapper" />
+            name="viewModel"
+            type="eu.ezytarget.micopi.contact_preview.ContactPreviewViewModel" />
     </data>
 
     <RelativeLayout
@@ -45,7 +45,7 @@
                     android:layout_marginEnd="80dp"
                     android:layout_marginRight="80dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@{contactWrapper.contact.name}"
+                    android:text="@{viewModel.contactName}"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <!-- Secondary Buttons-->

@@ -6,12 +6,21 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import eu.ezytarget.micopi.common.ContactHashWrapper
 
-class ContactPreviewViewModel: ViewModel() {
+class ContactPreviewViewModel : ViewModel() {
 
-//    val contactWrapperLiveData: LiveData<ContactHashWrapper?> = LiveData<ContactHashWrapper?>()
+    var contactHashWrapper: ContactHashWrapper?
+        get() = contactWrapperLiveData.value
+        set(value) {
+            contactWrapperLiveData.value = value
+        }
 
-//    val contactName: LiveData<String> = Transformations.map(contactWrapperLiveData) {
-//            contactWrapper -> contactWrapper?.contact?.name ?: ""
-//    }
+    private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper?> by lazy {
+        MutableLiveData<ContactHashWrapper?>(null)
+    }
+
+    val contactName: LiveData<String> =
+        Transformations.map(contactWrapperLiveData) { contactWrapper ->
+            contactWrapper?.contact?.name ?: ""
+        }
 
 }
