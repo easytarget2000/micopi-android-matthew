@@ -30,8 +30,8 @@ class ContactPreviewViewModel : ViewModel() {
         }
     val interactionEnabled: LiveData<Boolean>
         get() {
-            return Transformations.map(contactWrapperLiveData) { contactWrapper ->
-                if (contactWrapper?.contact == null) {
+            return Transformations.map(contactWrapperLiveData) {
+                if (generatedDrawable == null) {
                     return@map false
                 } else {
                     return@map !isBusy
@@ -46,12 +46,17 @@ class ContactPreviewViewModel : ViewModel() {
 
         val contactWrappers = arrayOf(contactHashWrapper!!)
         imageEngine.generateImageAsync(contactWrappers) { _, bitmap, _, _ ->
-            generatedDrawable.value = if (bitmap == null) {
-                null
-            } else {
-                BitmapDrawable(resources, bitmap)
-            }
-            isBusy = false
+            handleGeneratedBitmap(bitmap)
         }
+    }
+
+    private fun handleGeneratedBitmap(bitmap: Bitmap?) {
+        generatedDrawable.value = if (bitmap == null) {
+            null
+        } else {
+            BitmapDrawable(resources, bitmap)
+        }
+
+        isBusy = false
     }
 }
