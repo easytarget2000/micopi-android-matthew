@@ -31,7 +31,7 @@ class ContactPreviewViewModel : ViewModel() {
     val interactionEnabled: LiveData<Boolean>
         get() {
             return Transformations.map(contactWrapperLiveData) {
-                if (generatedDrawable == null) {
+                if (generatedDrawable.value == null) {
                     return@map false
                 } else {
                     return@map !isBusy
@@ -45,7 +45,7 @@ class ContactPreviewViewModel : ViewModel() {
         isBusy = true
 
         val contactWrappers = arrayOf(contactHashWrapper!!)
-        imageEngine.generateImageAsync(contactWrappers) { _, bitmap, _, _ ->
+        imageEngine.generateImageAsync(contactWrappers, resources) { _, bitmap, _, _ ->
             handleGeneratedBitmap(bitmap)
         }
     }
