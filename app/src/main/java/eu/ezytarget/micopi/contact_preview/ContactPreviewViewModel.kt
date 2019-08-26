@@ -13,13 +13,23 @@ class ContactPreviewViewModel : ViewModel() {
         set(value) {
             contactWrapperLiveData.value = value
         }
-
-    private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
-
     val contactName: LiveData<String>
-    get() {
-        return Transformations.map(contactWrapperLiveData) { contactWrapper ->
-            contactWrapper?.contact?.name ?: "a"
+        get() {
+            return Transformations.map(contactWrapperLiveData) { contactWrapper ->
+                contactWrapper?.contact?.name ?: ""
+            }
         }
-    }
+    val interactionEnabled: LiveData<Boolean>
+        get() {
+            return Transformations.map(contactWrapperLiveData) { contactWrapper ->
+                if (contactWrapper?.contact == null) {
+                    return@map false
+                } else {
+                    return@map !isBusy
+                }
+            }
+        }
+    private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
+    private var isBusy = false
+
 }

@@ -10,7 +10,7 @@ import eu.ezytarget.micopi.common.ContactHashWrapper
 import eu.ezytarget.micopi.databinding.ContactPreviewActivityBinding
 
 class ContactPreviewActivity : Activity() {
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val viewModel = setupViewModel()
