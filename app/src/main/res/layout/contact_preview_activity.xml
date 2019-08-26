@@ -67,6 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:enabled="@{viewModel.interactionEnabled}"
                         android:text="@string/contactPreviewPreviousImageButtonText" />
 
                     <Button
@@ -75,6 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:enabled="@{viewModel.interactionEnabled}"
                         android:src="@android:drawable/ic_media_next"
                         android:text="@string/contactPreviewNextImageButtonText" />
 
@@ -84,6 +86,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:enabled="@{viewModel.interactionEnabled}"
                         android:src="@android:drawable/ic_menu_save"
                         android:text="@string/contactPreviewSaveButtonText" />
 
@@ -102,6 +105,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_margin="16dp"
+            android:enabled="@{viewModel.interactionEnabled}"
             android:text="@string/contactPreviewAssignButtonText"
             android:textColor="@color/fabForeground"
             app:backgroundTint="@color/fabBackground"
