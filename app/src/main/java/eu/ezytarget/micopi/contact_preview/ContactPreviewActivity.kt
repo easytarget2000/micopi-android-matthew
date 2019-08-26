@@ -20,6 +20,7 @@ class ContactPreviewActivity : Activity() {
         val contactHashWrapper = intent.extras!![CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME]
                 as ContactHashWrapper
 
+        viewModel.resources = resources
         viewModel.contactHashWrapper = contactHashWrapper
         return viewModel
     }
