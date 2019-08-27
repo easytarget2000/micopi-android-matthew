@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:navigationBarColor">@color/navigationBarColor</item>
+    </style>
+
+    <style name="ContactPreviewTheme" parent="ContactPreviewTheme.Base">
+        <item name="android:windowBackground">@color/contactPreviewBackground</item>
+        <item name="android:navigationBarColor">@color/contactPreviewBackground</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+</resources>

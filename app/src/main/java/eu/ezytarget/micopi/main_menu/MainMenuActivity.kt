@@ -3,12 +3,13 @@ package eu.ezytarget.micopi.main_menu
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import eu.ezytarget.micopi.R
+import eu.ezytarget.micopi.common.ui.Activity
+import eu.ezytarget.micopi.common.data.ContactHashWrapper
+import eu.ezytarget.micopi.contact_preview.ContactPreviewActivity
 
 
-class MainActivity : AppCompatActivity() {
+class MainMenuActivity : Activity() {
 
     var contactPickerIntentBuilder: ContactPickerIntentBuilder =
         ContactPickerIntentBuilder()
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main_menu_activity)
         setupViewModel()
     }
 
@@ -49,11 +50,14 @@ class MainActivity : AppCompatActivity() {
      */
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this).get(MainMenuViewModel::class.java)
-        viewModel.selectionListener = object :
-            MainMenuSelectionListener {
+        viewModel = getViewModel(MainMenuViewModel::class)
+        viewModel.selectionListener = object : MainMenuSelectionListener {
             override fun onContactPickerSelected(allowMultipleSelection: Boolean) {
                 startContactPickerIntent(allowMultipleSelection)
+            }
+
+            override fun onContactSelected(contactHashWrapper: ContactHashWrapper) {
+                startContactPreviewActivity(contactHashWrapper)
             }
         }
     }
@@ -66,6 +70,14 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    private fun startContactPreviewActivity(contactHashWrapper: ContactHashWrapper) {
+        val contactPreviewIntent = Intent(ContactPreviewActivity.ACTION_IDENTIFIER)
+        contactPreviewIntent.putExtra(
+            ContactPreviewActivity.CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME,
+            contactHashWrapper
+        )
+        startActivity(contactPreviewIntent)
+    }
 
     companion object {
         private const val CONTACT_PICKER_REQUEST_CODE = 300

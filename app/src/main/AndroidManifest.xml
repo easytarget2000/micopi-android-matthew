@@ -12,12 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
 
-        <activity android:name=".main_menu.MainActivity">
+        <activity android:name=".main_menu.MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".contact_preview.ContactPreviewActivity"
+            android:exported="false"
+            android:theme="@style/ContactPreviewTheme">
+            <intent-filter>
+                <action android:name="eu.ezytarget.micopi.CONTACT_PREVIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 

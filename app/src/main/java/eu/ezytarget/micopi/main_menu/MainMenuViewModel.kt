@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
+import java.lang.ref.WeakReference
 
 class MainMenuViewModel: ViewModel() {
 
@@ -45,6 +46,8 @@ class MainMenuViewModel: ViewModel() {
         if (contacts.isEmpty()) {
             return
         }
+
+        selectionListener?.onContactSelected(contacts.first())
     }
 
     private fun selectContactPicker() {
