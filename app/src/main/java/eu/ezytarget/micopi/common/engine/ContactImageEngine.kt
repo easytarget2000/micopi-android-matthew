@@ -34,7 +34,8 @@ class ContactImageEngine(
         contactHashWrapper: ContactHashWrapper,
         callback: ContatImageEngineCallback?
     ) {
-        random = Random(contactHashWrapper.hashCode())
+        val contactHash = contactHashWrapper.hashCode()
+        random = Random(contactHash)
         val bitmapBackedCanvas = matthew.configuredBitmapBackedCanvas(
             IMAGE_WIDTH,
             IMAGE_HEIGHT,
