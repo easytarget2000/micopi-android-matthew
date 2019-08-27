@@ -8,6 +8,7 @@ import kotlin.random.Random
 
 class ContactImageEngine(
     private val matthew: Matthew = Matthew(),
+    private val tightDiskPainter: TightDiskPainter = TightDiskPainter(),
     private val initialsPainter: InitialsPainter = InitialsPainter()
 ) {
 
@@ -43,6 +44,7 @@ class ContactImageEngine(
         )
 
         paintBackground(bitmapBackedCanvas.canvas)
+        paintShapes(bitmapBackedCanvas.canvas)
         paintInitials(bitmapBackedCanvas.canvas, contactHashWrapper)
         callback?.invoke(contactHashWrapper, bitmapBackedCanvas.bitmap, true, true)
     }
@@ -50,6 +52,11 @@ class ContactImageEngine(
     private fun paintBackground(canvas: Canvas) {
         val backgroundColor = matthew.colorAtModuloIndex(random.nextInt(until = 2000))
         matthew.fillCanvas(canvas, backgroundColor)
+    }
+
+    private fun paintShapes(canvas: Canvas) {
+        tightDiskPainter.matthew = matthew
+        tightDiskPainter.paint(canvas)
     }
 
     private fun paintInitials(canvas: Canvas, contactHashWrapper: ContactHashWrapper) {
