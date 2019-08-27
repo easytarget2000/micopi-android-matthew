@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -41,7 +42,19 @@ class ContactPreviewViewModel : ViewModel() {
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
     private var isBusy = false
 
+    fun handleNextImageButtonClicked(view: View) {
+        generateNextImage()
+    }
+
+    fun handlePreviousImageButtonClicked(view: View) {
+        generatePreviousImage()
+    }
+
     private fun generateImage() {
+        if (isBusy) {
+            return
+        }
+
         isBusy = true
 
         val contactWrappers = arrayOf(contactHashWrapper!!)
@@ -58,5 +71,15 @@ class ContactPreviewViewModel : ViewModel() {
         }
 
         isBusy = false
+    }
+
+    private fun generateNextImage() {
+        contactHashWrapper?.increaseHashModifier()
+        generateImage()
+    }
+
+    private fun generatePreviousImage() {
+        contactHashWrapper?.decreaseHashModifier()
+        generateImage()
     }
 }
