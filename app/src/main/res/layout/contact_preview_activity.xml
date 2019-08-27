@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="@{viewModel.handlePreviousImageButtonClicked()}"
+                        android:onClick="@{viewModel::handlePreviousImageButtonClicked}"
                         android:enabled="@{viewModel.interactionEnabled}"
                         android:text="@string/contactPreviewPreviousImageButtonText" />
 
@@ -78,7 +78,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="@{viewModel.handleNextImageButtonClicked()}"
+                        android:onClick="@{viewModel::handleNextImageButtonClicked}"
                         android:enabled="@{viewModel.interactionEnabled}"
                         android:src="@android:drawable/ic_media_next"
                         android:text="@string/contactPreviewNextImageButtonText" />
