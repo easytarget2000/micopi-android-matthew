@@ -6,12 +6,15 @@ import eu.ezytarget.matthew.Matthew
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import kotlin.random.Random
 
-class ContactImageEngine {
+class ContactImageEngine(
+    private val matthew: Matthew = Matthew(),
+    private val initialsPainter: InitialsPainter = InitialsPainter()
+) {
 
     private lateinit var contactHashWrappers: Array<ContactHashWrapper>
     private lateinit var random: Random
     private var stopped = false
-    private var matthew: Matthew = Matthew()
+    var numberOfInitials = 1
 
     fun generateImageAsync(
         contactHashWrappers: Array<ContactHashWrapper>,
@@ -39,12 +42,18 @@ class ContactImageEngine {
         )
 
         paintBackground(bitmapBackedCanvas.canvas)
+        paintInitials(bitmapBackedCanvas.canvas, contactHashWrapper)
         callback?.invoke(contactHashWrapper, bitmapBackedCanvas.bitmap, true, true)
     }
 
     private fun paintBackground(canvas: Canvas) {
         val backgroundColor = matthew.colorAtModuloIndex(random.nextInt(until = 2000))
         matthew.fillCanvas(canvas, backgroundColor)
+    }
+
+    private fun paintInitials(canvas: Canvas, contactHashWrapper: ContactHashWrapper) {
+        var initials = contactHashWrapper.initials(numberOfInitials)
+        initialsPainter.paint(initials, canvas)
     }
 
     companion object {
