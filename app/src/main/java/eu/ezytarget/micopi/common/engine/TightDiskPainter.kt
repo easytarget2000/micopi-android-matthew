@@ -21,6 +21,8 @@ class TightDiskPainter(
     var centerRelativeXPosition = 0.5f
     var centerRelativeYPosition = 0.5f
     var twirlRadiusToImageRatio = 1f / 6f
+    var twirlXRatio = 1f
+    var twirlYRatio = 1f
 
     fun configureRandomly(randomNumberGenerator: RandomNumberGenerator = RandomNumberGenerator()) {
         numberOfDisks = randomNumberGenerator.int(
@@ -41,6 +43,14 @@ class TightDiskPainter(
             from = MIN_TWIRL_RADIUS_TO_IMAGE_RATIO,
             until = MAX_TWIRL_RADIUS_TO_IMAGE_RATIO
         )
+        twirlXRatio = randomNumberGenerator.float(
+            from = MIN_TWIRL_RATIO,
+            until = MAX_TWIRL_RATIO
+        )
+        twirlYRatio = randomNumberGenerator.float(
+            from = MIN_TWIRL_RATIO,
+            until = MAX_TWIRL_RATIO
+        )
     }
 
     fun paint(canvas: Canvas, oneColor: Color? = null) {
@@ -60,8 +70,10 @@ class TightDiskPainter(
             val color: Color = oneColor ?: matthew.colorAtModuloIndex(diskCounter)
             val radius = stackMinRadius * diskCounter.toFloat()
             val normalizedCounter = diskCounter.toFloat() / numberOfDisks
-            val diskX = stackCenterX + (sin(normalizedCounter * TWO_PIF) * maxDistanceOffset)
-            val diskY = stackCenterY + (cos(normalizedCounter * TWO_PIF) * maxDistanceOffset)
+            val twirlXOffset = sin(twirlXRatio * normalizedCounter * TWO_PIF) * maxDistanceOffset
+            val twirlYOffset = cos(twirlYRatio * normalizedCounter * TWO_PIF) * maxDistanceOffset
+            val diskX = stackCenterX + twirlXOffset
+            val diskY = stackCenterY + twirlYOffset
 
             matthew.paintCircularShapeWithRadius(
                 diskX,
@@ -82,6 +94,8 @@ class TightDiskPainter(
         const val MAX_RELATIVE_POSITION = 0.75f
         const val MIN_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 7f
         const val MAX_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 4f
+        const val MIN_TWIRL_RATIO = -1.5f
+        const val MAX_TWIRL_RATIO = 1.5f
         private const val PIF = PI.toFloat()
         private const val TWO_PIF = 2f * PIF
         val tag = TightDiskPainter::class.java.simpleName
