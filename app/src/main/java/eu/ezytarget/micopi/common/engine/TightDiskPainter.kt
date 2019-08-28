@@ -9,7 +9,6 @@ import eu.ezytarget.micopi.common.RandomNumberGenerator
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.sqrt
 
 class TightDiskPainter(
     private val canvasSizeQuantifier: CanvasSizeQuantifier = CanvasSizeQuantifier(),
@@ -19,7 +18,7 @@ class TightDiskPainter(
     lateinit var matthew: Matthew
 
     var numberOfDisks = 48
-    var lastDiskToImageRatio = 1f / 96f
+    var lastDiskToImageRatio = 1f / 54f
     var centerRelativeXPosition = 0.5f
     var centerRelativeYPosition = 0.5f
     var twirlRadiusToImageRatio = 1f / 6f
@@ -88,8 +87,6 @@ class TightDiskPainter(
             )
         }
     }
-
-
 
     companion object {
         const val MIN_NUMBER_OF_DISKS = 1
