@@ -16,12 +16,30 @@ class Calculator {
     }
 
     fun lerp(a: Float, b: Float, index: Int, maxIndex: Int): Float {
+        val ratio = normalizedRatio(index, maxIndex)
+        return lerp(a, b, ratio)
+    }
+
+    fun cosineInterpolate(
+        a: Float,
+        b: Float,
+        mu: Float
+    ): Float {
+        val mu2 = (1f - cos(mu * PIF)) / 2f
+        return a * (1f - mu2) + b * mu2
+    }
+
+    fun cosineInterpolate(a: Float, b: Float, index: Int, maxIndex: Int): Float {
+        val ratio = normalizedRatio(index, maxIndex)
+        return cosineInterpolate(a, b, ratio)
+    }
+
+    fun normalizedRatio(index: Int, maxIndex: Int): Float {
         if (maxIndex < 1) {
             return 0f
         }
 
-        val ratio = index.toFloat() / maxIndex.toFloat()
-        return lerp(a, b, ratio)
+        return index.toFloat() / maxIndex.toFloat()
     }
 
     fun pointOnCircleX(arcRelativePosition: Float, radius: Float): Float {

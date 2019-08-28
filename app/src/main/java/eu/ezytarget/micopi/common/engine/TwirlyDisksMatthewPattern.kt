@@ -60,7 +60,7 @@ class TwirlyDisksMatthewPattern(
 
         for (diskCounter in 0..numberOfDisks) {
             val color: Color = oneColor ?: matthew.colorAtModuloIndex(diskCounter)
-            val radius = calculator.lerp(
+            val radius = calculator.cosineInterpolate(
                 firstDiskRadius,
                 lastDiskRadius,
                 diskCounter,
