@@ -1,5 +1,6 @@
 package eu.ezytarget.micopi.common.engine
 
+import kotlin.math.PI
 import kotlin.math.sqrt
 
 class Calculator {
@@ -19,5 +20,10 @@ class Calculator {
 
         val ratio = index.toFloat() / maxIndex.toFloat()
         return lerp(a, b, ratio)
+    }
+
+    companion object {
+        const val PIF = PI.toFloat()
+        const val TWO_PIF = 2f * PIF
     }
 }

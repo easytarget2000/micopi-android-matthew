@@ -6,6 +6,7 @@ import eu.ezytarget.matthew.CanvasSizeQuantifier
 import eu.ezytarget.matthew.Color
 import eu.ezytarget.matthew.Matthew
 import eu.ezytarget.micopi.common.RandomNumberGenerator
+import eu.ezytarget.micopi.common.engine.Calculator.Companion.TWO_PIF
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -99,8 +100,6 @@ class TightDiskPainter(
         const val MAX_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 4f
         const val MIN_TWIRL_RATIO = -1f
         const val MAX_TWIRL_RATIO = 1f
-        private const val PIF = PI.toFloat()
-        private const val TWO_PIF = 2f * PIF
         val tag = TightDiskPainter::class.java.simpleName
         private val numberOfDisksRange = MIN_NUMBER_OF_DISKS..MAX_NUMBER_OF_DISKS
     }
