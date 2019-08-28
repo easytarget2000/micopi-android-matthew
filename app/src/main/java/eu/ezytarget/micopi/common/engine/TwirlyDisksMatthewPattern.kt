@@ -7,13 +7,10 @@ import eu.ezytarget.matthew.Color
 import eu.ezytarget.matthew.Matthew
 import eu.ezytarget.micopi.common.RandomNumberGenerator
 
-class TightDiskPainter(
+class TwirlyDisksMatthewPattern(
     private val canvasSizeQuantifier: CanvasSizeQuantifier = CanvasSizeQuantifier(),
     private val calculator: Calculator = Calculator()
 ) {
-
-    lateinit var matthew: Matthew
-
     var numberOfDisks = 48
     var lastDiskToImageRatio = 1f / 54f
     var centerRelativeXPosition = 0.5f
@@ -47,7 +44,7 @@ class TightDiskPainter(
         twirlYRatio = -twirlXRatio
     }
 
-    fun paint(canvas: Canvas, oneColor: Color? = null) {
+    fun paint(matthew: Matthew, canvas: Canvas, oneColor: Color? = null) {
         if (numberOfDisks !in numberOfDisksRange) {
             Log.e(tag, "paint(): numberOfDisks is out of range, $numberOfDisks.")
             return
@@ -102,7 +99,7 @@ class TightDiskPainter(
         const val MAX_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 4f
         const val MIN_TWIRL_RATIO = -1f
         const val MAX_TWIRL_RATIO = 1f
-        val tag = TightDiskPainter::class.java.simpleName
+        val tag = TwirlyDisksMatthewPattern::class.java.simpleName
         private val numberOfDisksRange = MIN_NUMBER_OF_DISKS..MAX_NUMBER_OF_DISKS
     }
 }

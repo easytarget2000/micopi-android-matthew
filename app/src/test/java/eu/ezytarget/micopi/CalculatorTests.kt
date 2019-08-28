@@ -1,11 +1,7 @@
 package eu.ezytarget.micopi
 
 import eu.ezytarget.micopi.common.engine.Calculator
-import eu.ezytarget.micopi.common.engine.TightDiskPainter
 import org.junit.Test
-
-import org.junit.Assert.*
-import kotlin.math.exp
 
 class CalculatorTests {
 

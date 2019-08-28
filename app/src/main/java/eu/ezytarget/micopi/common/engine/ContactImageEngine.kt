@@ -5,11 +5,10 @@ import android.graphics.Canvas
 import eu.ezytarget.matthew.Matthew
 import eu.ezytarget.micopi.common.RandomNumberGenerator
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
-import kotlin.random.Random
 
 class ContactImageEngine(
     private val matthew: Matthew = Matthew(),
-    private val tightDiskPainter: TightDiskPainter = TightDiskPainter(),
+    private val tightDiskPainter: TwirlyDisksMatthewPattern = TwirlyDisksMatthewPattern(),
     private val initialsPainter: InitialsPainter = InitialsPainter()
 ) {
 
