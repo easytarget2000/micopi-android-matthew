@@ -96,7 +96,7 @@ class TwirlyDisksMatthewPattern(
         const val MIN_RELATIVE_POSITION = 0.25f
         const val MAX_RELATIVE_POSITION = 0.75f
         const val MIN_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 7f
-        const val MAX_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 4f
+        const val MAX_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 5f
         const val MIN_TWIRL_RATIO = -1f
         const val MAX_TWIRL_RATIO = 1f
         val tag = TwirlyDisksMatthewPattern::class.java.simpleName
