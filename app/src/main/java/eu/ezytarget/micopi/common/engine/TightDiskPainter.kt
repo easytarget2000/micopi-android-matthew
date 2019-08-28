@@ -9,15 +9,17 @@ import eu.ezytarget.micopi.common.RandomNumberGenerator
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 class TightDiskPainter(
-    private val canvasSizeQuantifier: CanvasSizeQuantifier = CanvasSizeQuantifier()
+    private val canvasSizeQuantifier: CanvasSizeQuantifier = CanvasSizeQuantifier(),
+    private val calculator: Calculator = Calculator()
 ) {
 
     lateinit var matthew: Matthew
 
     var numberOfDisks = 48
-    var minRadiusToImageRatio = 1f / 32f
+    var lastDiskToImageRatio = 1f / 96f
     var centerRelativeXPosition = 0.5f
     var centerRelativeYPosition = 0.5f
     var twirlRadiusToImageRatio = 1f / 6f
@@ -29,7 +31,6 @@ class TightDiskPainter(
             from = MIN_RANDOM_NUMBER_OF_DISKS,
             until = MAX_RANDOM_NUMBER_OF_DISKS
         )
-        minRadiusToImageRatio = 1f / numberOfDisks
 
         centerRelativeXPosition = randomNumberGenerator.float(
             from = MIN_RELATIVE_POSITION,
@@ -47,10 +48,7 @@ class TightDiskPainter(
             from = MIN_TWIRL_RATIO,
             until = MAX_TWIRL_RATIO
         )
-        twirlYRatio = randomNumberGenerator.float(
-            from = MIN_TWIRL_RATIO,
-            until = MAX_TWIRL_RATIO
-        )
+        twirlYRatio = -twirlXRatio
     }
 
     fun paint(canvas: Canvas, oneColor: Color? = null) {
@@ -61,15 +59,21 @@ class TightDiskPainter(
 
         val imageSize = canvasSizeQuantifier.valueForCanvas(canvas)
 
-        val stackMinRadius = (imageSize * 1.5f) * minRadiusToImageRatio
+        val firstDiskRadius = calculator.circleCoveringSquare(imageSize)
+        val lastDiskRadius = imageSize * lastDiskToImageRatio
         val stackCenterX = imageSize * centerRelativeXPosition
         val stackCenterY = imageSize * centerRelativeYPosition
         val maxDistanceOffset = imageSize * twirlRadiusToImageRatio
 
-        for (diskCounter in numberOfDisks downTo 0) {
+        for (diskCounter in 0..numberOfDisks) {
             val color: Color = oneColor ?: matthew.colorAtModuloIndex(diskCounter)
-            val radius = stackMinRadius * diskCounter.toFloat()
-            val normalizedCounter = diskCounter.toFloat() / numberOfDisks
+            val radius = calculator.lerp(
+                firstDiskRadius,
+                lastDiskRadius,
+                diskCounter,
+                numberOfDisks
+            )
+            val normalizedCounter = diskCounter.toFloat() / numberOfDisks.toFloat()
             val twirlXOffset = sin(twirlXRatio * normalizedCounter * TWO_PIF) * maxDistanceOffset
             val twirlYOffset = cos(twirlYRatio * normalizedCounter * TWO_PIF) * maxDistanceOffset
             val diskX = stackCenterX + twirlXOffset
@@ -85,6 +89,8 @@ class TightDiskPainter(
         }
     }
 
+
+
     companion object {
         const val MIN_NUMBER_OF_DISKS = 1
         const val MAX_NUMBER_OF_DISKS = 1000
@@ -94,8 +100,8 @@ class TightDiskPainter(
         const val MAX_RELATIVE_POSITION = 0.75f
         const val MIN_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 7f
         const val MAX_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 4f
-        const val MIN_TWIRL_RATIO = -1.5f
-        const val MAX_TWIRL_RATIO = 1.5f
+        const val MIN_TWIRL_RATIO = -1f
+        const val MAX_TWIRL_RATIO = 1f
         private const val PIF = PI.toFloat()
         private const val TWO_PIF = 2f * PIF
         val tag = TightDiskPainter::class.java.simpleName
