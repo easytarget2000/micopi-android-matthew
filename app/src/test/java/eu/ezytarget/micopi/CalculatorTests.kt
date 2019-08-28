@@ -38,8 +38,12 @@ class CalculatorTests {
         val expectedLerpValue2 = 0.5f
         assert(lerpValue2 == expectedLerpValue2)
 
-        val lerpValue3 = calculator.lerp(0f, 1f, 75, 100)
-        val expectedLerpValue3 = 0.75f
+        val lerpValue3 = calculator.lerp(0f, 1f, 99, 100)
+        val expectedLerpValue3 = 0.99f
         assert(lerpValue3 == expectedLerpValue3)
+
+        val lerpValue4 = calculator.lerp(0f, 1f, 100, 100)
+        val expectedLerpValue4 = 1f
+        assert(lerpValue4 == expectedLerpValue4)
     }
 }
