@@ -8,10 +8,11 @@ import eu.ezytarget.matthew.Matthew
 import eu.ezytarget.micopi.common.RandomNumberGenerator
 
 class TwirlyDisksMatthewPattern(
-    private val randomNumberGenerator: RandomNumberGenerator = RandomNumberGenerator(),
     private val canvasSizeQuantifier: CanvasSizeQuantifier = CanvasSizeQuantifier(),
     private val calculator: Calculator = Calculator()
 ) {
+
+    var randomNumberGenerator: RandomNumberGenerator = RandomNumberGenerator()
     var numberOfDisks = 48
     var lastDiskToImageRatio = 1f / 54f
     var centerRelativeXPosition = 0.5f
