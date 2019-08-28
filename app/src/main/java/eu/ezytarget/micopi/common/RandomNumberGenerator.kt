@@ -2,13 +2,20 @@ package eu.ezytarget.micopi.common
 
 import kotlin.random.Random
 
-class RandomNumberGenerator(private val source: Random = Random(System.currentTimeMillis())) {
+class RandomNumberGenerator(
+    seed: Int = System.currentTimeMillis().toInt(),
+    val source: Random = Random(seed)
+) {
 
-    fun nextInt(from: Int, until: Int): Int {
+    fun int(from: Int, until: Int): Int {
         return source.nextInt(from, until)
     }
 
-    fun nextFloat(from: Float, until: Float): Float {
+    fun positiveInt(): Int {
+        return int(from = 1, until = Int.MAX_VALUE)
+    }
+
+    fun float(from: Float, until: Float): Float {
         return source.nextDouble(from.toDouble(), until.toDouble()).toFloat()
     }
 }

@@ -23,20 +23,20 @@ class TightDiskPainter(
     var twirlRadiusToImageRatio = 1f / 6f
 
     fun configureRandomly(randomNumberGenerator: RandomNumberGenerator = RandomNumberGenerator()) {
-        numberOfDisks = randomNumberGenerator.nextInt(
+        numberOfDisks = randomNumberGenerator.int(
             from = MIN_RANDOM_NUMBER_OF_DISKS,
             until = MAX_RANDOM_NUMBER_OF_DISKS
         )
 
-        centerRelativeXPosition = randomNumberGenerator.nextFloat(
+        centerRelativeXPosition = randomNumberGenerator.float(
             from = MIN_RELATIVE_POSITION,
             until = MAX_RELATIVE_POSITION
         )
-        centerRelativeYPosition = randomNumberGenerator.nextFloat(
+        centerRelativeYPosition = randomNumberGenerator.float(
             from = MIN_RELATIVE_POSITION,
             until = MAX_RELATIVE_POSITION
         )
-        twirlRadiusToImageRatio = randomNumberGenerator.nextFloat(
+        twirlRadiusToImageRatio = randomNumberGenerator.float(
             from = MIN_TWIRL_RADIUS_TO_IMAGE_RATIO,
             until = MAX_TWIRL_RADIUS_TO_IMAGE_RATIO
         )
