@@ -3,7 +3,8 @@ package eu.ezytarget.micopi.common.engine
 import android.content.res.Resources
 import android.graphics.Canvas
 import eu.ezytarget.matthew.Matthew
-import eu.ezytarget.micopi.common.RandomNumberGenerator
+import eu.ezytarget.matthew.pattern.TwirlyDisksMatthewPattern
+import eu.ezytarget.matthew.util.RandomNumberGenerator
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
 class ContactImageEngine(
@@ -11,7 +12,6 @@ class ContactImageEngine(
     private val disksMatthewPattern: TwirlyDisksMatthewPattern = TwirlyDisksMatthewPattern(),
     private val initialsPainter: InitialsPainter = InitialsPainter()
 ) {
-
     private lateinit var contactHashWrappers: Array<ContactHashWrapper>
     private lateinit var randomNumberGenerator: RandomNumberGenerator
     private var stopped = false
