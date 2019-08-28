@@ -12,7 +12,7 @@ class Calculator {
     }
 
     fun lerp(a: Float, b: Float, ratio: Float): Float {
-        return a + (sin(ratio) * (b - a))
+        return a + (ratio * (b - a))
     }
 
     fun lerp(a: Float, b: Float, index: Int, maxIndex: Int): Float {
