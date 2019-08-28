@@ -8,6 +8,7 @@ import eu.ezytarget.matthew.Matthew
 import eu.ezytarget.micopi.common.RandomNumberGenerator
 
 class TwirlyDisksMatthewPattern(
+    private val randomNumberGenerator: RandomNumberGenerator = RandomNumberGenerator(),
     private val canvasSizeQuantifier: CanvasSizeQuantifier = CanvasSizeQuantifier(),
     private val calculator: Calculator = Calculator()
 ) {
@@ -18,8 +19,9 @@ class TwirlyDisksMatthewPattern(
     var twirlRadiusToImageRatio = 1f / 6f
     var twirlXRatio = 1f
     var twirlYRatio = 1f
+    var repeatColors = false
 
-    fun configureRandomly(randomNumberGenerator: RandomNumberGenerator = RandomNumberGenerator()) {
+    fun configureRandomly() {
         numberOfDisks = randomNumberGenerator.int(
             from = MIN_RANDOM_NUMBER_OF_DISKS,
             until = MAX_RANDOM_NUMBER_OF_DISKS
@@ -37,11 +39,14 @@ class TwirlyDisksMatthewPattern(
             from = MIN_TWIRL_RADIUS_TO_IMAGE_RATIO,
             until = MAX_TWIRL_RADIUS_TO_IMAGE_RATIO
         )
-        twirlXRatio = randomNumberGenerator.float(
+        val twirlRatio = randomNumberGenerator.float(
             from = MIN_TWIRL_RATIO,
             until = MAX_TWIRL_RATIO
         )
-        twirlYRatio = -twirlXRatio
+        twirlXRatio = twirlRatio
+        twirlYRatio = -twirlRatio
+
+        repeatColors = randomNumberGenerator.boolean()
     }
 
     fun paint(matthew: Matthew, canvas: Canvas, oneColor: Color? = null) {
@@ -59,7 +64,17 @@ class TwirlyDisksMatthewPattern(
         val twirlRadius = imageSize * twirlRadiusToImageRatio
 
         for (diskCounter in 0..numberOfDisks) {
-            val color: Color = oneColor ?: matthew.colorAtModuloIndex(diskCounter)
+            val diskColor: Color = if (oneColor == null) {
+                val colorIndex = if (repeatColors) {
+                    diskCounter
+                } else {
+                    randomNumberGenerator.int()
+                }
+                matthew.colorAtModuloIndex(colorIndex)
+            } else {
+                oneColor
+            }
+
             val radius = calculator.lerp(
                 firstDiskRadius,
                 lastDiskRadius,
@@ -82,7 +97,7 @@ class TwirlyDisksMatthewPattern(
                 diskX,
                 diskY,
                 radius,
-                color,
+                diskColor,
                 canvas
             )
         }

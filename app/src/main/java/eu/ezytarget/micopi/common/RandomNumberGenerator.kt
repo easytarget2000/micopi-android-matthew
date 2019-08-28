@@ -7,7 +7,11 @@ class RandomNumberGenerator(
     val source: Random = Random(seed)
 ) {
 
-    fun int(from: Int, until: Int): Int {
+    fun boolean(): Boolean {
+        return source.nextBoolean()
+    }
+
+    fun int(from: Int = Int.MIN_VALUE, until: Int = Int.MAX_VALUE): Int {
         return source.nextInt(from, until)
     }
 

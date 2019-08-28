@@ -55,7 +55,7 @@ class ContactImageEngine(
     }
 
     private fun paintShapes(canvas: Canvas) {
-        disksMatthewPattern.configureRandomly(randomNumberGenerator)
+        disksMatthewPattern.configureRandomly()
         disksMatthewPattern.paint(matthew, canvas)
     }
 
