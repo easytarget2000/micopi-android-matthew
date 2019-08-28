@@ -8,7 +8,7 @@ import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
 class ContactImageEngine(
     private val matthew: Matthew = Matthew(),
-    private val tightDiskPainter: TwirlyDisksMatthewPattern = TwirlyDisksMatthewPattern(),
+    private val disksMatthewPattern: TwirlyDisksMatthewPattern = TwirlyDisksMatthewPattern(),
     private val initialsPainter: InitialsPainter = InitialsPainter()
 ) {
 
@@ -55,8 +55,8 @@ class ContactImageEngine(
     }
 
     private fun paintShapes(canvas: Canvas) {
-        tightDiskPainter.configureRandomly(randomNumberGenerator)
-        tightDiskPainter.paint(matthew, canvas)
+        disksMatthewPattern.configureRandomly(randomNumberGenerator)
+        disksMatthewPattern.paint(matthew, canvas)
     }
 
     private fun paintInitials(canvas: Canvas, contactHashWrapper: ContactHashWrapper) {
