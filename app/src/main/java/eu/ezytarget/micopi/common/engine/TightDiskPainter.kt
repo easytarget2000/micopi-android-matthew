@@ -27,6 +27,7 @@ class TightDiskPainter(
             from = MIN_RANDOM_NUMBER_OF_DISKS,
             until = MAX_RANDOM_NUMBER_OF_DISKS
         )
+        minRadiusToImageRatio = 1f / numberOfDisks
 
         centerRelativeXPosition = randomNumberGenerator.float(
             from = MIN_RELATIVE_POSITION,
@@ -50,7 +51,7 @@ class TightDiskPainter(
 
         val imageSize = canvasSizeQuantifier.valueForCanvas(canvas)
 
-        val stackMinRadius = imageSize * minRadiusToImageRatio
+        val stackMinRadius = (imageSize * 1.5f) * minRadiusToImageRatio
         val stackCenterX = imageSize * centerRelativeXPosition
         val stackCenterY = imageSize * centerRelativeYPosition
         val maxDistanceOffset = imageSize * twirlRadiusToImageRatio
@@ -75,10 +76,10 @@ class TightDiskPainter(
     companion object {
         const val MIN_NUMBER_OF_DISKS = 1
         const val MAX_NUMBER_OF_DISKS = 1000
-        const val MIN_RANDOM_NUMBER_OF_DISKS = 40
-        const val MAX_RANDOM_NUMBER_OF_DISKS = 56
-        const val MIN_RELATIVE_POSITION = 0.1f
-        const val MAX_RELATIVE_POSITION = 0.9f
+        const val MIN_RANDOM_NUMBER_OF_DISKS = 48
+        const val MAX_RANDOM_NUMBER_OF_DISKS = 64
+        const val MIN_RELATIVE_POSITION = 0.25f
+        const val MAX_RELATIVE_POSITION = 0.75f
         const val MIN_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 7f
         const val MAX_TWIRL_RADIUS_TO_IMAGE_RATIO = 1f / 4f
         private const val PIF = PI.toFloat()
