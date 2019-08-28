@@ -55,9 +55,8 @@ class ContactImageEngine(
     }
 
     private fun paintShapes(canvas: Canvas) {
-        tightDiskPainter.matthew = matthew
         tightDiskPainter.configureRandomly(randomNumberGenerator)
-        tightDiskPainter.paint(canvas)
+        tightDiskPainter.paint(matthew, canvas)
     }
 
     private fun paintInitials(canvas: Canvas, contactHashWrapper: ContactHashWrapper) {
