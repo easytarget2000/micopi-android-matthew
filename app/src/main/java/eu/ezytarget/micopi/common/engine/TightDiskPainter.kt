@@ -6,10 +6,6 @@ import eu.ezytarget.matthew.CanvasSizeQuantifier
 import eu.ezytarget.matthew.Color
 import eu.ezytarget.matthew.Matthew
 import eu.ezytarget.micopi.common.RandomNumberGenerator
-import eu.ezytarget.micopi.common.engine.Calculator.Companion.TWO_PIF
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 
 class TightDiskPainter(
     private val canvasSizeQuantifier: CanvasSizeQuantifier = CanvasSizeQuantifier(),
@@ -63,7 +59,7 @@ class TightDiskPainter(
         val lastDiskRadius = imageSize * lastDiskToImageRatio
         val stackCenterX = imageSize * centerRelativeXPosition
         val stackCenterY = imageSize * centerRelativeYPosition
-        val maxDistanceOffset = imageSize * twirlRadiusToImageRatio
+        val twirlRadius = imageSize * twirlRadiusToImageRatio
 
         for (diskCounter in 0..numberOfDisks) {
             val color: Color = oneColor ?: matthew.colorAtModuloIndex(diskCounter)
@@ -74,8 +70,14 @@ class TightDiskPainter(
                 numberOfDisks
             )
             val normalizedCounter = diskCounter.toFloat() / numberOfDisks.toFloat()
-            val twirlXOffset = sin(twirlXRatio * normalizedCounter * TWO_PIF) * maxDistanceOffset
-            val twirlYOffset = cos(twirlYRatio * normalizedCounter * TWO_PIF) * maxDistanceOffset
+            val twirlXOffset = calculator.pointOnCircleX(
+                arcRelativePosition = twirlXRatio * normalizedCounter,
+                radius = twirlRadius
+            )
+            val twirlYOffset = calculator.pointOnCircleY(
+                arcRelativePosition = twirlYRatio * normalizedCounter,
+                radius = twirlRadius
+            )
             val diskX = stackCenterX + twirlXOffset
             val diskY = stackCenterY + twirlYOffset
 

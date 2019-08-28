@@ -1,6 +1,8 @@
 package eu.ezytarget.micopi.common.engine
 
 import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 class Calculator {
@@ -20,6 +22,14 @@ class Calculator {
 
         val ratio = index.toFloat() / maxIndex.toFloat()
         return lerp(a, b, ratio)
+    }
+
+    fun pointOnCircleX(arcRelativePosition: Float, radius: Float): Float {
+        return cos(x = arcRelativePosition * TWO_PIF) * radius
+    }
+
+    fun pointOnCircleY(arcRelativePosition: Float, radius: Float): Float {
+        return sin(x = arcRelativePosition * TWO_PIF) * radius
     }
 
     companion object {
