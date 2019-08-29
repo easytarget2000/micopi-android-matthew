@@ -39,7 +39,7 @@ class InitialsPainter(
     }
 
     internal fun textSize(imageSize: Float, numberOfChars: Int): Float {
-        return 66f / sqrt(numberOfChars.toFloat()) * (imageSize / 100f)
+        return textSizeMaxPercentage / sqrt(numberOfChars.toFloat()) * imageSize
     }
 
     companion object {
