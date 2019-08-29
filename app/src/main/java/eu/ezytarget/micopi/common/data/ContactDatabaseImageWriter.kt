@@ -32,7 +32,7 @@ class ContactDatabaseImageWriter {
         )
 
         val photoID = getContactPhotoID(rawContactUri)
-        val hasPhoto = photoID >= 0
+        val hasPhoto = photoID != null
         if (hasPhoto) {
             contentResolver.update(
                 ContactsContract.Data.CONTENT_URI,
@@ -79,7 +79,7 @@ class ContactDatabaseImageWriter {
         return rawContactUri
     }
 
-    private fun getContactPhotoID(rawContactUri: Uri): Int {
+    private fun getContactPhotoID(rawContactUri: Uri): Int? {
         val photoSelection = (ContactsContract.Data.RAW_CONTACT_ID + "=="
                 + ContentUris.parseId(rawContactUri)
                 + " AND "
@@ -87,21 +87,24 @@ class ContactDatabaseImageWriter {
                 + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'")
 
         val existingPhotoCursor = contentResolver.query(
-            ContactsContract.Data.CONTENT_URI, null,
-            photoSelection, null, null
+            ContactsContract.Data.CONTENT_URI,
+            null,
+            photoSelection,
+            null,
+            null
         )
 
-        var photoId = -1
+        var photoID: Int? = null
 
         if (existingPhotoCursor != null) {
             val index = existingPhotoCursor.getColumnIndex(ContactsContract.Data._ID)
             if (index > 0 && existingPhotoCursor.moveToFirst()) {
-                photoId = existingPhotoCursor.getInt(index)
+                photoID = existingPhotoCursor.getInt(index)
             }
             existingPhotoCursor.close()
         }
 
-        return photoId
+        return photoID
     }
 
     private fun overwriteHiResPhoto(
@@ -110,8 +113,7 @@ class ContactDatabaseImageWriter {
         hiResBitmap: Bitmap?
     ) {
 
-        val displayPhotoUri: Uri
-        displayPhotoUri = Uri.withAppendedPath(
+        val displayPhotoUri = Uri.withAppendedPath(
             contactUri,
             ContactsContract.Contacts.Photo.DISPLAY_PHOTO
         )
