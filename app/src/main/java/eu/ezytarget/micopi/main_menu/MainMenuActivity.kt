@@ -3,10 +3,15 @@ package eu.ezytarget.micopi.main_menu
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModel
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.ui.Activity
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.contact_preview.ContactPreviewActivity
+import eu.ezytarget.micopi.contact_preview.ContactPreviewViewModel
+import eu.ezytarget.micopi.databinding.ContactPreviewActivityBinding
+import eu.ezytarget.micopi.databinding.MainMenuActivityBinding
 
 
 class MainMenuActivity : Activity() {
@@ -21,8 +26,8 @@ class MainMenuActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_menu_activity)
         setupViewModel()
+        setupDataBinding()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -56,6 +61,12 @@ class MainMenuActivity : Activity() {
                 startContactPreviewActivity(contactHashWrapper)
             }
         }
+    }
+
+    private fun setupDataBinding() {
+        val binding: MainMenuActivityBinding =
+            DataBindingUtil.setContentView(this, R.layout.main_menu_activity)
+        binding.viewModel = viewModel
     }
 
     private fun startContactPickerIntent(allowMultipleSelection: Boolean) {
