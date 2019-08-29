@@ -7,47 +7,18 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.core.app.ActivityCompat
-import eu.ezytarget.micopi.common.PermissionManagerCallback
+import eu.ezytarget.micopi.common.permissions.PermissionManager
+import eu.ezytarget.micopi.common.permissions.PermissionManagerCallback
 
 
-class ReadContactsPermissionManager {
+class ReadContactsPermissionManager: PermissionManager() {
 
-    var permission = Manifest.permission.READ_CONTACTS
-    var callback: PermissionManagerCallback? = null
-
-    fun hasReadContactsPermission(context: Context): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true
-        }
-
-        val writePerm = checkSelfPermission(context, permission)
-        return writePerm == PackageManager.PERMISSION_GRANTED
-    }
-
-    fun requestWriteContactsPermission(activity: Activity, callback: PermissionManagerCallback?) {
-        this.callback = callback
-        ActivityCompat.requestPermissions(
-            activity,
-            arrayOf(permission),
-            READ_CONTACTS_REQUEST_CODE
-        )
-    }
-
-    fun onRequestPermissionsResult(
-        context: Context,
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        handlePermissionChange(true)
-    }
-
-    private fun handlePermissionChange(permissionGranted: Boolean) {
-        callback?.invoke(permissionGranted)
-        callback = null
-    }
+    override val permission: String
+        get() = Manifest.permission.READ_CONTACTS
+    override val requestCode: Int
+        get() = REQUEST_CODE
 
     companion object {
-        private const val READ_CONTACTS_REQUEST_CODE = 800
+        const val REQUEST_CODE = 800
     }
 }
