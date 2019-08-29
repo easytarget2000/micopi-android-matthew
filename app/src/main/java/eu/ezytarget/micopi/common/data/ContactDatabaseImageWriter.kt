@@ -112,7 +112,6 @@ class ContactDatabaseImageWriter {
         contactUri: Uri,
         hiResBitmap: Bitmap?
     ) {
-
         val displayPhotoUri = Uri.withAppendedPath(
             contactUri,
             ContactsContract.Contacts.Photo.DISPLAY_PHOTO
@@ -124,16 +123,17 @@ class ContactDatabaseImageWriter {
             e.printStackTrace()
         }
 
-        if (descriptor != null) {
-            val os: OutputStream
-            try {
-                os = descriptor.createOutputStream()
-                hiResBitmap?.compress(Bitmap.CompressFormat.WEBP, 100, os)
-                os.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
+        if (descriptor == null) {
+            return
+        }
 
+        val outputStream: OutputStream
+        try {
+            outputStream = descriptor.createOutputStream()
+            hiResBitmap?.compress(hiResImageFormat, HI_RES_IMAGE_COMPRESSION_QUALITY, outputStream)
+            outputStream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 
@@ -145,7 +145,7 @@ class ContactDatabaseImageWriter {
             downscaledBitmap.compress(downscaledImageFormat, 100, downscaledImageStream)
         }
 
-        val bytes =  downscaledImageStream.toByteArray()
+        val bytes = downscaledImageStream.toByteArray()
         try {
             downscaledImageStream.close()
         } catch (e: IOException) {
@@ -166,10 +166,12 @@ class ContactDatabaseImageWriter {
 
     companion object {
         val tag = ContactDatabaseImageWriter::class.java.simpleName
-        private const val DOWNSCALED_IMAGE_WIDTH = 256
+        private const val DOWNSCALED_IMAGE_WIDTH = 64
         private const val DOWNSCALED_IMAGE_HEIGHT = DOWNSCALED_IMAGE_WIDTH
         private const val DOWNSCALED_IMAGE_COMPRESSION_QUALITY = 100
+        private const val HI_RES_IMAGE_COMPRESSION_QUALITY = 100
         private const val FILTER_DOWNSCALE = true
         private val downscaledImageFormat = Bitmap.CompressFormat.JPEG
+        private val hiResImageFormat = Bitmap.CompressFormat.JPEG
     }
 }
