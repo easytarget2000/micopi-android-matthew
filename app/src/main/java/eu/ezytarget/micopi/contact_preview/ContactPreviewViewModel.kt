@@ -1,6 +1,7 @@
 package eu.ezytarget.micopi.contact_preview
 
 import android.content.ContentResolver
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -14,6 +15,10 @@ import androidx.lifecycle.ViewModel
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.engine.ContactImageEngine
+import eu.ezytarget.micopi.common.permissions.PermissionManager
+import eu.ezytarget.micopi.common.permissions.WriteContactsPermissionManager
+import eu.ezytarget.micopi.common.ui.Activity
+import eu.ezytarget.micopi.main_menu.ReadContactsPermissionManager
 
 class ContactPreviewViewModel : ViewModel() {
 
@@ -32,6 +37,8 @@ class ContactPreviewViewModel : ViewModel() {
         }
     var imageEngine: ContactImageEngine = ContactImageEngine()
     var imageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
+    var contactPermissionManager: PermissionManager = WriteContactsPermissionManager()
+
     val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
     val contactName: LiveData<String>
         get() {
@@ -65,7 +72,26 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     fun handleAssignImageButtonClicked(view: View) {
-        assignImageToContact()
+        val activity = view.rootView.context as Activity
+        validatePermissionsAndAssignImage(activity)
+    }
+
+    /*
+    Permissions Callback
+     */
+
+    fun onRequestPermissionsResult(
+        context: Context,
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        contactPermissionManager.onRequestPermissionsResult(
+            context,
+            requestCode,
+            permissions,
+            grantResults
+        )
     }
 
     /*
@@ -103,6 +129,20 @@ class ContactPreviewViewModel : ViewModel() {
     private fun generatePreviousImage() {
         contactHashWrapper?.decreaseHashModifier()
         generateImage()
+    }
+
+    private fun validatePermissionsAndAssignImage(activity: Activity) {
+        if (!contactPermissionManager.hasPermission(activity)) {
+            contactPermissionManager.requestPermission(activity) {
+                val permissionGranted = it
+                if (permissionGranted) {
+                    assignImageToContact()
+                }
+            }
+            return
+        }
+
+        assignImageToContact()
     }
 
     private fun assignImageToContact() {
