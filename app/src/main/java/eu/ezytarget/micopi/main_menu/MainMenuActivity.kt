@@ -41,10 +41,6 @@ class MainMenuActivity : Activity() {
         viewModel.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
     }
 
-    fun onContactPickerButtonClicked(view: View) {
-        viewModel.onContactPickerButtonClicked(activity = this)
-    }
-
     /*
     Implementations
      */

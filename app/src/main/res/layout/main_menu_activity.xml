@@ -1,26 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".main_menu.MainMenuActivity">
 
-    <androidx.cardview.widget.CardView
+    <data>
+
+        <variable
+            name="viewModel"
+            type="eu.ezytarget.micopi.main_menu.MainMenuViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="16dp"
-        app:cardElevation="3dp"
-        app:cardBackgroundColor="@android:color/white"
-        app:contentPadding="16dp">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:text="@string/launchMenuSelectButtonTitle"
-            android:onClick="onContactPickerButtonClicked"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="16dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="3dp"
+            app:contentPadding="16dp">
 
-    </androidx.cardview.widget.CardView>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{viewModel.handleSelectContactButtonClicked}"
+                android:text="@string/launchMenuSelectButtonTitle" />
 
-</RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</layout>
