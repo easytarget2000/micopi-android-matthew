@@ -15,7 +15,7 @@ data class ContactHashWrapper(val contact: Contact): Serializable {
             return ""
         }
 
-        return contact.name.first().toString()
+        return contact.displayName.first().toString()
     }
 
     /*

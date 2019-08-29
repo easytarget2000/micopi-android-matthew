@@ -26,7 +26,7 @@ class ContactPreviewViewModel : ViewModel() {
     val contactName: LiveData<String>
         get() {
             return Transformations.map(contactWrapperLiveData) { contactWrapper ->
-                contactWrapper?.contact?.name ?: ""
+                contactWrapper?.contact?.displayName ?: ""
             }
         }
     val interactionEnabled: LiveData<Boolean>

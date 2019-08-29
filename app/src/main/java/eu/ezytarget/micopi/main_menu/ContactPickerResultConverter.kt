@@ -19,7 +19,10 @@ class ContactPickerResultConverter {
     }
 
     private fun convertResult(contactResult: ContactResult): ContactHashWrapper {
-        val contact = Contact(contactResult.displayName)
+        val contact = Contact(
+            databaseID = contactResult.contactID,
+            displayName = contactResult.displayName
+        )
         return ContactHashWrapper(contact)
     }
 }
