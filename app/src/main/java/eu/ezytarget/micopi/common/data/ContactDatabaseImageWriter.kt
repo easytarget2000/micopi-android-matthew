@@ -3,7 +3,6 @@ package eu.ezytarget.micopi.common.data
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
-import android.content.Context
 import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
 import android.net.Uri
@@ -13,64 +12,32 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
 
-object DatabaseWriter {
+class ContactDatabaseImageWriter {
 
-    private val TAG = DatabaseWriter::class.java.simpleName
+    lateinit var contentResolver: ContentResolver
 
-    fun assignImageToContact(
-        context: Context,
-        hiResBitmap: Bitmap?,
-        contact: Contact
-    ): Boolean {
-        val contentResolver = context.contentResolver
-
-        val rawContactUri = getContactUri(contentResolver, contact.databaseID) ?: return false
+    fun assignImageToContact(bitmap: Bitmap?, contact: Contact): Boolean {
+        val rawContactUri = getContactUri(contact.databaseID) ?: return false
 
         val values = ContentValues()
-        values.put(
-            ContactsContract.Data.RAW_CONTACT_ID,
-            ContentUris.parseId(rawContactUri)
-        )
-        values.put(
-            ContactsContract.Data.IS_SUPER_PRIMARY,
-            1
-        )
+        values.put(ContactsContract.Data.RAW_CONTACT_ID, ContentUris.parseId(rawContactUri))
+        values.put(ContactsContract.Data.IS_SUPER_PRIMARY, 1)
 
-        val outputStream = ByteArrayOutputStream()
-
-        if (hiResBitmap != null) {
-            val scaledBitmap = Bitmap.createScaledBitmap(
-                hiResBitmap,
-                256,
-                256,
-                true
-            )
-            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-        }
-
-        values.put(
-            ContactsContract.CommonDataKinds.Photo.PHOTO,
-            outputStream.toByteArray()
-        )
-
-        try {
-            outputStream.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+        val downscaledImageBytes = downscaleAndCompressIntoBytes(bitmap)
+        values.put(ContactsContract.CommonDataKinds.Photo.PHOTO, downscaledImageBytes)
 
         values.put(
             ContactsContract.Data.MIMETYPE,
             ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
         )
 
-        val photoId = getContactPhotoId(contentResolver, rawContactUri)
-
-        if (photoId >= 0) {
+        val photoID = getContactPhotoID(rawContactUri)
+        val hasPhoto = photoID >= 0
+        if (hasPhoto) {
             contentResolver.update(
                 ContactsContract.Data.CONTENT_URI,
                 values,
-                ContactsContract.Data._ID + "=" + photoId, null
+                ContactsContract.Data._ID + "=" + photoID, null
             )
         } else {
             contentResolver.insert(
@@ -79,24 +46,21 @@ object DatabaseWriter {
             )
         }
 
-        overwriteHiResPhoto(contentResolver, rawContactUri, hiResBitmap)
+        overwriteHiResPhoto(contentResolver, rawContactUri, bitmap)
 
         return true
     }
 
-    private fun getContactUri(
-        contentResolver: ContentResolver,
-        contactId: String
-    ): Uri? {
+    private fun getContactUri(contactID: String): Uri? {
 
         val uriCursor = contentResolver.query(
             ContactsContract.RawContacts.CONTENT_URI,
             arrayOf(ContactsContract.RawContacts._ID),
-            ContactsContract.RawContacts.CONTACT_ID + "=" + contactId, null, null
+            ContactsContract.RawContacts.CONTACT_ID + "=" + contactID, null, null
         )
 
         if (uriCursor == null) {
-            Log.e(TAG, "uriCursor is null.")
+            Log.e(tag, "uriCursor is null.")
             return null
         }
 
@@ -115,10 +79,7 @@ object DatabaseWriter {
         return rawContactUri
     }
 
-    private fun getContactPhotoId(
-        contentResolver: ContentResolver,
-        rawContactUri: Uri
-    ): Int {
+    private fun getContactPhotoID(rawContactUri: Uri): Int {
         val photoSelection = (ContactsContract.Data.RAW_CONTACT_ID + "=="
                 + ContentUris.parseId(rawContactUri)
                 + " AND "
@@ -174,4 +135,39 @@ object DatabaseWriter {
         }
     }
 
+    private fun downscaleAndCompressIntoBytes(bitmap: Bitmap?): ByteArray {
+        val downscaledImageStream = ByteArrayOutputStream()
+
+        if (bitmap != null) {
+            val downscaledBitmap = downscaleBitmap(bitmap)
+            downscaledBitmap.compress(downscaledImageFormat, 100, downscaledImageStream)
+        }
+
+        val bytes =  downscaledImageStream.toByteArray()
+        try {
+            downscaledImageStream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return bytes
+    }
+
+    private fun downscaleBitmap(bitmap: Bitmap): Bitmap {
+        return Bitmap.createScaledBitmap(
+            bitmap,
+            DOWNSCALED_IMAGE_WIDTH,
+            DOWNSCALED_IMAGE_HEIGHT,
+            FILTER_DOWNSCALE
+        )
+    }
+
+    companion object {
+        val tag = ContactDatabaseImageWriter::class.java.simpleName
+        private const val DOWNSCALED_IMAGE_WIDTH = 256
+        private const val DOWNSCALED_IMAGE_HEIGHT = DOWNSCALED_IMAGE_WIDTH
+        private const val DOWNSCALED_IMAGE_COMPRESSION_QUALITY = 100
+        private const val FILTER_DOWNSCALE = true
+        private val downscaledImageFormat = Bitmap.CompressFormat.JPEG
+    }
 }
