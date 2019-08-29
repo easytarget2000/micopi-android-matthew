@@ -17,7 +17,7 @@ class ContactDatabaseImageWriter {
     lateinit var contentResolver: ContentResolver
 
     fun assignImageToContact(bitmap: Bitmap?, contact: Contact): Boolean {
-        val rawContactUri = getContactUri(contact.databaseID) ?: return false
+        val rawContactUri = getContactUri(contact.entityID) ?: return false
 
         val values = ContentValues()
         values.put(ContactsContract.Data.RAW_CONTACT_ID, ContentUris.parseId(rawContactUri))

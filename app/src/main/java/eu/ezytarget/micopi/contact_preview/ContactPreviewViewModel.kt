@@ -1,5 +1,6 @@
 package eu.ezytarget.micopi.contact_preview
 
+import android.content.ContentResolver
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -9,12 +10,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.engine.ContactImageEngine
 
 class ContactPreviewViewModel : ViewModel() {
 
     lateinit var resources: Resources
+    var contentResolver: ContentResolver
+        get() = imageWriter.contentResolver
+        set(value) {
+            imageWriter.contentResolver = value
+        }
+
     var contactHashWrapper: ContactHashWrapper?
         get() = contactWrapperLiveData.value
         set(value) {
@@ -22,6 +30,7 @@ class ContactPreviewViewModel : ViewModel() {
             generateImage()
         }
     var imageEngine: ContactImageEngine = ContactImageEngine()
+    var imageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
     val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
     val contactName: LiveData<String>
         get() {

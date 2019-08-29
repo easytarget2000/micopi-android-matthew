@@ -21,6 +21,7 @@ class ContactPreviewActivity : Activity() {
                 as ContactHashWrapper
 
         viewModel.resources = resources
+        viewModel.contentResolver = contentResolver
         viewModel.contactHashWrapper = contactHashWrapper
         return viewModel
     }
