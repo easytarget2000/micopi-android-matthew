@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -51,6 +52,10 @@ class ContactPreviewViewModel : ViewModel() {
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
     private var isBusy = false
 
+    /*
+    UI Input
+     */
+
     fun handleNextImageButtonClicked(view: View) {
         generateNextImage()
     }
@@ -58,6 +63,14 @@ class ContactPreviewViewModel : ViewModel() {
     fun handlePreviousImageButtonClicked(view: View) {
         generatePreviousImage()
     }
+
+    fun handleAssignImageButtonClicked(view: View) {
+        assignImageToContact()
+    }
+
+    /*
+    Implementations
+     */
 
     private fun generateImage() {
         if (isBusy) {
@@ -90,5 +103,12 @@ class ContactPreviewViewModel : ViewModel() {
     private fun generatePreviousImage() {
         contactHashWrapper?.decreaseHashModifier()
         generateImage()
+    }
+
+    private fun assignImageToContact() {
+        val contact = contactHashWrapper?.contact ?: return
+        val drawable = generatedDrawable.value ?: return
+        val bitmap = drawable.toBitmap()
+        imageWriter.assignImageToContact(bitmap, contact)
     }
 }

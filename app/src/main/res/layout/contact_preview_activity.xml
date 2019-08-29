@@ -68,8 +68,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="@{viewModel::handlePreviousImageButtonClicked}"
                         android:enabled="@{viewModel.interactionEnabled}"
+                        android:onClick="@{viewModel::handlePreviousImageButtonClicked}"
                         android:text="@string/contactPreviewPreviousImageButtonText" />
 
                     <Button
@@ -78,8 +78,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:onClick="@{viewModel::handleNextImageButtonClicked}"
                         android:enabled="@{viewModel.interactionEnabled}"
+                        android:onClick="@{viewModel::handleNextImageButtonClicked}"
                         android:src="@android:drawable/ic_media_next"
                         android:text="@string/contactPreviewNextImageButtonText" />
 
@@ -109,6 +109,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="16dp"
             android:enabled="@{viewModel.interactionEnabled}"
+            android:onClick="@{viewModel::handleAssignImageButtonClicked}"
             android:text="@string/contactPreviewAssignButtonText"
             android:textColor="@color/fabForeground"
             app:backgroundTint="@color/fabBackground"
