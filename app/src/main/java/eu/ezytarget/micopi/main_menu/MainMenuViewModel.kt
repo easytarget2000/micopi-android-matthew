@@ -14,7 +14,8 @@ class MainMenuViewModel: ViewModel() {
     private var allowMultipleSelection = true
 
     fun handleSelectContactButtonClicked(view: View) {
-        validatePermissionsAndSelectContactPicker(view.context as Activity)
+        val activity = view.rootView.context as Activity
+        validatePermissionsAndSelectContactPicker(activity)
     }
 
     fun onRequestPermissionsResult(
