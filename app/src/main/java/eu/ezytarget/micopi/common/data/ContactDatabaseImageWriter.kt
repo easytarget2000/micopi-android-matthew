@@ -19,34 +19,35 @@ class ContactDatabaseImageWriter {
     fun assignImageToContact(bitmap: Bitmap?, contact: Contact): Boolean {
         val rawContactUri = getContactUri(contact.entityID) ?: return false
 
-        val values = ContentValues()
-        values.put(ContactsContract.Data.RAW_CONTACT_ID, ContentUris.parseId(rawContactUri))
-        values.put(ContactsContract.Data.IS_SUPER_PRIMARY, 1)
+        val thumbnailValues = ContentValues()
+        thumbnailValues.put(ContactsContract.Data.RAW_CONTACT_ID, contact.entityID)
+        thumbnailValues.put(ContactsContract.Data.IS_SUPER_PRIMARY, 1)
 
         val downscaledImageBytes = downscaleAndCompressIntoBytes(bitmap)
-        values.put(ContactsContract.CommonDataKinds.Photo.PHOTO, downscaledImageBytes)
+        thumbnailValues.put(ContactsContract.CommonDataKinds.Photo.PHOTO, downscaledImageBytes)
 
-        values.put(
+        thumbnailValues.put(
             ContactsContract.Data.MIMETYPE,
             ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
         )
 
-        val photoID = getContactPhotoID(rawContactUri)
+        val photoID = getContactPhotoID(contact.entityID)
         val hasPhoto = photoID != null
         if (hasPhoto) {
             contentResolver.update(
                 ContactsContract.Data.CONTENT_URI,
-                values,
-                ContactsContract.Data._ID + "=" + photoID, null
+                thumbnailValues,
+                ContactsContract.Data._ID + "=" + photoID,
+                null
             )
         } else {
             contentResolver.insert(
                 ContactsContract.Data.CONTENT_URI,
-                values
+                thumbnailValues
             )
         }
 
-        overwriteHiResPhoto(contentResolver, rawContactUri, bitmap)
+        overwriteHiResPhoto(rawContactUri, bitmap)
 
         return true
     }
@@ -79,9 +80,9 @@ class ContactDatabaseImageWriter {
         return rawContactUri
     }
 
-    private fun getContactPhotoID(rawContactUri: Uri): Int? {
+    private fun getContactPhotoID(contactID: String): Int? {
         val photoSelection = (ContactsContract.Data.RAW_CONTACT_ID + "=="
-                + ContentUris.parseId(rawContactUri)
+                + contactID
                 + " AND "
                 + ContactsContract.RawContacts.Data.MIMETYPE + "=='"
                 + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'")
@@ -108,17 +109,19 @@ class ContactDatabaseImageWriter {
     }
 
     private fun overwriteHiResPhoto(
-        contentResolver: ContentResolver,
-        contactUri: Uri,
+        rawContactUri: Uri,
         hiResBitmap: Bitmap?
     ) {
         val displayPhotoUri = Uri.withAppendedPath(
-            contactUri,
+            rawContactUri,
             ContactsContract.Contacts.Photo.DISPLAY_PHOTO
         )
         var descriptor: AssetFileDescriptor? = null
         try {
-            descriptor = contentResolver.openAssetFileDescriptor(displayPhotoUri, "w")
+            descriptor = contentResolver.openAssetFileDescriptor(
+                displayPhotoUri,
+                FILE_DESCRIPTOR_WRITE_MODE
+            )
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -142,7 +145,11 @@ class ContactDatabaseImageWriter {
 
         if (bitmap != null) {
             val downscaledBitmap = downscaleBitmap(bitmap)
-            downscaledBitmap.compress(downscaledImageFormat, 100, downscaledImageStream)
+            downscaledBitmap.compress(
+                downscaledImageFormat,
+                DOWNSCALED_IMAGE_COMPRESSION_QUALITY,
+                downscaledImageStream
+            )
         }
 
         val bytes = downscaledImageStream.toByteArray()
@@ -171,7 +178,8 @@ class ContactDatabaseImageWriter {
         private const val DOWNSCALED_IMAGE_COMPRESSION_QUALITY = 100
         private const val HI_RES_IMAGE_COMPRESSION_QUALITY = 100
         private const val FILTER_DOWNSCALE = true
+        private const val FILE_DESCRIPTOR_WRITE_MODE = "w"
         private val downscaledImageFormat = Bitmap.CompressFormat.JPEG
-        private val hiResImageFormat = Bitmap.CompressFormat.JPEG
+        private val hiResImageFormat = Bitmap.CompressFormat.PNG
     }
 }
