@@ -57,7 +57,9 @@ class ContactDatabaseImageWriter {
         val uriCursor = contentResolver.query(
             ContactsContract.RawContacts.CONTENT_URI,
             arrayOf(ContactsContract.RawContacts._ID),
-            ContactsContract.RawContacts.CONTACT_ID + "=" + contactID, null, null
+            ContactsContract.RawContacts.CONTACT_ID + "=?",
+            arrayOf(contactID),
+            null
         )
 
         if (uriCursor == null) {
@@ -69,7 +71,7 @@ class ContactDatabaseImageWriter {
 
         if (uriCursor.moveToFirst()) {
             val contentUri = ContactsContract.RawContacts.CONTENT_URI
-            val rawPath = "" + uriCursor.getLong(0)
+            val rawPath = uriCursor.getLong(0).toString()
             rawContactUri = contentUri.buildUpon().appendPath(rawPath).build()
         } else {
             uriCursor.close()
