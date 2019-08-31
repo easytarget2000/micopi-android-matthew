@@ -9,23 +9,34 @@ import eu.ezytarget.micopi.databinding.ContactPreviewActivityBinding
 
 class ContactPreviewActivity : Activity() {
 
+    private lateinit var viewModel: ContactPreviewViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel = setupViewModel()
-        setupDataBinding(viewModel)
+        setupViewModel()
+        setupDataBinding()
     }
 
-    private fun setupViewModel(): ContactPreviewViewModel {
-        val viewModel = getViewModel(ContactPreviewViewModel::class)
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        viewModel.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
+    }
+
+    private fun setupViewModel() {
+        viewModel = getViewModel(ContactPreviewViewModel::class)
         val contactHashWrapper = intent.extras!![CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME]
                 as ContactHashWrapper
 
         viewModel.resources = resources
+        viewModel.contentResolver = contentResolver
         viewModel.contactHashWrapper = contactHashWrapper
-        return viewModel
     }
 
-    private fun setupDataBinding(viewModel: ContactPreviewViewModel) {
+    private fun setupDataBinding() {
         val binding: ContactPreviewActivityBinding =
             DataBindingUtil.setContentView(this, R.layout.contact_preview_activity)
 

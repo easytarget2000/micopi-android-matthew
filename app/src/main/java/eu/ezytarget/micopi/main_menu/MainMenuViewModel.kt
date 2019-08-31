@@ -3,27 +3,20 @@ package eu.ezytarget.micopi.main_menu
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.view.View
 import androidx.lifecycle.ViewModel
-import java.lang.ref.WeakReference
+import eu.ezytarget.micopi.common.permissions.PermissionManager
 
 class MainMenuViewModel: ViewModel() {
 
     var selectionListener: MainMenuSelectionListener? = null
-    var contactPermissionManager: ReadContactsPermissionManager = ReadContactsPermissionManager()
+    var contactPermissionManager: PermissionManager = ReadContactsPermissionManager()
     var contactPickerResultConverter: ContactPickerResultConverter = ContactPickerResultConverter()
     private var allowMultipleSelection = true
 
-    fun onContactPickerButtonClicked(activity: Activity) {
-        if (!contactPermissionManager.hasReadContactsPermission(activity)) {
-            contactPermissionManager.requestWriteContactsPermission(activity) {
-                val permissionGranted = it
-                if (permissionGranted) {
-                    selectContactPicker()
-                }
-            }
-            return
-        }
-        selectContactPicker()
+    fun handleSelectContactButtonClicked(view: View) {
+        val activity = view.rootView.context as Activity
+        validatePermissionsAndSelectContactPicker(activity)
     }
 
     fun onRequestPermissionsResult(
@@ -48,6 +41,19 @@ class MainMenuViewModel: ViewModel() {
         }
 
         selectionListener?.onContactSelected(contacts.first())
+    }
+
+    private fun validatePermissionsAndSelectContactPicker(activity: Activity) {
+        if (!contactPermissionManager.hasPermission(activity)) {
+            contactPermissionManager.requestPermission(activity) {
+                val permissionGranted = it
+                if (permissionGranted) {
+                    selectContactPicker()
+                }
+            }
+            return
+        }
+        selectContactPicker()
     }
 
     private fun selectContactPicker() {
