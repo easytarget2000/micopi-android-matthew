@@ -1,5 +1,6 @@
 package eu.ezytarget.micopi.contact_preview
 
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
@@ -12,13 +13,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.engine.ContactImageEngine
 import eu.ezytarget.micopi.common.permissions.PermissionManager
 import eu.ezytarget.micopi.common.permissions.WriteContactsPermissionManager
-import eu.ezytarget.micopi.common.ui.Activity
-import eu.ezytarget.micopi.main_menu.ReadContactsPermissionManager
 
 class ContactPreviewViewModel : ViewModel() {
 
@@ -72,7 +72,7 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     fun handleAssignImageButtonClicked(view: View) {
-        val activity = view.rootView.context as Activity
+        val activity = view.activity!!
         validatePermissionsAndAssignImage(activity)
     }
 
