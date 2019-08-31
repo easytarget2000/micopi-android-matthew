@@ -7,7 +7,7 @@ data class ContactHashWrapper(val contact: Contact): Serializable {
     private var hashModifier = 0
 
     override fun hashCode(): Int {
-        return super.hashCode() + hashModifier
+        return contact.hashCode() + hashModifier
     }
 
     fun initials(numberOfInitials: Int): String {
