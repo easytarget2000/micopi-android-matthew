@@ -7,4 +7,13 @@
     <string name="contactPreviewNextImageButtonText">Next image</string>
     <string name="contactPreviewPreviousImageButtonText">Previous image</string>
     <string name="contactPreviewSaveButtonText">Save to gallery</string>
+    <string name="mainMenuFlowCopy">
+        After selecting a single contact, you will be shown a preview of the generated image.
+        You can then choose to apply the image or generate a different variation.
+    </string>
+    <string name="mainMenuLocalizationCopy">
+        If this app is not localised in a language that you speak
+        or if you feel like you can improve this translation, please contact the developer.
+        This app is a one-man project and requires support by the community.
+    </string>
 </resources>

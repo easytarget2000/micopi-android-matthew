@@ -25,6 +25,18 @@
         <item name="backgroundTint">@android:color/transparent</item>
     </style>
 
+    <style name="MainMenu.CardView" parent="CardView.Light">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="contentPadding">16dp</item>
+    </style>
+
     <style name="HorizontalDivider">
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_width">match_parent</item>
