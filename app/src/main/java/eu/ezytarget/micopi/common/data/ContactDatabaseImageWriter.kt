@@ -47,9 +47,7 @@ class ContactDatabaseImageWriter {
             )
         }
 
-        overwriteHiResPhoto(rawContactUri, bitmap)
-
-        return true
+        return overwriteHiResPhoto(rawContactUri, bitmap)
     }
 
     private fun getContactUri(contactID: String): Uri? {
@@ -113,7 +111,7 @@ class ContactDatabaseImageWriter {
     private fun overwriteHiResPhoto(
         rawContactUri: Uri,
         hiResBitmap: Bitmap?
-    ) {
+    ): Boolean {
         val displayPhotoUri = Uri.withAppendedPath(
             rawContactUri,
             ContactsContract.Contacts.Photo.DISPLAY_PHOTO
@@ -129,7 +127,7 @@ class ContactDatabaseImageWriter {
         }
 
         if (descriptor == null) {
-            return
+            return false
         }
 
         val outputStream: OutputStream
@@ -139,7 +137,10 @@ class ContactDatabaseImageWriter {
             outputStream.close()
         } catch (e: IOException) {
             e.printStackTrace()
+            return false
         }
+
+        return true
     }
 
     private fun downscaleAndCompressIntoBytes(bitmap: Bitmap?): ByteArray {
