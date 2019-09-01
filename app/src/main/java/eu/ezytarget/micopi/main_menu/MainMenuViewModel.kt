@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import androidx.lifecycle.ViewModel
+import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
+
 
 class MainMenuViewModel: ViewModel() {
 
@@ -15,7 +17,7 @@ class MainMenuViewModel: ViewModel() {
     private var allowMultipleSelection = true
 
     fun handleSelectContactButtonClicked(view: View) {
-        val activity = view.rootView.context as Activity
+        val activity = view.activity!!
         validatePermissionsAndSelectContactPicker(activity)
     }
 

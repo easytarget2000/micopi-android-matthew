@@ -7,4 +7,18 @@
     <string name="contactPreviewNextImageButtonText">Next image</string>
     <string name="contactPreviewPreviousImageButtonText">Previous image</string>
     <string name="contactPreviewSaveButtonText">Save to gallery</string>
+    <string name="mainMenuFlowDescription">
+        After selecting a single contact, you will be shown a preview of the generated image.
+        You can then choose to apply the image or generate a different variation.
+    </string>
+    <string name="mainMenuDisclaimer">
+        Different flavours of Android might handle phonebook entries and
+        contact pictures differently to what this app is prepared for.
+        Therefore we recommend making a backup of your contacts, before overwriting images.
+    </string>
+    <string name="mainMenuLocalizationCopy">
+        If this app is not localised in a language that you speak
+        or if you feel like you can improve this translation, please contact the developer.
+        This app is a one-man project and requires support by the community.
+    </string>
 </resources>
