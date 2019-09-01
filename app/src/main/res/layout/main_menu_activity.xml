@@ -54,6 +54,15 @@
 
             <androidx.cardview.widget.CardView style="@style/MainMenu.CardView">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mainMenuDisclaimer" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/MainMenu.CardView">
+
                 <!-- Localization Card Child:-->
 
                 <LinearLayout
