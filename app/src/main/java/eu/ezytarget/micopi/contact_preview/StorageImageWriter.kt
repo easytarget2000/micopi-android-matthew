@@ -18,7 +18,7 @@ class StorageImageWriter {
         val pictureRootDirectory = Environment.getExternalStoragePublicDirectory(
             publicDirectoryType
         )
-        val directory = File("${pictureRootDirectory}/${publicSubDirectory}}")
+        val directory = File("${pictureRootDirectory}/${publicSubDirectory}")
         directory.mkdirs()
 
         return saveBitmapToDevice(

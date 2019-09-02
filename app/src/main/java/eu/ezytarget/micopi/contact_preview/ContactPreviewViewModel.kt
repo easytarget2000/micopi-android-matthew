@@ -141,7 +141,7 @@ class ContactPreviewViewModel : ViewModel() {
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
 
-        val fileName = "${contact}_${contact.hashCode()}"
+        val fileName = "${contact.displayName}${contact.hashCode()}"
         storageImageWriter.saveBitmapToDevice(bitmap, fileName)
     }
 
