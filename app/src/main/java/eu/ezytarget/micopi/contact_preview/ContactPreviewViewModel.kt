@@ -24,9 +24,9 @@ class ContactPreviewViewModel : ViewModel() {
 
     lateinit var resources: Resources
     var contentResolver: ContentResolver
-        get() = imageWriter.contentResolver
+        get() = databaseImageWriter.contentResolver
         set(value) {
-            imageWriter.contentResolver = value
+            databaseImageWriter.contentResolver = value
         }
 
     var contactHashWrapper: ContactHashWrapper?
@@ -36,7 +36,8 @@ class ContactPreviewViewModel : ViewModel() {
             generateImage()
         }
     var imageEngine: ContactImageEngine = ContactImageEngine()
-    var imageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
+    var storageImageWriter: StorageImageWriter = StorageImageWriter()
+    var databaseImageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
     var contactPermissionManager: PermissionManager = WriteContactsPermissionManager()
 
     val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
@@ -69,6 +70,10 @@ class ContactPreviewViewModel : ViewModel() {
 
     fun handlePreviousImageButtonClicked(view: View) {
         generatePreviousImage()
+    }
+
+    fun handleSaveImageToDeviceButtonClicked(view: View) {
+        saveImageToDevice(view.context)
     }
 
     fun handleAssignImageButtonClicked(view: View) {
@@ -131,6 +136,15 @@ class ContactPreviewViewModel : ViewModel() {
         generateImage()
     }
 
+    private fun saveImageToDevice(context: Context) {
+        val contact = contactHashWrapper?.contact ?: return
+        val drawable = generatedDrawable.value ?: return
+        val bitmap = drawable.toBitmap()
+
+        val fileName = "${contact}_${contact.hashCode()}"
+        storageImageWriter.saveBitmapToDevice(bitmap, fileName)
+    }
+
     private fun validatePermissionsAndAssignImage(activity: Activity) {
         if (!contactPermissionManager.hasPermission(activity)) {
             contactPermissionManager.requestPermission(activity) {
@@ -149,6 +163,6 @@ class ContactPreviewViewModel : ViewModel() {
         val contact = contactHashWrapper?.contact ?: return
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
-        imageWriter.assignImageToContact(bitmap, contact)
+        databaseImageWriter.assignImageToContact(bitmap, contact)
     }
 }
