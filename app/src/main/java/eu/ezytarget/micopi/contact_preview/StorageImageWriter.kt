@@ -19,7 +19,7 @@ class StorageImageWriter {
             publicDirectoryType
         )
         val directory = File("${pictureRootDirectory}/${publicSubDirectory}")
-        directory.mkdirs()
+        directory.mkdir()
 
         return saveBitmapToDevice(
             bitmap,
