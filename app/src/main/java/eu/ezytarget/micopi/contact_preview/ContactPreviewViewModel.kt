@@ -37,6 +37,7 @@ class ContactPreviewViewModel : ViewModel() {
         }
     var imageEngine: ContactImageEngine = ContactImageEngine()
     var storageImageWriter: StorageImageWriter = StorageImageWriter()
+    var storagePermissionManager: StoragePermissionManager = StoragePermissionManager()
     var databaseImageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
     var contactPermissionManager: PermissionManager = WriteContactsPermissionManager()
 
@@ -73,7 +74,8 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     fun handleSaveImageToDeviceButtonClicked(view: View) {
-        saveImageToDevice(view.context)
+        val activity = view.activity!!
+        validatePermissionsAndSaveImageToDevice(activity)
     }
 
     fun handleAssignImageButtonClicked(view: View) {
@@ -136,7 +138,20 @@ class ContactPreviewViewModel : ViewModel() {
         generateImage()
     }
 
-    private fun saveImageToDevice(context: Context) {
+    private fun validatePermissionsAndSaveImageToDevice(activity: Activity) {
+        if (!storagePermissionManager.hasPermission(activity)) {
+            storagePermissionManager.requestPermission(activity) {
+                val permissionGranted = it
+                if (permissionGranted) {
+                    saveImageToDevice()
+                }
+            }
+            return
+        }
+        saveImageToDevice()
+    }
+
+    private fun saveImageToDevice() {
         val contact = contactHashWrapper?.contact ?: return
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
