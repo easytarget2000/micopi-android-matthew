@@ -36,8 +36,8 @@ class StorageImageWriter {
         val fullFileName = "$fileNameWithoutExtension.$fileExtension"
         val file = File(directory, fullFileName)
 
-        if (file.exists()) {
-            file.delete()
+        if (!file.exists()) {
+            file.createNewFile()
         }
 
         try {
