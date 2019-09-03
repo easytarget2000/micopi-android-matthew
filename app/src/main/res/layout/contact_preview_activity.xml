@@ -91,7 +91,7 @@
 
                     <TextView
                         style="@style/ContactPreviewSelectable"
-                        android:drawableTop="@android:drawable/ic_menu_save"
+                        android:drawableTop="@drawable/ic_save_black_24dp"
                         android:enabled="@{viewModel.interactionEnabled}"
                         android:onClick="@{viewModel::handleSaveImageToDeviceButtonClicked}"
                         android:text="@string/contactPreviewSaveButtonText" />
