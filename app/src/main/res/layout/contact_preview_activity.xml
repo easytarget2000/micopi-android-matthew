@@ -54,8 +54,6 @@
 
                 <!-- Secondary Buttons-->
 
-                <View style="@style/HorizontalDivider" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -81,8 +79,6 @@
 
                 <!-- Second row of buttons: -->
 
-                <View style="@style/HorizontalDivider" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,8 +100,6 @@
                         android:text="@string/contactPreviewShareButtonText" />
 
                 </LinearLayout>
-
-                <View style="@style/HorizontalDivider" />
 
             </LinearLayout>
 
