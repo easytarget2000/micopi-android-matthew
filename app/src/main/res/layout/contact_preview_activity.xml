@@ -71,7 +71,7 @@
 
                     <TextView
                         style="@style/ContactPreviewSelectable"
-                        android:drawableTop="@drawable/ic_arrow_back_black_24dp"
+                        android:drawableTop="@drawable/ic_arrow_forward_black_24dp"
                         android:enabled="@{viewModel.interactionEnabled}"
                         android:onClick="@{viewModel::handleNextImageButtonClicked}"
                         android:src="@android:drawable/ic_media_next"
