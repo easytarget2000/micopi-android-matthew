@@ -91,16 +91,16 @@
 
                     <TextView
                         style="@style/ContactPreviewSelectable"
+                        android:drawableTop="@android:drawable/ic_menu_save"
                         android:enabled="@{viewModel.interactionEnabled}"
                         android:onClick="@{viewModel::handleSaveImageToDeviceButtonClicked}"
-                        android:src="@android:drawable/ic_menu_save"
                         android:text="@string/contactPreviewSaveButtonText" />
 
                     <TextView
                         style="@style/ContactPreviewSelectable"
+                        android:drawableTop="@drawable/ic_share_black_24dp"
                         android:enabled="@{viewModel.interactionEnabled}"
                         android:onClick="@{viewModel::handleShareImageButtonClicked}"
-                        android:src="@android:drawable/ic_menu_share"
                         android:text="@string/contactPreviewShareButtonText" />
 
                 </LinearLayout>
