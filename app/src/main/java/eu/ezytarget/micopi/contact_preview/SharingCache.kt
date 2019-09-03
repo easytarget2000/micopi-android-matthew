@@ -23,6 +23,8 @@ class SharingCache {
         cachePath.mkdirs()
 
         val targetFile = File("$cachePath/$fileName")
+        targetFile.createNewFile()
+
         val stream = FileOutputStream(targetFile)
 
         try {
