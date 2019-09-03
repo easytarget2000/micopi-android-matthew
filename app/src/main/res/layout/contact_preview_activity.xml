@@ -83,7 +83,7 @@
                         android:src="@android:drawable/ic_media_next"
                         android:text="@string/contactPreviewNextImageButtonText" />
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/button_save"
                         style="@style/ContactPreviewSecondaryButton"
                         android:layout_width="match_parent"
@@ -91,8 +91,7 @@
                         android:layout_weight="1"
                         android:enabled="@{viewModel.interactionEnabled}"
                         android:onClick="@{viewModel::handleSaveImageToDeviceButtonClicked}"
-                        android:src="@android:drawable/ic_menu_save"
-                        android:text="@string/contactPreviewSaveButtonText" />
+                        android:src="@android:drawable/ic_menu_share" />
 
                 </LinearLayout>
 
