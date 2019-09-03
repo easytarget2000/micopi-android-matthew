@@ -23,12 +23,13 @@ class SharingCache {
         cachePath.mkdirs()
 
         val targetFile = File("$cachePath/$fileName")
-        targetFile.createNewFile()
+        targetFile.delete()
 
         val stream = FileOutputStream(targetFile)
 
         try {
             bitmap.compress(compressionFormat, compressionQuality, stream)
+            stream.flush()
             stream.close()
         } catch (e: IOException) {
             e.printStackTrace()

@@ -36,6 +36,7 @@ class ContactPreviewViewModel : ViewModel() {
             generateImage()
         }
     var imageEngine: ContactImageEngine = ContactImageEngine()
+    var imageWriter: StorageImageWriter = StorageImageWriter()
     var sharingCache: SharingCache = SharingCache()
     var databaseImageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
     var contactPermissionManager: PermissionManager = WriteContactsPermissionManager()
@@ -73,8 +74,12 @@ class ContactPreviewViewModel : ViewModel() {
         generatePreviousImage()
     }
 
+    fun handleSaveImageButtonClicked(view: View) {
+        storeImage()
+    }
+
     fun handleShareImageButtonClicked(view: View) {
-        shareButton(view.context)
+        shareImage(view.context)
     }
 
     fun handleAssignImageButtonClicked(view: View) {
@@ -137,7 +142,12 @@ class ContactPreviewViewModel : ViewModel() {
         generateImage()
     }
 
-    private fun shareButton(context: Context) {
+    private fun storeImage() {
+        val drawable = generatedDrawable.value ?: return
+        val bitmap = drawable.toBitmap()
+    }
+
+    private fun shareImage(context: Context) {
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
 
