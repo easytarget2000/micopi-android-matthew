@@ -18,11 +18,14 @@
 
     <style name="ContactPreviewTheme" parent="ContactPreviewTheme.Base" />
 
-    <style name="ContactPreviewSecondaryButton" parent="Widget.AppCompat.Button.Borderless">
+    <style name="ContactPreviewSelectable" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:layout_gravity">center</item>
+        <item name="android:paddingTop">8dp</item>
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="iconTint">@color/colorPrimary</item>
-        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="drawableTint">@color/colorPrimary</item>
     </style>
 
     <style name="MainMenu.CardView" parent="CardView.Light">

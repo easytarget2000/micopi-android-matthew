@@ -62,22 +62,16 @@
                     android:gravity="top"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/button_prev"
-                        style="@style/ContactPreviewSecondaryButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                    <TextView
+                        style="@style/ContactPreviewSelectable"
+                        android:drawableTop="@drawable/ic_arrow_back_black_24dp"
                         android:enabled="@{viewModel.interactionEnabled}"
                         android:onClick="@{viewModel::handlePreviousImageButtonClicked}"
                         android:text="@string/contactPreviewPreviousImageButtonText" />
 
-                    <Button
-                        android:id="@+id/button_next"
-                        style="@style/ContactPreviewSecondaryButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                    <TextView
+                        style="@style/ContactPreviewSelectable"
+                        android:drawableTop="@drawable/ic_arrow_back_black_24dp"
                         android:enabled="@{viewModel.interactionEnabled}"
                         android:onClick="@{viewModel::handleNextImageButtonClicked}"
                         android:src="@android:drawable/ic_media_next"
@@ -95,24 +89,19 @@
                     android:gravity="top"
                     android:orientation="horizontal">
 
-                    <ImageButton
-                        style="@style/ContactPreviewSecondaryButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:src="@android:drawable/ic_menu_save"
+                    <TextView
+                        style="@style/ContactPreviewSelectable"
                         android:enabled="@{viewModel.interactionEnabled}"
-                        android:onClick="@{viewModel::handleSaveImageToDeviceButtonClicked}" />
+                        android:onClick="@{viewModel::handleSaveImageToDeviceButtonClicked}"
+                        android:src="@android:drawable/ic_menu_save"
+                        android:text="@string/contactPreviewSaveButtonText" />
 
-                    <ImageButton
-                        android:id="@+id/button_save"
-                        style="@style/ContactPreviewSecondaryButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                    <TextView
+                        style="@style/ContactPreviewSelectable"
                         android:enabled="@{viewModel.interactionEnabled}"
                         android:onClick="@{viewModel::handleShareImageButtonClicked}"
-                        android:src="@android:drawable/ic_menu_share" />
+                        android:src="@android:drawable/ic_menu_share"
+                        android:text="@string/contactPreviewShareButtonText" />
 
                 </LinearLayout>
 
