@@ -83,15 +83,36 @@
                         android:src="@android:drawable/ic_media_next"
                         android:text="@string/contactPreviewNextImageButtonText" />
 
-                    <Button
+                </LinearLayout>
+
+                <!-- Second row of buttons: -->
+
+                <View style="@style/HorizontalDivider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        style="@style/ContactPreviewSecondaryButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@android:drawable/ic_menu_save"
+                        android:enabled="@{viewModel.interactionEnabled}"
+                        android:onClick="@{viewModel::handleSaveImageToDeviceButtonClicked}" />
+
+                    <ImageButton
                         android:id="@+id/button_save"
                         style="@style/ContactPreviewSecondaryButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:enabled="@{viewModel.interactionEnabled}"
-                        android:src="@android:drawable/ic_menu_save"
-                        android:text="@string/contactPreviewSaveButtonText" />
+                        android:onClick="@{viewModel::handleShareImageButtonClicked}"
+                        android:src="@android:drawable/ic_menu_share" />
 
                 </LinearLayout>
 

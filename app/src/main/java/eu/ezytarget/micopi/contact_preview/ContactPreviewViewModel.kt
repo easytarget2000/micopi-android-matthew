@@ -13,22 +13,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import eu.ezytarget.micopi.common.extensions.activity
+import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.engine.ContactImageEngine
+import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
 import eu.ezytarget.micopi.common.permissions.WriteContactsPermissionManager
 
 class ContactPreviewViewModel : ViewModel() {
 
-    lateinit var resources: Resources
+    var resources: Resources? = null
     var contentResolver: ContentResolver
-        get() = imageWriter.contentResolver
+        get() = databaseImageWriter.contentResolver
         set(value) {
-            imageWriter.contentResolver = value
+            databaseImageWriter.contentResolver = value
         }
-
     var contactHashWrapper: ContactHashWrapper?
         get() = contactWrapperLiveData.value
         set(value) {
@@ -36,9 +36,12 @@ class ContactPreviewViewModel : ViewModel() {
             generateImage()
         }
     var imageEngine: ContactImageEngine = ContactImageEngine()
-    var imageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
+    var storageImageWriter: StorageImageWriter = StorageImageWriter()
+    var sharingCache: SharingCache = SharingCache()
+    var storagePermissionManager: StoragePermissionManager = StoragePermissionManager()
+    var databaseImageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
     var contactPermissionManager: PermissionManager = WriteContactsPermissionManager()
-
+    var listener: ContactPreviewViewModelListener? = null
     val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
     val contactName: LiveData<String>
         get() {
@@ -58,6 +61,22 @@ class ContactPreviewViewModel : ViewModel() {
         }
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
     private var isBusy = false
+    private val storeConfirmationFormat: String by lazy {
+        resources?.getString(R.string.contactPreviewStoreConfirmationFormat)
+            ?: WITHOUT_RESOURCES_PLACEHOLDER
+    }
+    private val storeImageDescription: String by lazy {
+        resources?.getString(R.string.contactPreviewStoreImageDescription)
+            ?: WITHOUT_RESOURCES_PLACEHOLDER
+    }
+    private val assignConfirmationFormat: String by lazy {
+        resources?.getString(R.string.contactPreviewAssignConfirmationFormat)
+            ?: WITHOUT_RESOURCES_PLACEHOLDER
+    }
+    private val genericErrorMessage: String by lazy {
+        resources?.getString(R.string.genericErrorMessage)
+            ?: WITHOUT_RESOURCES_PLACEHOLDER
+    }
 
     /*
     UI Input
@@ -69,6 +88,15 @@ class ContactPreviewViewModel : ViewModel() {
 
     fun handlePreviousImageButtonClicked(view: View) {
         generatePreviousImage()
+    }
+
+    fun handleSaveImageToDeviceButtonClicked(view: View) {
+        val activity = view.activity!!
+        validatePermissionsAndStoreImageToDevice(activity)
+    }
+
+    fun handleShareImageButtonClicked(view: View) {
+        shareImage(view.context)
     }
 
     fun handleAssignImageButtonClicked(view: View) {
@@ -131,6 +159,27 @@ class ContactPreviewViewModel : ViewModel() {
         generateImage()
     }
 
+    private fun validatePermissionsAndStoreImageToDevice(activity: Activity) {
+        if (!storagePermissionManager.hasPermission(activity)) {
+            storagePermissionManager.requestPermission(activity) {
+                val permissionGranted = it
+                if (permissionGranted) {
+                    storeImageOnDevice()
+                }
+            }
+            return
+        }
+        storeImageOnDevice()
+    }
+
+    private fun shareImage(context: Context) {
+        val drawable = generatedDrawable.value ?: return
+        val bitmap = drawable.toBitmap()
+
+        val sharingUri = sharingCache.cacheBitmap(bitmap, context) ?: return
+        listener?.onImageUriSharingRequested(sharingUri)
+    }
+
     private fun validatePermissionsAndAssignImage(activity: Activity) {
         if (!contactPermissionManager.hasPermission(activity)) {
             contactPermissionManager.requestPermission(activity) {
@@ -145,10 +194,46 @@ class ContactPreviewViewModel : ViewModel() {
         assignImageToContact()
     }
 
+    private fun storeImageOnDevice() {
+        val contact = contactHashWrapper?.contact ?: return
+        val drawable = generatedDrawable.value ?: return
+        val bitmap = drawable.toBitmap()
+
+        val imageName = "${contact.displayName}${contact.hashCode()}"
+        val fullPath = storageImageWriter.saveBitmapToDevice(
+            bitmap,
+            imageName,
+            storeImageDescription,
+            contentResolver
+        )
+
+        val message: String = if (fullPath != null) {
+            String.format(storeConfirmationFormat, fullPath)
+        } else {
+            genericErrorMessage
+        }
+        showMessage(message)
+    }
+
     private fun assignImageToContact() {
         val contact = contactHashWrapper?.contact ?: return
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
-        imageWriter.assignImageToContact(bitmap, contact)
+        val didAssign = databaseImageWriter.assignImageToContact(bitmap, contact)
+
+        val message: String = if (didAssign) {
+            String.format(assignConfirmationFormat, contact.displayName)
+        } else {
+            genericErrorMessage
+        }
+        showMessage(message)
+    }
+
+    private fun showMessage(message: String) {
+        listener?.onMessageRequested(message)
+    }
+
+    companion object {
+        private const val WITHOUT_RESOURCES_PLACEHOLDER = "WITHOUT_RESOURCES_PLACEHOLDER"
     }
 }
