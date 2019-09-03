@@ -3,6 +3,7 @@ package eu.ezytarget.micopi.contact_preview
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
@@ -43,6 +44,9 @@ class ContactPreviewActivity : Activity() {
         viewModel.contentResolver = contentResolver
         viewModel.contactHashWrapper = contactHashWrapper
         viewModel.listener = object : ContactPreviewViewModelListener{
+            override fun onMessageRequested(message: String) {
+                showMessage(message)
+            }
             override fun onImageUriSharingRequested(imageUri: Uri) {
                 shareImageUri(imageUri)
             }
@@ -57,6 +61,10 @@ class ContactPreviewActivity : Activity() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+    }
+
+    private fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun shareImageUri(imageUri: Uri) {

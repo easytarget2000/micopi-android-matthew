@@ -13,10 +13,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.engine.ContactImageEngine
+import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
 import eu.ezytarget.micopi.common.permissions.WriteContactsPermissionManager
 
@@ -28,7 +28,6 @@ class ContactPreviewViewModel : ViewModel() {
         set(value) {
             databaseImageWriter.contentResolver = value
         }
-
     var contactHashWrapper: ContactHashWrapper?
         get() = contactWrapperLiveData.value
         set(value) {
@@ -39,11 +38,9 @@ class ContactPreviewViewModel : ViewModel() {
     var storageImageWriter: StorageImageWriter = StorageImageWriter()
     var sharingCache: SharingCache = SharingCache()
     var storagePermissionManager: StoragePermissionManager = StoragePermissionManager()
-
     var databaseImageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
     var contactPermissionManager: PermissionManager = WriteContactsPermissionManager()
     var listener: ContactPreviewViewModelListener? = null
-
     val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
     val contactName: LiveData<String>
         get() {
@@ -63,6 +60,9 @@ class ContactPreviewViewModel : ViewModel() {
         }
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
     private var isBusy = false
+    private val genericErrorMessage: String by lazy {
+        "error"
+    }
 
     /*
     UI Input
@@ -186,13 +186,31 @@ class ContactPreviewViewModel : ViewModel() {
         val bitmap = drawable.toBitmap()
 
         val fileName = "${contact.displayName}${contact.hashCode()}"
-        storageImageWriter.saveBitmapToDevice(bitmap, fileName)
+        val didStore = storageImageWriter.saveBitmapToDevice(bitmap, fileName)
+
+        val message: String = if (didStore) {
+            fileName
+        } else {
+            genericErrorMessage
+        }
+        showMessage(message)
     }
 
     private fun assignImageToContact() {
         val contact = contactHashWrapper?.contact ?: return
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
-        databaseImageWriter.assignImageToContact(bitmap, contact)
+        val didAssign = databaseImageWriter.assignImageToContact(bitmap, contact)
+
+        val message: String = if (didAssign) {
+            contact.displayName
+        } else {
+            genericErrorMessage
+        }
+        showMessage(message)
+    }
+
+    private fun showMessage(message: String) {
+        listener?.onMessageRequested(message)
     }
 }
