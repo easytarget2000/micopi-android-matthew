@@ -218,7 +218,9 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     private fun showPermissionRequiredAction() {
-        val permissionRequiredMessage = "PERMISSIONREQUIREDPLACEHOLDER"
+        val permissionRequiredMessage = getStringFromResourcesOrFallback(
+            R.string.contactPreviewPermissionRequiredMessage
+        )
         showMessage(permissionRequiredMessage)
     }
 
