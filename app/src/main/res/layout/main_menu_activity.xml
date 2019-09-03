@@ -37,7 +37,7 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:onClick="@{viewModel.handleSelectContactButtonClicked}"
+                        android:onClick="@{viewModel::handleSelectContactButtonClicked}"
                         android:text="@string/launchMenuSelectButtonTitle"
                         android:textColor="@android:color/white"
                         app:backgroundTint="@color/colorAccent" />
