@@ -22,7 +22,8 @@
         This app is a one-man project and requires support by the community.
     </string>
     <string name="contactPreviewStoreConfirmationFormat">
-        Saved the image as %1$s on the device.
+        Saved the image on the device.
+        \nLocation: %1$s
     </string>
     <string name="contactPreviewAssignConfirmationFormat">
         %1$s has got a new picture.

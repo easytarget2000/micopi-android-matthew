@@ -88,7 +88,7 @@ class ContactPreviewViewModel : ViewModel() {
 
     fun handleSaveImageToDeviceButtonClicked(view: View) {
         val activity = view.activity!!
-        validatePermissionsAndSaveImageToDevice(activity)
+        storeImageOnDevice(activity.contentResolver)
     }
 
     fun handleShareImageButtonClicked(view: View) {
@@ -155,19 +155,6 @@ class ContactPreviewViewModel : ViewModel() {
         generateImage()
     }
 
-    private fun validatePermissionsAndSaveImageToDevice(activity: Activity) {
-        if (!storagePermissionManager.hasPermission(activity)) {
-            storagePermissionManager.requestPermission(activity) {
-                val permissionGranted = it
-                if (permissionGranted) {
-                    saveImageToDevice()
-                }
-            }
-            return
-        }
-        saveImageToDevice()
-    }
-
     private fun validatePermissionsAndAssignImage(activity: Activity) {
         if (!contactPermissionManager.hasPermission(activity)) {
             contactPermissionManager.requestPermission(activity) {
@@ -190,16 +177,16 @@ class ContactPreviewViewModel : ViewModel() {
         listener?.onImageUriSharingRequested(sharingUri)
     }
 
-    private fun saveImageToDevice() {
+    private fun storeImageOnDevice(contentResolver: ContentResolver) {
         val contact = contactHashWrapper?.contact ?: return
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
 
-        val fileName = "${contact.displayName}${contact.hashCode()}"
-        val didStore = storageImageWriter.saveBitmapToDevice(bitmap, fileName)
+        val imageName = "${contact.displayName}${contact.hashCode()}"
+        val fullPath = storageImageWriter.saveBitmapToDevice(bitmap, imageName, contentResolver)
 
-        val message: String = if (didStore) {
-            String.format(storeConfirmationFormat, fileName)
+        val message: String = if (fullPath != null) {
+            String.format(storeConfirmationFormat, fullPath)
         } else {
             genericErrorMessage
         }
