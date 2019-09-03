@@ -22,10 +22,10 @@
         This app is a one-man project and requires support by the community.
     </string>
     <string name="contactPreviewStoreConfirmationFormat">
-        Saved the image as $1%s on the device.
+        Saved the image as %1$s on the device.
     </string>
     <string name="contactPreviewAssignConfirmationFormat">
-        $1%s has got a new picture.
+        %1$s has got a new picture.
     </string>
     <string name="contactPreviewSharingAppChooserTitle">
         Which app would you like to open the generated image with?
