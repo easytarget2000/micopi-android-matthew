@@ -159,6 +159,27 @@ class ContactPreviewViewModel : ViewModel() {
         generateImage()
     }
 
+    private fun storeImageOnDevice(contentResolver: ContentResolver) {
+        val contact = contactHashWrapper?.contact ?: return
+        val drawable = generatedDrawable.value ?: return
+        val bitmap = drawable.toBitmap()
+
+        val imageName = "${contact.displayName}${contact.hashCode()}"
+        val fullPath = storageImageWriter.saveBitmapToDevice(
+            bitmap,
+            imageName,
+            storeImageDescription,
+            contentResolver
+        )
+
+        val message: String = if (fullPath != null) {
+            String.format(storeConfirmationFormat, fullPath)
+        } else {
+            genericErrorMessage
+        }
+        showMessage(message)
+    }
+    
     private fun validatePermissionsAndAssignImage(activity: Activity) {
         if (!contactPermissionManager.hasPermission(activity)) {
             contactPermissionManager.requestPermission(activity) {
@@ -179,27 +200,6 @@ class ContactPreviewViewModel : ViewModel() {
 
         val sharingUri = sharingCache.cacheBitmap(bitmap, context) ?: return
         listener?.onImageUriSharingRequested(sharingUri)
-    }
-
-    private fun storeImageOnDevice(contentResolver: ContentResolver) {
-        val contact = contactHashWrapper?.contact ?: return
-        val drawable = generatedDrawable.value ?: return
-        val bitmap = drawable.toBitmap()
-
-        val imageName = "${contact.displayName}${contact.hashCode()}"
-        val fullPath = storageImageWriter.saveBitmapToDevice(
-            bitmap,
-            imageName,
-            storeImageDescription,
-            contentResolver
-        )
-
-        val message: String = if (fullPath != null) {
-            String.format(storeConfirmationFormat, fullPath)
-        } else {
-            genericErrorMessage
-        }
-        showMessage(message)
     }
 
     private fun assignImageToContact() {
