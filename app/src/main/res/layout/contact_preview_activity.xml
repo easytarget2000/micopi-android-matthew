@@ -102,7 +102,7 @@
                         android:layout_weight="1"
                         android:src="@android:drawable/ic_menu_save"
                         android:enabled="@{viewModel.interactionEnabled}"
-                        android:onClick="@{viewModel::handleSaveImageButtonClicked}" />
+                        android:onClick="@{viewModel::handleSaveImageToDeviceButtonClicked}" />
 
                     <ImageButton
                         android:id="@+id/button_save"
