@@ -18,8 +18,8 @@ class StorageImageWriter {
         val pictureRootDirectory = Environment.getExternalStoragePublicDirectory(
             publicDirectoryType
         )
-        val directory = File("${pictureRootDirectory}/${publicSubDirectory}}")
-        directory.mkdirs()
+        val directory = File("${pictureRootDirectory}/${publicSubDirectory}")
+        directory.mkdir()
 
         return saveBitmapToDevice(
             bitmap,
@@ -36,8 +36,8 @@ class StorageImageWriter {
         val fullFileName = "$fileNameWithoutExtension.$fileExtension"
         val file = File(directory, fullFileName)
 
-        if (file.exists()) {
-            file.delete()
+        if (!file.exists()) {
+            file.createNewFile()
         }
 
         try {
