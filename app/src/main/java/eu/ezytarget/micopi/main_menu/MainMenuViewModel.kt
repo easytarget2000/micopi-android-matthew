@@ -22,13 +22,11 @@ class MainMenuViewModel: ViewModel() {
     }
 
     fun onRequestPermissionsResult(
-        context: Context,
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
         contactPermissionManager.onRequestPermissionsResult(
-            context,
             requestCode,
             permissions,
             grantResults

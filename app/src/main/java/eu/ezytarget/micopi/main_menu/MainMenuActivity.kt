@@ -43,7 +43,7 @@ class MainMenuActivity : Activity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        viewModel.onRequestPermissionsResult(this, requestCode, permissions, grantResults)
+        viewModel.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     /*
