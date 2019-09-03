@@ -246,10 +246,10 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     private fun getStringFromResourcesOrFallback(@StringRes resourcesID: Int): String {
-        return resources?.getString(resourcesID) ?: WITHOUT_RESOURCES_PLACEHOLDER
+        return resources?.getString(resourcesID) ?: RESOURCES_NULL_FALLBACK
     }
 
     companion object {
-        private const val WITHOUT_RESOURCES_PLACEHOLDER = "WITHOUT_RESOURCES_PLACEHOLDER"
+        private const val RESOURCES_NULL_FALLBACK = "RESOURCES_NULL_FALLBACK"
     }
 }
