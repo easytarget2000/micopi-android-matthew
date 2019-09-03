@@ -91,7 +91,8 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     fun handleSaveImageToDeviceButtonClicked(view: View) {
-        storeImageOnDevice()
+        val activity = view.activity!!
+        validatePermissionsAndStoreImageToDevice(activity)
     }
 
     fun handleShareImageButtonClicked(view: View) {
@@ -158,7 +159,7 @@ class ContactPreviewViewModel : ViewModel() {
         generateImage()
     }
 
-    private fun validatePermissionsAndSaveImageToDevice(activity: Activity) {
+    private fun validatePermissionsAndStoreImageToDevice(activity: Activity) {
         if (!storagePermissionManager.hasPermission(activity)) {
             storagePermissionManager.requestPermission(activity) {
                 val permissionGranted = it
