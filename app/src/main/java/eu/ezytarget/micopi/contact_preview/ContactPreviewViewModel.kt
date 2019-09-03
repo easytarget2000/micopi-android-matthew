@@ -91,8 +91,7 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     fun handleSaveImageToDeviceButtonClicked(view: View) {
-        val activity = view.activity!!
-        storeImageOnDevice(activity.contentResolver)
+        storeImageOnDevice()
     }
 
     fun handleShareImageButtonClicked(view: View) {
@@ -159,7 +158,42 @@ class ContactPreviewViewModel : ViewModel() {
         generateImage()
     }
 
-    private fun storeImageOnDevice(contentResolver: ContentResolver) {
+    private fun validatePermissionsAndSaveImageToDevice(activity: Activity) {
+        if (!storagePermissionManager.hasPermission(activity)) {
+            storagePermissionManager.requestPermission(activity) {
+                val permissionGranted = it
+                if (permissionGranted) {
+                    storeImageOnDevice()
+                }
+            }
+            return
+        }
+        storeImageOnDevice()
+    }
+
+    private fun shareImage(context: Context) {
+        val drawable = generatedDrawable.value ?: return
+        val bitmap = drawable.toBitmap()
+
+        val sharingUri = sharingCache.cacheBitmap(bitmap, context) ?: return
+        listener?.onImageUriSharingRequested(sharingUri)
+    }
+
+    private fun validatePermissionsAndAssignImage(activity: Activity) {
+        if (!contactPermissionManager.hasPermission(activity)) {
+            contactPermissionManager.requestPermission(activity) {
+                val permissionGranted = it
+                if (permissionGranted) {
+                    assignImageToContact()
+                }
+            }
+            return
+        }
+
+        assignImageToContact()
+    }
+
+    private fun storeImageOnDevice() {
         val contact = contactHashWrapper?.contact ?: return
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
@@ -178,28 +212,6 @@ class ContactPreviewViewModel : ViewModel() {
             genericErrorMessage
         }
         showMessage(message)
-    }
-    
-    private fun validatePermissionsAndAssignImage(activity: Activity) {
-        if (!contactPermissionManager.hasPermission(activity)) {
-            contactPermissionManager.requestPermission(activity) {
-                val permissionGranted = it
-                if (permissionGranted) {
-                    assignImageToContact()
-                }
-            }
-            return
-        }
-
-        assignImageToContact()
-    }
-
-    private fun shareImage(context: Context) {
-        val drawable = generatedDrawable.value ?: return
-        val bitmap = drawable.toBitmap()
-
-        val sharingUri = sharingCache.cacheBitmap(bitmap, context) ?: return
-        listener?.onImageUriSharingRequested(sharingUri)
     }
 
     private fun assignImageToContact() {
