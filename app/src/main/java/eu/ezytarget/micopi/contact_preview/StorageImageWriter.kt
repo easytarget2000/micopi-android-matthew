@@ -7,9 +7,12 @@ import android.provider.MediaStore
 
 class StorageImageWriter {
 
-    var imageDescription = "Generated with Micopi"
-
-    fun saveBitmapToDevice(bitmap: Bitmap, imageName: String, contentResolver: ContentResolver): String? {
+    fun saveBitmapToDevice(
+        bitmap: Bitmap,
+        imageName: String,
+        imageDescription: String,
+        contentResolver: ContentResolver
+    ): String? {
         return MediaStore.Images.Media.insertImage(
             contentResolver,
             bitmap,

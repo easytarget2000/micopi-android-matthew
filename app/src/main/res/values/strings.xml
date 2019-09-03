@@ -25,6 +25,9 @@
         Saved the image on the device.
         \nLocation: %1$s
     </string>
+    <string name="contactPreviewStoreImageDescription">
+        Generated with Micopi.
+    </string>
     <string name="contactPreviewAssignConfirmationFormat">
         %1$s has got a new picture.
     </string>

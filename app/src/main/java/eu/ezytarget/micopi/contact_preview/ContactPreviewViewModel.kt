@@ -65,6 +65,10 @@ class ContactPreviewViewModel : ViewModel() {
         resources?.getString(R.string.contactPreviewStoreConfirmationFormat)
             ?: WITHOUT_RESOURCES_PLACEHOLDER
     }
+    private val storeImageDescription: String by lazy {
+        resources?.getString(R.string.contactPreviewStoreImageDescription)
+            ?: WITHOUT_RESOURCES_PLACEHOLDER
+    }
     private val assignConfirmationFormat: String by lazy {
         resources?.getString(R.string.contactPreviewAssignConfirmationFormat)
             ?: WITHOUT_RESOURCES_PLACEHOLDER
@@ -183,7 +187,12 @@ class ContactPreviewViewModel : ViewModel() {
         val bitmap = drawable.toBitmap()
 
         val imageName = "${contact.displayName}${contact.hashCode()}"
-        val fullPath = storageImageWriter.saveBitmapToDevice(bitmap, imageName, contentResolver)
+        val fullPath = storageImageWriter.saveBitmapToDevice(
+            bitmap,
+            imageName,
+            storeImageDescription,
+            contentResolver
+        )
 
         val message: String = if (fullPath != null) {
             String.format(storeConfirmationFormat, fullPath)
