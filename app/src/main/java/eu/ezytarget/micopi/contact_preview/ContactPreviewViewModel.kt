@@ -36,9 +36,10 @@ class ContactPreviewViewModel : ViewModel() {
             generateImage()
         }
     var imageEngine: ContactImageEngine = ContactImageEngine()
-    var storageImageWriter: StorageImageWriter = StorageImageWriter()
+    var sharingCache: SharingCache = SharingCache()
     var databaseImageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
     var contactPermissionManager: PermissionManager = WriteContactsPermissionManager()
+    var listener: ContactPreviewViewModelListener? = null
 
     val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
     val contactName: LiveData<String>
@@ -72,8 +73,8 @@ class ContactPreviewViewModel : ViewModel() {
         generatePreviousImage()
     }
 
-    fun handleSaveImageToDeviceButtonClicked(view: View) {
-        saveImageToDevice(view.context)
+    fun handleShareImageButtonClicked(view: View) {
+        shareButton(view.context)
     }
 
     fun handleAssignImageButtonClicked(view: View) {
@@ -136,13 +137,12 @@ class ContactPreviewViewModel : ViewModel() {
         generateImage()
     }
 
-    private fun saveImageToDevice(context: Context) {
-        val contact = contactHashWrapper?.contact ?: return
+    private fun shareButton(context: Context) {
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
 
-        val fileName = "${contact}_${contact.hashCode()}"
-        storageImageWriter.saveBitmapToDevice(bitmap, fileName)
+        val sharingUri = sharingCache.cacheBitmap(bitmap, context) ?: return
+        listener?.onImageUriSharingRequested(sharingUri)
     }
 
     private fun validatePermissionsAndAssignImage(activity: Activity) {

@@ -90,7 +90,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:enabled="@{viewModel.interactionEnabled}"
-                        android:onClick="@{viewModel::handleSaveImageToDeviceButtonClicked}"
+                        android:onClick="@{viewModel::handleShareImageButtonClicked}"
                         android:src="@android:drawable/ic_menu_share" />
 
                 </LinearLayout>

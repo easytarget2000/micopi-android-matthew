@@ -24,4 +24,9 @@
     <string name="contactPreviewAssignConfirmationFormat">
         $1%s has got a new picture.
     </string>
+    <string name="contactPreviewSharingAppChooserTitle">
+        Which app would you like to open the generated image with?
+    </string>
+    <string name="generatedImagesExternalPathName" translatable="false">generated_images</string>
+    <string name="sharingCacheAuthority">"eu.ezytarget.micopi.fileprovider</string>
 </resources>
