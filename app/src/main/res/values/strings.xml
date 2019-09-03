@@ -21,4 +21,7 @@
         or if you feel like you can improve this translation, please contact the developer.
         This app is a one-man project and requires support by the community.
     </string>
+    <string name="contactPreviewAssignConfirmationFormat">
+        $1%s has got a new picture.
+    </string>
 </resources>
