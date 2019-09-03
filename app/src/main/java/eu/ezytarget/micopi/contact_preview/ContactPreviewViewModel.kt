@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.annotation.StringRes
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -61,21 +62,8 @@ class ContactPreviewViewModel : ViewModel() {
         }
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
     private var isBusy = false
-    private val storeConfirmationFormat: String by lazy {
-        resources?.getString(R.string.contactPreviewStoreConfirmationFormat)
-            ?: WITHOUT_RESOURCES_PLACEHOLDER
-    }
-    private val storeImageDescription: String by lazy {
-        resources?.getString(R.string.contactPreviewStoreImageDescription)
-            ?: WITHOUT_RESOURCES_PLACEHOLDER
-    }
-    private val assignConfirmationFormat: String by lazy {
-        resources?.getString(R.string.contactPreviewAssignConfirmationFormat)
-            ?: WITHOUT_RESOURCES_PLACEHOLDER
-    }
     private val genericErrorMessage: String by lazy {
-        resources?.getString(R.string.genericErrorMessage)
-            ?: WITHOUT_RESOURCES_PLACEHOLDER
+        getStringFromResourcesOrFallback(R.string.genericErrorMessage)
     }
 
     /*
@@ -109,17 +97,18 @@ class ContactPreviewViewModel : ViewModel() {
      */
 
     fun onRequestPermissionsResult(
-        context: Context,
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        contactPermissionManager.onRequestPermissionsResult(
-            context,
-            requestCode,
-            permissions,
-            grantResults
-        )
+        val permissionManagers = arrayOf(contactPermissionManager, storagePermissionManager)
+        permissionManagers.forEach {
+            it.onRequestPermissionsResult(
+                requestCode,
+                permissions,
+                grantResults
+            )
+        }
     }
 
     /*
@@ -160,16 +149,9 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     private fun validatePermissionsAndStoreImageToDevice(activity: Activity) {
-        if (!storagePermissionManager.hasPermission(activity)) {
-            storagePermissionManager.requestPermission(activity) {
-                val permissionGranted = it
-                if (permissionGranted) {
-                    storeImageOnDevice()
-                }
-            }
-            return
+        validatePermissionAndPerformAction(storagePermissionManager, activity) {
+            storeImageOnDevice()
         }
-        storeImageOnDevice()
     }
 
     private fun shareImage(context: Context) {
@@ -181,17 +163,9 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     private fun validatePermissionsAndAssignImage(activity: Activity) {
-        if (!contactPermissionManager.hasPermission(activity)) {
-            contactPermissionManager.requestPermission(activity) {
-                val permissionGranted = it
-                if (permissionGranted) {
-                    assignImageToContact()
-                }
-            }
-            return
+        validatePermissionAndPerformAction(contactPermissionManager, activity) {
+            assignImageToContact()
         }
-
-        assignImageToContact()
     }
 
     private fun storeImageOnDevice() {
@@ -200,11 +174,19 @@ class ContactPreviewViewModel : ViewModel() {
         val bitmap = drawable.toBitmap()
 
         val imageName = "${contact.displayName}${contact.hashCode()}"
+        val storeImageDescription = getStringFromResourcesOrFallback(
+            R.string.contactPreviewStoreImageDescription
+        )
+
         val fullPath = storageImageWriter.saveBitmapToDevice(
             bitmap,
             imageName,
             storeImageDescription,
             contentResolver
+        )
+
+        val storeConfirmationFormat = getStringFromResourcesOrFallback(
+            R.string.contactPreviewStoreConfirmationFormat
         )
 
         val message: String = if (fullPath != null) {
@@ -215,11 +197,39 @@ class ContactPreviewViewModel : ViewModel() {
         showMessage(message)
     }
 
+    private fun validatePermissionAndPerformAction(
+        permissionManager: PermissionManager,
+        activity: Activity,
+        action: () -> Unit
+    ) {
+        if (!permissionManager.hasPermission(activity)) {
+            permissionManager.requestPermission(activity) {
+                val permissionGranted = it
+                if (permissionGranted) {
+                    action()
+                } else {
+                    showPermissionRequiredAction()
+                }
+            }
+            return
+        }
+
+        action()
+    }
+
+    private fun showPermissionRequiredAction() {
+        val permissionRequiredMessage = "PERMISSIONREQUIREDPLACEHOLDER"
+        showMessage(permissionRequiredMessage)
+    }
+
     private fun assignImageToContact() {
         val contact = contactHashWrapper?.contact ?: return
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
         val didAssign = databaseImageWriter.assignImageToContact(bitmap, contact)
+        val assignConfirmationFormat = getStringFromResourcesOrFallback(
+            R.string.contactPreviewAssignConfirmationFormat
+        )
 
         val message: String = if (didAssign) {
             String.format(assignConfirmationFormat, contact.displayName)
@@ -231,6 +241,10 @@ class ContactPreviewViewModel : ViewModel() {
 
     private fun showMessage(message: String) {
         listener?.onMessageRequested(message)
+    }
+
+    private fun getStringFromResourcesOrFallback(@StringRes resourcesID: Int): String {
+        return resources?.getString(resourcesID) ?: WITHOUT_RESOURCES_PLACEHOLDER
     }
 
     companion object {

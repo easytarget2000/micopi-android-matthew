@@ -32,12 +32,22 @@ abstract class PermissionManager {
     }
 
     fun onRequestPermissionsResult(
-        context: Context,
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        handlePermissionChange(true)
+        if (requestCode != this.requestCode) {
+            return
+        }
+
+        if (!permissions.contains(permission)) {
+            return
+        }
+
+        val indexOfPermission = permissions.indexOf(permission)
+        val resultAtIndex = grantResults[indexOfPermission]
+        val permissionGranted = resultAtIndex == PackageManager.PERMISSION_GRANTED
+        handlePermissionChange(permissionGranted)
     }
 
     private fun handlePermissionChange(permissionGranted: Boolean) {
