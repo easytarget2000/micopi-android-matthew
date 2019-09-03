@@ -19,11 +19,13 @@ class ContactImageEngine(
 
     fun generateImageAsync(
         contactHashWrappers: Array<ContactHashWrapper>,
-        resources: Resources,
+        resources: Resources?,
         callback: ContatImageEngineCallback?
     ) {
         this.contactHashWrappers = contactHashWrappers
-        matthew.populateColorProvider(resources)
+        if (resources != null) {
+            matthew.populateColorProvider(resources)
+        }
         stopped = false
 
         contactHashWrappers.forEach {

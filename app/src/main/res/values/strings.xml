@@ -21,12 +21,16 @@
         or if you feel like you can improve this translation, please contact the developer.
         This app is a one-man project and requires support by the community.
     </string>
+    <string name="contactPreviewStoreConfirmationFormat">
+        Saved the image as $1%s on the device.
+    </string>
     <string name="contactPreviewAssignConfirmationFormat">
         $1%s has got a new picture.
     </string>
     <string name="contactPreviewSharingAppChooserTitle">
         Which app would you like to open the generated image with?
     </string>
+    <string name="genericErrorMessage">An error occurred. Please check the app\'s permissions.</string>
     <string name="generatedImagesExternalPathName" translatable="false">generated_images</string>
     <string name="sharingCacheAuthority">"eu.ezytarget.micopi.fileprovider</string>
 </resources>

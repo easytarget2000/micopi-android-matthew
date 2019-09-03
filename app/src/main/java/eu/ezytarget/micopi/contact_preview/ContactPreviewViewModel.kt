@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.engine.ContactImageEngine
@@ -22,7 +23,7 @@ import eu.ezytarget.micopi.common.permissions.WriteContactsPermissionManager
 
 class ContactPreviewViewModel : ViewModel() {
 
-    lateinit var resources: Resources
+    var resources: Resources? = null
     var contentResolver: ContentResolver
         get() = databaseImageWriter.contentResolver
         set(value) {
@@ -60,8 +61,17 @@ class ContactPreviewViewModel : ViewModel() {
         }
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
     private var isBusy = false
+    private val storeConfirmationFormat: String by lazy {
+        resources?.getString(R.string.contactPreviewStoreConfirmationFormat)
+            ?: WITHOUT_RESOURCES_PLACEHOLDER
+    }
+    private val assignConfirmationFormat: String by lazy {
+        resources?.getString(R.string.contactPreviewAssignConfirmationFormat)
+            ?: WITHOUT_RESOURCES_PLACEHOLDER
+    }
     private val genericErrorMessage: String by lazy {
-        "error"
+        resources?.getString(R.string.genericErrorMessage)
+            ?: WITHOUT_RESOURCES_PLACEHOLDER
     }
 
     /*
@@ -189,7 +199,7 @@ class ContactPreviewViewModel : ViewModel() {
         val didStore = storageImageWriter.saveBitmapToDevice(bitmap, fileName)
 
         val message: String = if (didStore) {
-            fileName
+            String.format(storeConfirmationFormat, fileName)
         } else {
             genericErrorMessage
         }
@@ -203,7 +213,7 @@ class ContactPreviewViewModel : ViewModel() {
         val didAssign = databaseImageWriter.assignImageToContact(bitmap, contact)
 
         val message: String = if (didAssign) {
-            contact.displayName
+            String.format(assignConfirmationFormat, contact.displayName)
         } else {
             genericErrorMessage
         }
@@ -212,5 +222,9 @@ class ContactPreviewViewModel : ViewModel() {
 
     private fun showMessage(message: String) {
         listener?.onMessageRequested(message)
+    }
+
+    companion object {
+        private const val WITHOUT_RESOURCES_PLACEHOLDER = "WITHOUT_RESOURCES_PLACEHOLDER"
     }
 }
