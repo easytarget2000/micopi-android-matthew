@@ -7,6 +7,7 @@
     <string name="contactPreviewNextImageButtonText">Next image</string>
     <string name="contactPreviewPreviousImageButtonText">Previous image</string>
     <string name="contactPreviewSaveButtonText">Save to gallery</string>
+    <string name="contactPreviewShareButtonText">Share image</string>
     <string name="mainMenuFlowDescription">
         After selecting a single contact, you will be shown a preview of the generated image.
         You can then choose to apply the image or generate a different variation.
