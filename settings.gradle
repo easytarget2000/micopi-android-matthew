@@ -1,2 +1,3 @@
-include ':app'
+include ':app', ':multicontactpicker'
 rootProject.name='Micopi'
+project(':multicontactpicker').projectDir = new File('MultiContactPicker/multicontactpicker')
