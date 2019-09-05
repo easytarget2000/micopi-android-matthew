@@ -6,7 +6,7 @@
         <item name="android:navigationBarColor">@color/navigationBarColor</item>
     </style>
 
-    <style name="ContactPreviewTheme" parent="ContactPreviewTheme.Base">
+    <style name="ContactPreviewTheme" parent="AppTheme.ContactPreview">
         <item name="android:windowBackground">@color/contactPreviewBackground</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>

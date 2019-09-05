@@ -17,7 +17,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
 
-        <activity android:name=".main_menu.MainMenuActivity">
+        <activity
+            android:name=".main_menu.MainMenuActivity"
+            android:theme="@style/AppTheme.MainMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -37,8 +39,8 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="@string/sharingCacheAuthority"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
