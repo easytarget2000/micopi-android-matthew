@@ -11,11 +11,12 @@
 
     <style name="AppTheme" parent="AppTheme.Base" />
 
-    <style name="AppTheme.MainMenu" parent="AppTheme" >
+    <style name="AppTheme.MainMenu" parent="AppTheme">
         <item name="android:windowBackground">@color/launchBackgroundColor</item>
     </style>
 
     <style name="AppTheme.ContactPicker" parent="AppTheme">
+        <item name="colorControlNormal">@android:color/white</item>
         <item name="android:windowBackground">@color/contactPreviewBackground</item>
     </style>
 
