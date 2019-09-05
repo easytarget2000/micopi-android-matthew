@@ -14,7 +14,7 @@ class MainMenuViewModel: ViewModel() {
     var selectionListener: MainMenuSelectionListener? = null
     var contactPermissionManager: PermissionManager = ReadContactsPermissionManager()
     var contactPickerResultConverter: ContactPickerResultConverter = ContactPickerResultConverter()
-    private var allowMultipleSelection = true
+    private var allowMultipleSelection = false
 
     fun handleSelectContactButtonClicked(view: View) {
         val activity = view.activity!!
