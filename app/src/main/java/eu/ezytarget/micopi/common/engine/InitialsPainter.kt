@@ -30,12 +30,12 @@ class InitialsPainter(
         val imageSizeHalf = imageSize / 2f
         val charsHeight = rectFittingChars.bottom - rectFittingChars.top
 
-//        canvas.drawText(
-//            string,
-//            imageSizeHalf,
-//            imageSizeHalf + (charsHeight.toFloat() / 2f),
-//            paint
-//        )
+        canvas.drawText(
+            string,
+            imageSizeHalf,
+            imageSizeHalf + (charsHeight.toFloat() / 2f),
+            paint
+        )
     }
 
     internal fun textSize(imageSize: Float, numberOfChars: Int): Float {
