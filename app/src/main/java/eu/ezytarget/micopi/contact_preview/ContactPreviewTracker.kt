@@ -1,23 +1,28 @@
 package eu.ezytarget.micopi.contact_preview
 
 import com.google.firebase.analytics.FirebaseAnalytics
+import eu.ezytarget.micopi.common.Tracker
 
-class ContactPreviewTracker {
+class ContactPreviewTracker: Tracker() {
 
     fun handleNextImageButtonClicked(firebaseInstance: FirebaseAnalytics) {
-        
+        handleEventViaFirebase(firebaseInstance, NEXT_IMAGE_BUTTON_CLICKED_EVENT)
     }
 
     fun handlePreviousImageButtonClicked(firebaseInstance: FirebaseAnalytics) {
+        handleEventViaFirebase(firebaseInstance, PREVIOUS_IMAGE_BUTTON_CLICKED_EVENT)
     }
 
     fun handleSaveImageToDeviceButtonClicked(firebaseInstance: FirebaseAnalytics) {
+        handleEventViaFirebase(firebaseInstance, SAVE_IMAGE_BUTTON_CLICKED)
     }
 
     fun handleShareImageButtonClicked(firebaseInstance: FirebaseAnalytics) {
+        handleEventViaFirebase(firebaseInstance, SHARE_IMAGE_BUTTON_CLICKED)
     }
 
     fun handleAssignImageButtonClicked(firebaseInstance: FirebaseAnalytics) {
+        handleEventViaFirebase(firebaseInstance, ASSIGN_IMAGE_BUTTON_CLICKED)
     }
 
     companion object {
