@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appName">Micopi</string>
+    <string name="launchMenuSelectButtonTitle">Kontakt auswählen</string>
+    <string name="contactPreviewImageContentDescription">Generiertes Bild</string>
+    <string name="contactPreviewPickButtonText">Kontakt auswählen</string>
+    <string name="contactPreviewAssignButtonText">Bild zuweisen</string>
+    <string name="contactPreviewNextImageButtonText">Nächstes Bild</string>
+    <string name="contactPreviewPreviousImageButtonText">Vorheriges Bild</string>
+    <string name="contactPreviewSaveButtonText">In Galerie speichern</string>
+    <string name="contactPreviewShareButtonText">Bild teilen</string>
+    <string name="mainMenuFlowDescription">
+        Nachdem du einen Kontakt ausgesucht hast, gelangst du zur Vorschau des generierten Bilds.
+        Dort kannst du es dem Kontakt zuweisen oder ein anderes Bild generieren.
+    </string>
+    <string name="mainMenuDisclaimer">
+        Verschiedene Android-Versionen haben unterschiedliche Telefonbücher.
+        Es ist möglich, dass dein Gerät Kontaktfotos anders handhabt als es Micopi erwartet.
+        Deshalb empfehlen wir immer ein Backup deiner Kontakte zu erstellen,
+        bevor du Kontaktbilder überschreibst.
+    </string>
+    <string name="mainMenuLocalizationCopy">
+        Diese App ist ein Ein-Mann-Projekt und benötigt Unterstützung von der Community.
+        Falls du bei der Übersetzung in eine Sprache außer Deutsch und Englisch helfen möchtest,
+        kontaktiere bitte den Entwickler.
+    </string>
+    <string name="contactPreviewStoreConfirmationFormat">
+        Das Bild wurde auf dem Gerät gespeichert.
+        \nPfad: %1$s
+    </string>
+    <string name="contactPreviewStoreImageDescription">
+        Mit Micopi generiert.
+    </string>
+    <string name="contactPreviewAssignConfirmationFormat">%1$s hat ein neues Kontaktbild.</string>
+    <string name="contactPreviewSharingAppChooserTitle">
+        Mit welcher App möchtest du das generierte Bild öffnen?
+    </string>
+    <string name="contactPreviewPermissionRequiredMessage">
+        Die App darf diese Aktion leider nicht ausführen.
+        \nBitte überprüfe deine Geräte-Einsttellungen und gib Micopi die nötigen Zugriffsrechte.
+    </string>
+    <string name="genericErrorMessage">Ein Fehler ist aufgetreten. Bitte überprüfe die Zugriffsrechte der App.</string>
+</resources>
