@@ -1,46 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="appName">Micopi</string>
-    <string name="launchMenuSelectButtonTitle">Select contact</string>
-    <string name="contactPreviewImageContentDescription">Generated image</string>
-    <string name="contactPreviewPickButtonText">Pick contact</string>
-    <string name="contactPreviewAssignButtonText">Assign to contact</string>
-    <string name="contactPreviewNextImageButtonText">Next image</string>
-    <string name="contactPreviewPreviousImageButtonText">Previous image</string>
-    <string name="contactPreviewSaveButtonText">Save to gallery</string>
-    <string name="contactPreviewShareButtonText">Share image</string>
+    <string name="launchMenuSelectButtonTitle">Kontakt auswählen</string>
+    <string name="contactPreviewImageContentDescription">Generiertes Bild</string>
+    <string name="contactPreviewPickButtonText">Kontakt auswählen</string>
+    <string name="contactPreviewAssignButtonText">Bild zuweisen</string>
+    <string name="contactPreviewNextImageButtonText">Nächstes Bild</string>
+    <string name="contactPreviewPreviousImageButtonText">Vorheriges Bild</string>
+    <string name="contactPreviewSaveButtonText">In Galerie speichern</string>
+    <string name="contactPreviewShareButtonText">Bild teilen</string>
     <string name="mainMenuFlowDescription">
-        After selecting a single contact, you will be shown a preview of the generated image.
-        You can then choose to apply the image or generate a different variation.
+        Nachdem du einen Kontakt ausgesucht hast, gelangst du zur Vorschau des generierten Bilds.
+        Dort kannst du es dem Kontakt zuweisen oder ein anderes Bild generieren.
     </string>
     <string name="mainMenuDisclaimer">
-        Different flavours of Android might handle phonebook entries and
-        contact pictures differently to what this app is prepared for.
-        Therefore we recommend making a backup of your contacts, before overwriting images.
+        Verschiedene Android-Versionen haben unterschiedliche Telefonbücher.
+        Es ist möglich, dass dein Gerät Kontaktfotos anders handhabt als es Micopi erwartet.
+        Deshalb empfehlen wir immer ein Backup deiner Kontakte zu erstellen,
+        bevor du Kontaktbilder überschreibst.
     </string>
     <string name="mainMenuLocalizationCopy">
-        If this app is not localised in a language that you speak
-        or if you feel like you can improve this translation, please contact the developer.
-        This app is a one-man project and requires support by the community.
+        Diese App ist ein Ein-Mann-Projekt und benötigt Unterstützung von der Community.
+        Falls du bei der Übersetzung in eine Sprache außer Deutsch und Englisch helfen möchtest,
+        kontaktiere bitte den Entwickler.
     </string>
     <string name="contactPreviewStoreConfirmationFormat">
-        Saved the image on the device.
-        \nLocation: %1$s
+        Das Bild wurde auf dem Gerät gespeichert.
+        \nPfad: %1$s
     </string>
     <string name="contactPreviewStoreImageDescription">
-        Generated with Micopi.
+        Mit Micopi generiert.
     </string>
-    <string name="contactPreviewAssignConfirmationFormat">
-        %1$s has got a new picture.
-    </string>
+    <string name="contactPreviewAssignConfirmationFormat">%1$s hat ein neues Kontaktbild.</string>
     <string name="contactPreviewSharingAppChooserTitle">
-        Which app would you like to open the generated image with?
+        Mit welcher App möchtest du das generierte Bild öffnen?
     </string>
     <string name="contactPreviewPermissionRequiredMessage">
-        The app is not permitted to perform this action.
-        \nPlease check your device settings and grant Micopi the appropriate permission.
+        Die App darf diese Aktion leider nicht ausführen.
+        \nBitte überprüfe deine Geräte-Einsttellungen und gib Micopi die nötigen Zugriffsrechte.
     </string>
-    <string name="genericErrorMessage">An error occurred. Please check the app\'s permissions.</string>
+    <string name="genericErrorMessage">Ein Fehler ist aufgetreten. Bitte überprüfe die Zugriffsrechte der App.</string>
     <string name="generatedImagesExternalPathName" translatable="false">generated_images</string>
     <string name="sharingCacheAuthority">"eu.ezytarget.micopi.fileprovider</string>
 </resources>
