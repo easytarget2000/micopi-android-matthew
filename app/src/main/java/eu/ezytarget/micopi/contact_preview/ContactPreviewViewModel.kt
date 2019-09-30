@@ -245,6 +245,7 @@ class ContactPreviewViewModel : ViewModel() {
         val message: String = if (didAssign) {
             String.format(assignConfirmationFormat, contact.displayName)
         } else {
+            tracker.handleAssignmentError(firebaseInstance)
             genericErrorMessage
         }
         showMessage(message)
