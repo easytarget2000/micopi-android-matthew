@@ -38,6 +38,6 @@
     </string>
     <string name="genericErrorMessage">An error occurred. Please check the app\'s permissions.</string>
     <string name="generatedImagesExternalPathName" translatable="false">generated_images</string>
-    <string name="sharingCacheAuthority">"eu.ezytarget.micopi.fileprovider</string>
+    <string name="sharingCacheAuthority" translatable="false">"eu.ezytarget.micopi.fileprovider</string>
     <string name="contactPreviewAssignButtonText">Assign to contact</string>
 </resources>
