@@ -19,6 +19,7 @@ class MainMenuActivity : Activity() {
 
     var contactPickerIntentBuilder: ContactPickerIntentBuilder =
         ContactPickerIntentBuilder()
+    var tracker: MainMenuTracker = MainMenuTracker()
     private lateinit var viewModel: MainMenuViewModel
 
     /*
@@ -29,7 +30,6 @@ class MainMenuActivity : Activity() {
         super.onCreate(savedInstanceState)
         setupViewModel()
         setupDataBinding()
-        firebaseInstance = FirebaseAnalytics.getInstance(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -63,6 +63,7 @@ class MainMenuActivity : Activity() {
                 startContactPreviewActivity(contactHashWrapper)
             }
         }
+        viewModel.firebaseInstance = getFirebaseInstance()
     }
 
     private fun setupDataBinding() {

@@ -9,19 +9,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlin.reflect.KClass
 
-abstract class Activity: AppCompatActivity() {
+abstract class Activity : AppCompatActivity() {
 
     val viewModelProvider: ViewModelProvider
-    get() = ViewModelProviders.of(this)
-    protected lateinit var firebaseInstance: FirebaseAnalytics
+        get() = ViewModelProviders.of(this)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initFirebaseInstance()
-    }
-
-    private fun initFirebaseInstance() {
-        firebaseInstance = FirebaseAnalytics.getInstance(this)
+    protected fun getFirebaseInstance(): FirebaseAnalytics {
+        return FirebaseAnalytics.getInstance(this)
     }
 
     fun <T : ViewModel> getViewModel(modelClass: KClass<T>): T {
