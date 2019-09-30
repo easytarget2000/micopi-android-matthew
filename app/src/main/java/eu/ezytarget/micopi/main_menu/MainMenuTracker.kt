@@ -1,6 +1,5 @@
 package eu.ezytarget.micopi.main_menu
 
-import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 
 class MainMenuTracker {

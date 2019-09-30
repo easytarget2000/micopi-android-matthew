@@ -51,6 +51,7 @@ class ContactPreviewActivity : Activity() {
                 shareImageUri(imageUri)
             }
         }
+        viewModel.firebaseInstance = getFirebaseInstance()
     }
 
     private fun setupDataBinding() {
