@@ -26,7 +26,7 @@ class PatternGenerator(
     }
 
     companion object {
-        private const val CARDS_PROBABILITY = 0.5f
+        private const val CARDS_PROBABILITY = 0.3f
         private const val DISKS_PROBABILITY = 1f - CARDS_PROBABILITY
     }
 }
