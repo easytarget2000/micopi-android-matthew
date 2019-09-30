@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.ui.Activity
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
@@ -28,6 +29,7 @@ class MainMenuActivity : Activity() {
         super.onCreate(savedInstanceState)
         setupViewModel()
         setupDataBinding()
+        firebaseInstance = FirebaseAnalytics.getInstance(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
