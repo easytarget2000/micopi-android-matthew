@@ -1,6 +1,6 @@
 <resources>
     <string name="appName">Micopi</string>
-    <string name="launchMenuSelectButtonTitle">Select contacts</string>
+    <string name="launchMenuSelectButtonTitle">Select contact</string>
     <string name="contactPreviewImageContentDescription">Generated image</string>
     <string name="contactPreviewPickButtonText">Pick contact</string>
     <string name="contactPreviewAssignButtonText">Assign to contact</string>

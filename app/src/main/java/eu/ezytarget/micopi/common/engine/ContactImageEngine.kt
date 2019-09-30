@@ -3,13 +3,12 @@ package eu.ezytarget.micopi.common.engine
 import android.content.res.Resources
 import android.graphics.Canvas
 import eu.ezytarget.matthew.Matthew
-import eu.ezytarget.matthew.pattern.TwirlyDisksMatthewPattern
 import eu.ezytarget.matthew.util.RandomNumberGenerator
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
 class ContactImageEngine(
     private val matthew: Matthew = Matthew(),
-    private val disksMatthewPattern: TwirlyDisksMatthewPattern = TwirlyDisksMatthewPattern(),
+    private val patternGenerator: PatternGenerator = PatternGenerator(),
     private val initialsPainter: InitialsPainter = InitialsPainter()
 ) {
     private lateinit var contactHashWrappers: Array<ContactHashWrapper>
@@ -46,7 +45,7 @@ class ContactImageEngine(
         )
 
         paintBackground(bitmapBackedCanvas.canvas)
-        paintShapes(bitmapBackedCanvas.canvas)
+        paintPattern(bitmapBackedCanvas.canvas)
         paintInitials(bitmapBackedCanvas.canvas, contactHashWrapper)
         callback?.invoke(contactHashWrapper, bitmapBackedCanvas.bitmap, true, true)
     }
@@ -56,10 +55,8 @@ class ContactImageEngine(
         matthew.fillCanvas(canvas, backgroundColor)
     }
 
-    private fun paintShapes(canvas: Canvas) {
-        disksMatthewPattern.randomNumberGenerator = randomNumberGenerator
-        disksMatthewPattern.configureRandomly()
-        disksMatthewPattern.paint(matthew, canvas)
+    private fun paintPattern(canvas: Canvas) {
+        patternGenerator.paint(matthew, canvas, randomNumberGenerator)
     }
 
     private fun paintInitials(canvas: Canvas, contactHashWrapper: ContactHashWrapper) {
