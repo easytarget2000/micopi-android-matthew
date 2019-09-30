@@ -15,6 +15,7 @@ class PatternGenerator(
     fun paint(matthew: Matthew, canvas: Canvas, randomNumberGenerator: RandomNumberGenerator) {
         val patternDecision = randomNumberGenerator.float(0f, 1f)
         if (patternDecision < CARDS_PROBABILITY) {
+            cardsMatthewPattern.randomNumberGenerator = randomNumberGenerator
             cardsMatthewPattern.configureRandomly()
             cardsMatthewPattern.paintRandomly(matthew, canvas)
         } else {
