@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
@@ -21,6 +22,7 @@ import eu.ezytarget.micopi.common.engine.ContactImageEngine
 import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
 import eu.ezytarget.micopi.common.permissions.WriteContactsPermissionManager
+import eu.ezytarget.micopi.main_menu.MainMenuTracker
 
 class ContactPreviewViewModel : ViewModel() {
 
@@ -60,6 +62,8 @@ class ContactPreviewViewModel : ViewModel() {
                 }
             }
         }
+    var tracker: ContactPreviewTracker = ContactPreviewTracker()
+    lateinit var firebaseInstance: FirebaseAnalytics
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
     private var isBusy = false
     private val genericErrorMessage: String by lazy {
@@ -72,24 +76,29 @@ class ContactPreviewViewModel : ViewModel() {
 
     fun handleNextImageButtonClicked(view: View) {
         generateNextImage()
+        tracker.handleNextImageButtonClicked(firebaseInstance)
     }
 
     fun handlePreviousImageButtonClicked(view: View) {
         generatePreviousImage()
+        tracker.handlePreviousImageButtonClicked(firebaseInstance)
     }
 
     fun handleSaveImageToDeviceButtonClicked(view: View) {
         val activity = view.activity!!
         validatePermissionsAndStoreImageToDevice(activity)
+        tracker.handleSaveImageToDeviceButtonClicked(firebaseInstance)
     }
 
     fun handleShareImageButtonClicked(view: View) {
         shareImage(view.context)
+        tracker.handleShareImageButtonClicked(firebaseInstance)
     }
 
     fun handleAssignImageButtonClicked(view: View) {
         val activity = view.activity!!
         validatePermissionsAndAssignImage(activity)
+        tracker.handleAssignImageButtonClicked(firebaseInstance)
     }
 
     /*
@@ -236,6 +245,7 @@ class ContactPreviewViewModel : ViewModel() {
         val message: String = if (didAssign) {
             String.format(assignConfirmationFormat, contact.displayName)
         } else {
+            tracker.handleAssignmentError(firebaseInstance)
             genericErrorMessage
         }
         showMessage(message)

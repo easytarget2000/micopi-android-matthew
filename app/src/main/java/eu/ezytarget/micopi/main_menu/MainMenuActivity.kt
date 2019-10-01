@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
+import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.ui.Activity
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
@@ -18,6 +19,7 @@ class MainMenuActivity : Activity() {
 
     var contactPickerIntentBuilder: ContactPickerIntentBuilder =
         ContactPickerIntentBuilder()
+    var tracker: MainMenuTracker = MainMenuTracker()
     private lateinit var viewModel: MainMenuViewModel
 
     /*
@@ -61,6 +63,7 @@ class MainMenuActivity : Activity() {
                 startContactPreviewActivity(contactHashWrapper)
             }
         }
+        viewModel.firebaseInstance = getFirebaseInstance()
     }
 
     private fun setupDataBinding() {
