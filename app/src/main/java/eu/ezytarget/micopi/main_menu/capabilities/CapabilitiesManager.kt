@@ -10,23 +10,25 @@ class CapabilitiesManager {
     var purchaseManager: PurchaseManager = PurchaseManager()
     var mainLoopHandler: Handler = Handler(Looper.getMainLooper())
     var listener: CapabilitiesManagerListener? = null
-    var didPurchasePlusFeatures: Boolean? = null
-        private set
+//    var didPurchasePlusFeatures: Boolean? = null
+//        private set
 
     fun setup(context: Context) {
-        purchaseManager.startConnectionAndQueryPurchases(context) { plusProduct, errorMessage ->
+        purchaseManager.listener = object : PurchaseManagerListener {
+            override fun onPurchaseManagerFailedToConnect(errorMessage: String?) {
+                listener?.onCapabilitiesManagerFailedToConnect(errorMessage)
+            }
 
-            mainLoopHandler.run {
-                if (!errorMessage.isNullOrEmpty()) {
-                    listener?.onCapabilitiesManagerFailedToConnect(errorMessage)
-                } else if (plusProduct == null) {
-                    listener?.onCapabilitiesManagerFailedToConnect()
-                } else {
-                    listener?.onCapabilitiesManagerLoadedAvailableProduct(plusProduct)
-                }
+            override fun onPurchaseManagerLoadedPlusProduct(plusProduct: InAppProduct) {
+                listener?.onCapabilitiesManagerLoadedPlusProduct(plusProduct)
+            }
+
+            override fun onPurchaseManagerPurchasedPlusProduct() {
+                listener?.onCapabilitiesManagerFoundPlusPurchase()
             }
 
         }
+        purchaseManager.startConnectionAndQueryData(context)
     }
 
     fun startPlusProductPurchase(activity: Activity) {

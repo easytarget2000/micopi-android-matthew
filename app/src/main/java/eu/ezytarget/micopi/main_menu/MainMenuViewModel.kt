@@ -39,8 +39,12 @@ class MainMenuViewModel: ViewModel() {
 
             }
 
-            override fun onCapabilitiesManagerLoadedAvailableProduct(inAppProduct: InAppProduct) {
+            override fun onCapabilitiesManagerLoadedPlusProduct(inAppProduct: InAppProduct) {
                 showPurchaseButton(inAppProduct)
+            }
+
+            override fun onCapabilitiesManagerFoundPlusPurchase() {
+                showPurchaseSuccess()
             }
         }
     }
@@ -129,5 +133,10 @@ class MainMenuViewModel: ViewModel() {
 
     private fun startPlusPurchase(activity: Activity) {
         capabilitiesManager.startPlusProductPurchase(activity)
+    }
+
+    private fun showPurchaseSuccess() {
+        capabilitiesCardCopy.value = "cool"
+        purchaseButtonVisibility.value = View.GONE
     }
 }

@@ -6,15 +6,17 @@ import android.util.Log
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import com.android.billingclient.api.BillingClient.BillingResponseCode.USER_CANCELED
+import com.android.billingclient.api.BillingClient.SkuType.INAPP
 import eu.ezytarget.micopi.BuildConfig
 
 class PurchaseManager {
 
     var skuDetailsConverter: SkuDetailsConverter = SkuDetailsConverter()
+    var listener: PurchaseManagerListener? = null
     private lateinit var billingClient: BillingClient
     private lateinit var plusSkuDetails: SkuDetails
 
-    fun startConnectionAndQueryPurchases(context: Context, callback: PurchaseManagerCallback) {
+    fun startConnectionAndQueryData(context: Context) {
         val billingClientBuilder = BillingClient.newBuilder(context)
         billingClientBuilder.enablePendingPurchases()
         billingClientBuilder.setListener { billingResult, purchases ->
@@ -27,11 +29,11 @@ class PurchaseManager {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode != OK) {
                     Log.e(tag, "onBillingSetupFinished(): ${billingResult.debugMessage}")
-                    callback(null, billingResult.debugMessage)
+                    listener?.onPurchaseManagerFailedToConnect(billingResult.debugMessage)
                     return
                 }
 
-                queryPurchases(callback)
+                queryPurchasesOrAvailableProducts()
             }
 
             override fun onBillingServiceDisconnected() {
@@ -40,14 +42,18 @@ class PurchaseManager {
         })
     }
 
-    fun queryPurchases(callback: PurchaseManagerCallback) {
+    fun queryPurchasesOrAvailableProducts() {
+        billingClient.queryPurchases(INAPP)
+    }
+
+    fun queryAvailableProducts() {
         val skuList = ArrayList<String>()
         skuList.add(PLUS_FEATURES_PRODUCT_ID)
         val params = SkuDetailsParams.newBuilder()
-        params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
+        params.setSkusList(skuList).setType(INAPP)
 
         billingClient.querySkuDetailsAsync(params.build()) { _, skuDetailsList ->
-            handleSkuDetails(skuDetailsList, callback)
+            handleSkuDetails(skuDetailsList)
         }
     }
 
@@ -76,28 +82,21 @@ class PurchaseManager {
 
         if (billingResult.responseCode == OK && purchases != null) {
 
-            for (purchase in purchases) {
-                if (purchase.sku == PLUS_FEATURES_PRODUCT_ID) {
-
-                }
-            }
+            Log.d(tag, purchases.toString())
         } else if (billingResult.responseCode == USER_CANCELED) {
         } else {
+            queryAvailableProducts()
         }
     }
 
-    private fun handleSkuDetails(
-        skuDetailsList: List<SkuDetails>,
-        callback: PurchaseManagerCallback
-    ) {
+    private fun handleSkuDetails(skuDetailsList: List<SkuDetails>) {
         if (skuDetailsList.isEmpty()) {
-            callback(null, null)
             return
         }
 
         plusSkuDetails = skuDetailsList.first()
         val plusProduct = skuDetailsConverter.convertToInAppProduct(plusSkuDetails)
-        callback(plusProduct, null)
+        listener?.onPurchaseManagerLoadedPlusProduct(plusProduct)
     }
 
     companion object {
