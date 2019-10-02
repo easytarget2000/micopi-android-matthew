@@ -62,6 +62,7 @@ class MainMenuViewModel: ViewModel() {
 
     fun handlePurchaseButtonClicked(view: View) {
         val activity = view.activity!!
+        startPlusPurchase(activity)
     }
 
     fun onRequestPermissionsResult(
@@ -103,6 +104,10 @@ class MainMenuViewModel: ViewModel() {
         selectionListener?.onContactPickerSelected(allowMultipleSelection)
     }
 
+    /*
+    Capabilities
+     */
+
     private fun setupCapabilitiesManager(context: Context) {
         capabilitiesManager.setup(context)
         capabilitiesCardCopy.value = capabilitiesConnectingCopy
@@ -120,5 +125,9 @@ class MainMenuViewModel: ViewModel() {
         )
 
         purchaseButtonVisibility.value = View.VISIBLE
+    }
+
+    private fun startPlusPurchase(activity: Activity) {
+        capabilitiesManager.startPlusProductPurchase(activity)
     }
 }

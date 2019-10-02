@@ -1,5 +1,6 @@
 package eu.ezytarget.micopi.main_menu.capabilities
 
+import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
@@ -26,5 +27,9 @@ class CapabilitiesManager {
             }
 
         }
+    }
+
+    fun startPlusProductPurchase(activity: Activity) {
+        purchaseManager.startPlusPurchase(activity)
     }
 }

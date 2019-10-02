@@ -1,15 +1,18 @@
 package eu.ezytarget.micopi.main_menu.capabilities
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
+import com.android.billingclient.api.BillingClient.BillingResponseCode.USER_CANCELED
 import eu.ezytarget.micopi.BuildConfig
 
 class PurchaseManager {
 
     var skuDetailsConverter: SkuDetailsConverter = SkuDetailsConverter()
     private lateinit var billingClient: BillingClient
+    private lateinit var plusSkuDetails: SkuDetails
 
     fun startConnectionAndQueryPurchases(context: Context, callback: PurchaseManagerCallback) {
         val billingClientBuilder = BillingClient.newBuilder(context)
@@ -48,15 +51,39 @@ class PurchaseManager {
         }
     }
 
+    fun startPlusPurchase(activity: Activity) {
+        val flowParams = BillingFlowParams.newBuilder()
+            .setSkuDetails(plusSkuDetails)
+            .build()
+        val responseCode = billingClient.launchBillingFlow(activity, flowParams)
+
+        if (verbose) {
+            Log.d(tag, "startPlusPurchase(): responseCode: $responseCode")
+        }
+    }
+
     private fun handlePurchasesBillingResult(
         billingResult: BillingResult,
         purchases: List<Purchase>?
     ) {
-        Log.d(
-            tag,
-            "handlePurchasesBillingResult(): ${billingResult.debugMessage}," +
-                    purchases.toString()
-        )
+        if (verbose) {
+            Log.d(
+                tag,
+                "handlePurchasesBillingResult(): ${billingResult.debugMessage}," +
+                        purchases.toString()
+            )
+        }
+
+        if (billingResult.responseCode == OK && purchases != null) {
+
+            for (purchase in purchases) {
+                if (purchase.sku == PLUS_FEATURES_PRODUCT_ID) {
+
+                }
+            }
+        } else if (billingResult.responseCode == USER_CANCELED) {
+        } else {
+        }
     }
 
     private fun handleSkuDetails(
@@ -68,7 +95,8 @@ class PurchaseManager {
             return
         }
 
-        val plusProduct = skuDetailsConverter.convertToInAppProduct(skuDetailsList.first())
+        plusSkuDetails = skuDetailsList.first()
+        val plusProduct = skuDetailsConverter.convertToInAppProduct(plusSkuDetails)
         callback(plusProduct, null)
     }
 
