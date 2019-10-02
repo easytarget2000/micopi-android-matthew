@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
+import eu.ezytarget.micopi.BuildConfig
 
 class PurchaseManager {
 
@@ -21,6 +22,7 @@ class PurchaseManager {
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode != OK) {
+                    Log.e(tag, "onBillingSetupFinished(): ${billingResult.responseCode}")
                     return
                 }
 
@@ -28,8 +30,7 @@ class PurchaseManager {
             }
 
             override fun onBillingServiceDisconnected() {
-                // Try to restart the connection on the next request to
-                // Google Play by calling the startConnection() method.
+                Log.e(tag, "onBillingServiceDisconnected()")
             }
         })
     }
@@ -70,6 +71,7 @@ class PurchaseManager {
 
     companion object {
         val tag = PurchaseManager::class.java.name
+        private val verbose = BuildConfig.DEBUG
         private const val PLUS_FEATURES_PRODUCT_ID = "plus_features"
     }
 
