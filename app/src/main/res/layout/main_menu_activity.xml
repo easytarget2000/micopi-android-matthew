@@ -52,6 +52,32 @@
 
             </androidx.cardview.widget.CardView>
 
+            <!-- Capabilities / Google Play Card: -->
+
+            <androidx.cardview.widget.CardView style="@style/MainMenu.CardView">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.capabilitiesCardCopy}" />
+
+                    <Button
+                        style="@style/Widget.AppCompat.Light.ActionButton"
+                        android:layout_width="match_parent"
+                        android:text="@{viewModel.purchaseButtonText}"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Warning Card, to be replaced in issue #45: -->
+
             <androidx.cardview.widget.CardView style="@style/MainMenu.CardView">
 
                 <TextView

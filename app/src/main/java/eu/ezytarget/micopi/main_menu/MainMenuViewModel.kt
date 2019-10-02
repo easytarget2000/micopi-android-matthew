@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
+import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
 import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManager
@@ -18,18 +19,30 @@ class MainMenuViewModel: ViewModel() {
     var contactPickerResultConverter: ContactPickerResultConverter = ContactPickerResultConverter()
     var capabilitiesManager: CapabilitiesManager = CapabilitiesManager()
     var tracker: MainMenuTracker = MainMenuTracker()
-    private lateinit var firebaseInstance: FirebaseAnalytics
+    var capabilitiesCardCopy: String = ""
+        private set
+    var purchaseButtonText: String = ""
+        private set
+    var purchaseButtonVisibility = View.GONE
+        private set
+    private var purchaseButtonPurchaseFormat: String = ""
     private var allowMultipleSelection = false
 
     fun setup(context: Context, firebaseInstance: FirebaseAnalytics) {
         capabilitiesManager.setup(context)
-        this.firebaseInstance = firebaseInstance
+        tracker.firebaseInstance = firebaseInstance
+        capabilitiesCardCopy = context.getString(R.string.mainMenuCapabilitiesCardLoadingCopy)
+        purchaseButtonPurchaseFormat = context.getString(R.string.mainMenuPurchaseButtonFormat)
     }
 
     fun handleSelectContactButtonClicked(view: View) {
         val activity = view.activity!!
         validatePermissionsAndSelectContactPicker(activity)
-        tracker.handleContactPickerButtonClicked(firebaseInstance)
+        tracker.handleContactPickerButtonClicked()
+    }
+
+    fun handlePurchaseButtonClicked(view: View) {
+        val activity = view.activity!!
     }
 
     fun onRequestPermissionsResult(

@@ -40,4 +40,6 @@
         \nBitte überprüfe deine Geräte-Einsttellungen und gib Micopi die nötigen Zugriffsrechte.
     </string>
     <string name="genericErrorMessage">Ein Fehler ist aufgetreten. Bitte überprüfe die Zugriffsrechte der App.</string>
+    <string name="mainMenuCapabilitiesCardLoadingCopy">Verbindung mit Google Play wird hergestellt...</string>
+    <string name="mainMenuPurchaseButtonFormat">%1$s kaufen - %1$s</string>
 </resources>

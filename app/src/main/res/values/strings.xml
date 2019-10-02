@@ -44,4 +44,6 @@
     <string name="generatedImagesExternalPathName" translatable="false">generated_images</string>
     <string name="sharingCacheAuthority" translatable="false">"eu.ezytarget.micopi.fileprovider</string>
     <string name="contactPreviewAssignButtonText">Assign to contact</string>
+    <string name="mainMenuCapabilitiesCardLoadingCopy">Connecting to Google Play...</string>
+    <string name="mainMenuPurchaseButtonFormat">Buy %1$s - %2$s</string>
 </resources>
