@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
+import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManager
 
 
 class MainMenuViewModel: ViewModel() {
@@ -15,9 +16,15 @@ class MainMenuViewModel: ViewModel() {
     var selectionListener: MainMenuSelectionListener? = null
     var contactPermissionManager: PermissionManager = ReadContactsPermissionManager()
     var contactPickerResultConverter: ContactPickerResultConverter = ContactPickerResultConverter()
+    var capabilitiesManager: CapabilitiesManager = CapabilitiesManager()
     var tracker: MainMenuTracker = MainMenuTracker()
-    lateinit var firebaseInstance: FirebaseAnalytics
+    private lateinit var firebaseInstance: FirebaseAnalytics
     private var allowMultipleSelection = false
+
+    fun setup(context: Context, firebaseInstance: FirebaseAnalytics) {
+        capabilitiesManager.setup(context)
+        this.firebaseInstance = firebaseInstance
+    }
 
     fun handleSelectContactButtonClicked(view: View) {
         val activity = view.activity!!
