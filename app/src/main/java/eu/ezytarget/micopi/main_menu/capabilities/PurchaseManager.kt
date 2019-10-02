@@ -22,7 +22,7 @@ class PurchaseManager {
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode != OK) {
-                    Log.e(tag, "onBillingSetupFinished(): ${billingResult.responseCode}")
+                    Log.e(tag, "onBillingSetupFinished(): ${billingResult.debugMessage}")
                     return
                 }
 
