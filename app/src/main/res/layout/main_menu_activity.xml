@@ -70,6 +70,7 @@
                         style="?borderlessButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:onClick="@{viewModel::handlePurchaseButtonClicked}"
                         android:text="@{viewModel.purchaseButtonText}"
                         android:visibility="@{viewModel.purchaseButtonVisibility}" />

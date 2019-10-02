@@ -107,7 +107,7 @@ class MainMenuViewModel: ViewModel() {
         capabilitiesManager.setup(context)
         capabilitiesCardCopy.value = capabilitiesConnectingCopy
         purchaseButtonText.value = ""
-        purchaseButtonVisibility.value = View.VISIBLE
+        purchaseButtonVisibility.value = View.GONE
     }
 
     private fun showPurchaseButton(plusProduct: InAppProduct) {
