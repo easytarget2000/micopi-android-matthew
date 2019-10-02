@@ -19,8 +19,10 @@ class MainMenuActivity : Activity() {
 
     var contactPickerIntentBuilder: ContactPickerIntentBuilder =
         ContactPickerIntentBuilder()
-    var tracker: MainMenuTracker = MainMenuTracker()
-    private lateinit var viewModel: MainMenuViewModel
+    private val viewModel: MainMenuViewModel by lazy {
+        getViewModel(MainMenuViewModel::class)
+    }
+
 
     /*
     Activity Life Cycle
@@ -53,7 +55,6 @@ class MainMenuActivity : Activity() {
      */
 
     private fun setupViewModel() {
-        viewModel = getViewModel(MainMenuViewModel::class)
         viewModel.setup(this, getFirebaseInstance())
         viewModel.selectionListener = object : MainMenuSelectionListener {
             override fun onContactPickerSelected(allowMultipleSelection: Boolean) {
@@ -69,6 +70,7 @@ class MainMenuActivity : Activity() {
     private fun setupDataBinding() {
         val binding: MainMenuActivityBinding =
             DataBindingUtil.setContentView(this, R.layout.main_menu_activity)
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
     }
 

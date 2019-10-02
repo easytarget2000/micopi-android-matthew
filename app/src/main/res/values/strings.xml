@@ -46,4 +46,12 @@
     <string name="contactPreviewAssignButtonText">Assign to contact</string>
     <string name="mainMenuCapabilitiesCardLoadingCopy">Connecting to Google Play...</string>
     <string name="mainMenuPurchaseButtonFormat">Buy %1$s - %2$s</string>
+    <string name="mainMenuCapabilitiesCardPurchaseCopy">
+        Get more out of Micopi with Plus Features.
+        \nYou get the option to select multiple contacts or all contacts at once
+        and automatically generate images for them.
+        This bundle will also grant you access to upcoming features,
+        such as backups and the ability to reset images.
+    </string>
+
 </resources>

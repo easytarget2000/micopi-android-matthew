@@ -16,7 +16,6 @@ class ContactPreviewActivity : Activity() {
     private val viewModel: ContactPreviewViewModel by lazy {
         getViewModel(ContactPreviewViewModel::class)
     }
-
     private val shareIntent: Intent by lazy {
         Intent(Intent.ACTION_SEND)
     }

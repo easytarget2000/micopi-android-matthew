@@ -42,4 +42,11 @@
     <string name="genericErrorMessage">Ein Fehler ist aufgetreten. Bitte überprüfe die Zugriffsrechte der App.</string>
     <string name="mainMenuCapabilitiesCardLoadingCopy">Verbindung mit Google Play wird hergestellt...</string>
     <string name="mainMenuPurchaseButtonFormat">%1$s kaufen - %1$s</string>
+    <string name="mainMenuCapabilitiesCardPurchaseCopy">
+        Hol mehr aus Micopi mit Plus Features.
+        \nMit diesem Upgrade kannst du mehrere oder alle Kontakte auswählen
+        und für alle in einem Schritt ein neues Bild generieren.
+        Das Upgrade gibt dir außerdem Zugang zu allen zukünftigen Features,
+        wie zum Beispiel Backups und die Möglichkeit Kontaktbilder zurückzusetzen.
+    </string>
 </resources>

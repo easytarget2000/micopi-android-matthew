@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
@@ -21,13 +22,15 @@ class MainMenuViewModel: ViewModel() {
     var contactPickerResultConverter: ContactPickerResultConverter = ContactPickerResultConverter()
     var capabilitiesManager: CapabilitiesManager = CapabilitiesManager()
     var tracker: MainMenuTracker = MainMenuTracker()
-    var capabilitiesCardCopy: String = ""
+    var capabilitiesCardCopy = MutableLiveData<String>("")
         private set
-    var purchaseButtonText: String = ""
+    var purchaseButtonText: MutableLiveData<String> = MutableLiveData()
         private set
-    var purchaseButtonVisibility = View.VISIBLE
+    var purchaseButtonVisibility = MutableLiveData<Int>(View.GONE)
         private set
-    private var purchaseButtonPurchaseFormat: String = ""
+    private var capabilitiesConnectingCopy = ""
+    private var capabilitiesPurchaseCopy = ""
+    private var purchaseButtonPurchaseFormat = ""
     private var allowMultipleSelection = false
 
     init {
@@ -43,10 +46,12 @@ class MainMenuViewModel: ViewModel() {
     }
 
     fun setup(context: Context, firebaseInstance: FirebaseAnalytics) {
-        capabilitiesManager.setup(context)
         tracker.firebaseInstance = firebaseInstance
-        capabilitiesCardCopy = context.getString(R.string.mainMenuCapabilitiesCardLoadingCopy)
+        capabilitiesConnectingCopy = context.getString(R.string.mainMenuCapabilitiesCardLoadingCopy)
+        capabilitiesPurchaseCopy = context.getString(R.string.mainMenuCapabilitiesCardPurchaseCopy)
         purchaseButtonPurchaseFormat = context.getString(R.string.mainMenuPurchaseButtonFormat)
+
+        setupCapabilitiesManager(context)
     }
 
     fun handleSelectContactButtonClicked(view: View) {
@@ -98,13 +103,22 @@ class MainMenuViewModel: ViewModel() {
         selectionListener?.onContactPickerSelected(allowMultipleSelection)
     }
 
+    private fun setupCapabilitiesManager(context: Context) {
+        capabilitiesManager.setup(context)
+        capabilitiesCardCopy.value = capabilitiesConnectingCopy
+        purchaseButtonText.value = ""
+        purchaseButtonVisibility.value = View.VISIBLE
+    }
+
     private fun showPurchaseButton(plusProduct: InAppProduct) {
-        purchaseButtonText = String.format(
+        capabilitiesCardCopy.value = capabilitiesPurchaseCopy
+
+        purchaseButtonText.value = String.format(
             purchaseButtonPurchaseFormat,
             plusProduct.title,
             plusProduct.formattedPrice
         )
 
-        purchaseButtonVisibility = View.VISIBLE
+        purchaseButtonVisibility.value = View.VISIBLE
     }
 }
