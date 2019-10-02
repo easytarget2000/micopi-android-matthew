@@ -54,7 +54,9 @@
 
             <!-- Capabilities / Google Play Card: -->
 
-            <androidx.cardview.widget.CardView style="@style/MainMenu.CardView">
+            <androidx.cardview.widget.CardView
+                style="@style/MainMenu.CardView"
+                android:visibility="@{viewModel.capabilitiesCardVisibility}">
 
                 <LinearLayout
                     android:layout_width="match_parent"

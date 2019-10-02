@@ -15,7 +15,7 @@ import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManagerListener
 import eu.ezytarget.micopi.main_menu.capabilities.InAppProduct
 
 
-class MainMenuViewModel: ViewModel() {
+class MainMenuViewModel : ViewModel() {
 
     var selectionListener: MainMenuSelectionListener? = null
     var contactPermissionManager: PermissionManager = ReadContactsPermissionManager()
@@ -28,9 +28,10 @@ class MainMenuViewModel: ViewModel() {
         private set
     var purchaseButtonVisibility = MutableLiveData<Int>(View.GONE)
         private set
+    var capabilitiesCardVisibility = MutableLiveData<Int>(View.VISIBLE)
+        private set
     private var capabilitiesConnectingCopy = ""
     private var capabilitiesPurchaseCopy = ""
-    private var capabilitiesCardPostPurchaseCopy = ""
     private var purchaseButtonPurchaseFormat = ""
     private var allowMultipleSelection = false
 
@@ -54,9 +55,6 @@ class MainMenuViewModel: ViewModel() {
         tracker.firebaseInstance = firebaseInstance
         capabilitiesConnectingCopy = context.getString(R.string.mainMenuCapabilitiesCardLoadingCopy)
         capabilitiesPurchaseCopy = context.getString(R.string.mainMenuCapabilitiesCardPurchaseCopy)
-        capabilitiesCardPostPurchaseCopy = context.getString(
-            R.string.mainMenuCapabilitiesCardPostPurchaseCopy
-        )
         purchaseButtonPurchaseFormat = context.getString(R.string.mainMenuPurchaseButtonFormat)
 
         setupCapabilitiesManager(context)
@@ -121,6 +119,7 @@ class MainMenuViewModel: ViewModel() {
         capabilitiesCardCopy.value = capabilitiesConnectingCopy
         purchaseButtonText.value = ""
         purchaseButtonVisibility.value = View.GONE
+        capabilitiesCardVisibility.value = View.VISIBLE
     }
 
     private fun showPurchaseButton(plusProduct: InAppProduct) {
@@ -140,7 +139,7 @@ class MainMenuViewModel: ViewModel() {
     }
 
     private fun showPurchaseSuccess() {
-        capabilitiesCardCopy.value = capabilitiesCardPostPurchaseCopy
+        capabilitiesCardVisibility.value = View.GONE
         purchaseButtonVisibility.value = View.GONE
     }
 }
