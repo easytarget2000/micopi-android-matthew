@@ -34,6 +34,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/mainMenuFlowDescription" />
+
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -41,12 +47,6 @@
                         android:text="@string/launchMenuSelectButtonTitle"
                         android:textColor="@android:color/white"
                         app:backgroundTint="@color/colorAccent" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/mainMenuFlowDescription" />
 
                 </LinearLayout>
 
