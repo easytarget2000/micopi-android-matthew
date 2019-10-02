@@ -67,10 +67,11 @@
                         android:text="@{viewModel.capabilitiesCardCopy}" />
 
                     <Button
-                        style="@style/Widget.AppCompat.Light.ActionButton"
+                        style="?borderlessButtonStyle"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="@{viewModel.purchaseButtonText}"
-                        android:layout_height="wrap_content" />
+                        android:visibility="@{viewModel.purchaseButtonVisibility}" />
 
                 </LinearLayout>
 

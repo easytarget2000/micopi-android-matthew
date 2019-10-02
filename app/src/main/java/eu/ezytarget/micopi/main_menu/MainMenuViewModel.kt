@@ -10,6 +10,7 @@ import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
 import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManager
+import eu.ezytarget.micopi.main_menu.capabilities.InAppProduct
 
 
 class MainMenuViewModel: ViewModel() {
@@ -33,6 +34,8 @@ class MainMenuViewModel: ViewModel() {
         tracker.firebaseInstance = firebaseInstance
         capabilitiesCardCopy = context.getString(R.string.mainMenuCapabilitiesCardLoadingCopy)
         purchaseButtonPurchaseFormat = context.getString(R.string.mainMenuPurchaseButtonFormat)
+
+        showPurchaseButton(InAppProduct("", "Test", "10000€"))
     }
 
     fun handleSelectContactButtonClicked(view: View) {
@@ -82,5 +85,15 @@ class MainMenuViewModel: ViewModel() {
 
     private fun selectContactPicker() {
         selectionListener?.onContactPickerSelected(allowMultipleSelection)
+    }
+
+    private fun showPurchaseButton(inAppProduct: InAppProduct) {
+        purchaseButtonText = String.format(
+            purchaseButtonPurchaseFormat,
+            inAppProduct.title,
+            inAppProduct.formattedPrice
+        )
+
+        purchaseButtonVisibility = View.VISIBLE
     }
 }
