@@ -53,5 +53,6 @@
         This bundle will also grant you access to upcoming features,
         such as backups and the ability to reset images.
     </string>
+    <string name="mainMenuCapabilitiesCardPostPurchaseCopy">Thank you for purchasing Plus Features!</string>
 
 </resources>

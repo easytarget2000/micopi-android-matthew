@@ -30,6 +30,7 @@ class MainMenuViewModel: ViewModel() {
         private set
     private var capabilitiesConnectingCopy = ""
     private var capabilitiesPurchaseCopy = ""
+    private var capabilitiesCardPostPurchaseCopy = ""
     private var purchaseButtonPurchaseFormat = ""
     private var allowMultipleSelection = false
 
@@ -53,6 +54,9 @@ class MainMenuViewModel: ViewModel() {
         tracker.firebaseInstance = firebaseInstance
         capabilitiesConnectingCopy = context.getString(R.string.mainMenuCapabilitiesCardLoadingCopy)
         capabilitiesPurchaseCopy = context.getString(R.string.mainMenuCapabilitiesCardPurchaseCopy)
+        capabilitiesCardPostPurchaseCopy = context.getString(
+            R.string.mainMenuCapabilitiesCardPostPurchaseCopy
+        )
         purchaseButtonPurchaseFormat = context.getString(R.string.mainMenuPurchaseButtonFormat)
 
         setupCapabilitiesManager(context)
@@ -136,7 +140,7 @@ class MainMenuViewModel: ViewModel() {
     }
 
     private fun showPurchaseSuccess() {
-        capabilitiesCardCopy.value = "cool"
+        capabilitiesCardCopy.value = capabilitiesCardPostPurchaseCopy
         purchaseButtonVisibility.value = View.GONE
     }
 }

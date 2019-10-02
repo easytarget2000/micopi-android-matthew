@@ -33,7 +33,7 @@ class PurchaseManager {
                     return
                 }
 
-                queryPurchasesOrAvailableProducts()
+                getCachedPurchasesAndAvailableProductsIfNeeded()
             }
 
             override fun onBillingServiceDisconnected() {
@@ -53,7 +53,7 @@ class PurchaseManager {
         }
     }
 
-    private fun queryPurchasesOrAvailableProducts() {
+    private fun getCachedPurchasesAndAvailableProductsIfNeeded() {
         val purchasesResult = billingClient.queryPurchases(INAPP)
         handlePurchasesBillingResult(purchasesResult.billingResult, purchasesResult.purchasesList)
     }
