@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="appName">Micopi</string>
-    <string name="launchMenuSelectButtonTitle">Kontakt auswählen</string>
+    <string name="mainMenuContactPickerButtonDefaultText">Kontakt auswählen</string>
+    <string name="mainMenuContactPickerButtonPluralText">Kontakte auswählen</string>
     <string name="contactPreviewImageContentDescription">Generiertes Bild</string>
     <string name="contactPreviewPickButtonText">Kontakt auswählen</string>
     <string name="contactPreviewAssignButtonText">Bild zuweisen</string>

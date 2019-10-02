@@ -22,6 +22,8 @@ class MainMenuViewModel : ViewModel() {
     var contactPickerResultConverter: ContactPickerResultConverter = ContactPickerResultConverter()
     var capabilitiesManager: CapabilitiesManager = CapabilitiesManager()
     var tracker: MainMenuTracker = MainMenuTracker()
+    var contactPickerButtonText: MutableLiveData<String> = MutableLiveData()
+        private set
     var capabilitiesCardCopy = MutableLiveData<String>("")
         private set
     var purchaseButtonText: MutableLiveData<String> = MutableLiveData()
@@ -30,6 +32,8 @@ class MainMenuViewModel : ViewModel() {
         private set
     var capabilitiesCardVisibility = MutableLiveData<Int>(View.VISIBLE)
         private set
+    private var contactPickerButtonDefaultText = ""
+    private var contactPickerButtonPluralText = ""
     private var capabilitiesConnectingCopy = ""
     private var capabilitiesPurchaseCopy = ""
     private var purchaseButtonPurchaseFormat = ""
@@ -53,11 +57,17 @@ class MainMenuViewModel : ViewModel() {
 
     fun setup(context: Context, firebaseInstance: FirebaseAnalytics) {
         tracker.firebaseInstance = firebaseInstance
+        contactPickerButtonDefaultText = context.getString(
+            R.string.mainMenuContactPickerButtonDefaultText
+        )
+        contactPickerButtonPluralText = context.getString(
+            R.string.mainMenuContactPickerButtonPluralText
+        )
         capabilitiesConnectingCopy = context.getString(R.string.mainMenuCapabilitiesCardLoadingCopy)
         capabilitiesPurchaseCopy = context.getString(R.string.mainMenuCapabilitiesCardPurchaseCopy)
         purchaseButtonPurchaseFormat = context.getString(R.string.mainMenuPurchaseButtonFormat)
 
-        setupCapabilitiesManager(context)
+        setupCapabilities(context)
     }
 
     fun handleSelectContactButtonClicked(view: View) {
@@ -114,8 +124,10 @@ class MainMenuViewModel : ViewModel() {
     Capabilities
      */
 
-    private fun setupCapabilitiesManager(context: Context) {
+    private fun setupCapabilities(context: Context) {
         capabilitiesManager.setup(context)
+
+        contactPickerButtonText.value = contactPickerButtonDefaultText
         capabilitiesCardCopy.value = capabilitiesConnectingCopy
         purchaseButtonText.value = ""
         purchaseButtonVisibility.value = View.GONE
@@ -130,7 +142,9 @@ class MainMenuViewModel : ViewModel() {
             plusProduct.title,
             plusProduct.formattedPrice
         )
-
+        
+        contactPickerButtonText.value = contactPickerButtonDefaultText
+        capabilitiesCardVisibility.value = View.VISIBLE
         purchaseButtonVisibility.value = View.VISIBLE
     }
 
@@ -141,5 +155,6 @@ class MainMenuViewModel : ViewModel() {
     private fun showPurchaseSuccess() {
         capabilitiesCardVisibility.value = View.GONE
         purchaseButtonVisibility.value = View.GONE
+        contactPickerButtonText.value = contactPickerButtonPluralText
     }
 }
