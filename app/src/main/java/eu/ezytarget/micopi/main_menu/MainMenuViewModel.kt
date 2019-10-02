@@ -10,6 +10,7 @@ import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
 import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManager
+import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManagerListener
 import eu.ezytarget.micopi.main_menu.capabilities.InAppProduct
 
 
@@ -24,18 +25,28 @@ class MainMenuViewModel: ViewModel() {
         private set
     var purchaseButtonText: String = ""
         private set
-    var purchaseButtonVisibility = View.GONE
+    var purchaseButtonVisibility = View.VISIBLE
         private set
     private var purchaseButtonPurchaseFormat: String = ""
     private var allowMultipleSelection = false
+
+    init {
+        capabilitiesManager.listener = object : CapabilitiesManagerListener {
+            override fun onCapabilitiesManagerFailedToConnect(errorMessage: String?) {
+
+            }
+
+            override fun onCapabilitiesManagerLoadedAvailableProduct(inAppProduct: InAppProduct) {
+                showPurchaseButton(inAppProduct)
+            }
+        }
+    }
 
     fun setup(context: Context, firebaseInstance: FirebaseAnalytics) {
         capabilitiesManager.setup(context)
         tracker.firebaseInstance = firebaseInstance
         capabilitiesCardCopy = context.getString(R.string.mainMenuCapabilitiesCardLoadingCopy)
         purchaseButtonPurchaseFormat = context.getString(R.string.mainMenuPurchaseButtonFormat)
-
-        showPurchaseButton(InAppProduct("", "Test", "10000€"))
     }
 
     fun handleSelectContactButtonClicked(view: View) {
@@ -87,11 +98,11 @@ class MainMenuViewModel: ViewModel() {
         selectionListener?.onContactPickerSelected(allowMultipleSelection)
     }
 
-    private fun showPurchaseButton(inAppProduct: InAppProduct) {
+    private fun showPurchaseButton(plusProduct: InAppProduct) {
         purchaseButtonText = String.format(
             purchaseButtonPurchaseFormat,
-            inAppProduct.title,
-            inAppProduct.formattedPrice
+            plusProduct.title,
+            plusProduct.formattedPrice
         )
 
         purchaseButtonVisibility = View.VISIBLE

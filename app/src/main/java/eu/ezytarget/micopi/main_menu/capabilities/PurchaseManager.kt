@@ -8,9 +8,10 @@ import eu.ezytarget.micopi.BuildConfig
 
 class PurchaseManager {
 
+    var skuDetailsConverter: SkuDetailsConverter = SkuDetailsConverter()
     private lateinit var billingClient: BillingClient
 
-    fun startConnectionAndQueryPurchases(context: Context) {
+    fun startConnectionAndQueryPurchases(context: Context, callback: PurchaseManagerCallback) {
         val billingClientBuilder = BillingClient.newBuilder(context)
         billingClientBuilder.enablePendingPurchases()
         billingClientBuilder.setListener { billingResult, purchases ->
@@ -23,10 +24,11 @@ class PurchaseManager {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode != OK) {
                     Log.e(tag, "onBillingSetupFinished(): ${billingResult.debugMessage}")
+                    callback(null, billingResult.debugMessage)
                     return
                 }
 
-                queryPurchases()
+                queryPurchases(callback)
             }
 
             override fun onBillingServiceDisconnected() {
@@ -35,14 +37,14 @@ class PurchaseManager {
         })
     }
 
-    fun queryPurchases() {
+    fun queryPurchases(callback: PurchaseManagerCallback) {
         val skuList = ArrayList<String>()
         skuList.add(PLUS_FEATURES_PRODUCT_ID)
         val params = SkuDetailsParams.newBuilder()
         params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP)
 
-        billingClient.querySkuDetailsAsync(params.build()) { billingResult, skuDetailsList ->
-            handleSkuBillingResult(billingResult, skuDetailsList)
+        billingClient.querySkuDetailsAsync(params.build()) { _, skuDetailsList ->
+            handleSkuDetails(skuDetailsList, callback)
         }
     }
 
@@ -57,17 +59,18 @@ class PurchaseManager {
         )
     }
 
-    private fun handleSkuBillingResult(
-        billingResult: BillingResult,
-        skuDetailsList: List<SkuDetails>
+    private fun handleSkuDetails(
+        skuDetailsList: List<SkuDetails>,
+        callback: PurchaseManagerCallback
     ) {
-        Log.d(
-            tag,
-            "handlePurchasesBillingResult(): ${billingResult.debugMessage}," +
-                    skuDetailsList.toString()
-        )
-    }
+        if (skuDetailsList.isEmpty()) {
+            callback(null, null)
+            return
+        }
 
+        val plusProduct = skuDetailsConverter.convertToInAppProduct(skuDetailsList.first())
+        callback(plusProduct, null)
+    }
 
     companion object {
         val tag = PurchaseManager::class.java.name
