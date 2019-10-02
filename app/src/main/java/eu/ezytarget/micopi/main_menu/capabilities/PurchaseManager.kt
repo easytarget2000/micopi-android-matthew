@@ -42,21 +42,6 @@ class PurchaseManager {
         })
     }
 
-    fun queryPurchasesOrAvailableProducts() {
-        billingClient.queryPurchases(INAPP)
-    }
-
-    fun queryAvailableProducts() {
-        val skuList = ArrayList<String>()
-        skuList.add(PLUS_FEATURES_PRODUCT_ID)
-        val params = SkuDetailsParams.newBuilder()
-        params.setSkusList(skuList).setType(INAPP)
-
-        billingClient.querySkuDetailsAsync(params.build()) { _, skuDetailsList ->
-            handleSkuDetails(skuDetailsList)
-        }
-    }
-
     fun startPlusPurchase(activity: Activity) {
         val flowParams = BillingFlowParams.newBuilder()
             .setSkuDetails(plusSkuDetails)
@@ -66,6 +51,11 @@ class PurchaseManager {
         if (verbose) {
             Log.d(tag, "startPlusPurchase(): responseCode: $responseCode")
         }
+    }
+
+    private fun queryPurchasesOrAvailableProducts() {
+        val purchasesResult = billingClient.queryPurchases(INAPP)
+        handlePurchasesBillingResult(purchasesResult.billingResult, purchasesResult.purchasesList)
     }
 
     private fun handlePurchasesBillingResult(
@@ -80,12 +70,33 @@ class PurchaseManager {
             )
         }
 
-        if (billingResult.responseCode == OK && purchases != null) {
+        if (billingResult.responseCode == USER_CANCELED) {
+            return
+        }
 
-            Log.d(tag, purchases.toString())
-        } else if (billingResult.responseCode == USER_CANCELED) {
+        if (billingResult.responseCode != OK) {
+            Log.e(tag, "handlePurchasesBillingResult(): ${billingResult.debugMessage}")
+            queryAvailableProducts()
+            return
+        }
+
+        val purchasedPlus = purchases != null && purchases.isNotEmpty()
+
+        if (purchasedPlus) {
+            listener?.onPurchaseManagerPurchasedPlusProduct()
         } else {
             queryAvailableProducts()
+        }
+    }
+
+    private fun queryAvailableProducts() {
+        val skuList = ArrayList<String>()
+        skuList.add(PLUS_FEATURES_PRODUCT_ID)
+        val params = SkuDetailsParams.newBuilder()
+        params.setSkusList(skuList).setType(INAPP)
+
+        billingClient.querySkuDetailsAsync(params.build()) { _, skuDetailsList ->
+            handleSkuDetails(skuDetailsList)
         }
     }
 
