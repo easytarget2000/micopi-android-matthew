@@ -24,7 +24,7 @@
         <item name="android:windowBackground">@color/contactPreviewBackground</item>
     </style>
 
-    <style name="ContactPreviewTheme" parent="AppTheme.ContactPreview" />
+    <style name="AppTheme.Contacts" parent="AppTheme.ContactPreview" />
 
     <style name="ContactPreviewSelectable" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
