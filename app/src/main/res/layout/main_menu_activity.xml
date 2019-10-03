@@ -44,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:onClick="@{viewModel::handleSelectContactButtonClicked}"
-                        android:text="@string/mainMenuContactPickerButtonDefaultText"
+                        android:text="@{viewModel.contactPickerButtonText}"
                         android:textColor="@android:color/white"
                         app:backgroundTint="@color/colorAccent" />
 

@@ -42,7 +42,7 @@ class MainMenuViewModel : ViewModel() {
             }
 
             override fun onCapabilitiesManagerLoadedPlusProduct(inAppProduct: InAppProduct) {
-                showPurchaseButton(inAppProduct)
+                showPurchaseAvailability(inAppProduct)
             }
 
             override fun onCapabilitiesManagerFoundPlusPurchase(inPaymentFlow: Boolean) {
@@ -54,7 +54,7 @@ class MainMenuViewModel : ViewModel() {
     fun setup(context: Context, firebaseInstance: FirebaseAnalytics) {
         resources = context.resources
         tracker.firebaseInstance = firebaseInstance
-        setupCapabilities(context)
+        getCapabilities(context)
     }
 
     fun handleSelectContactButtonClicked(view: View) {
@@ -111,8 +111,9 @@ class MainMenuViewModel : ViewModel() {
     Capabilities
      */
 
-    private fun setupCapabilities(context: Context) {
+    private fun getCapabilities(context: Context) {
         capabilitiesManager.setup(context)
+
         contactPickerButtonText.value = context.getString(
             R.string.mainMenuContactPickerButtonDefaultText
         )
@@ -122,7 +123,7 @@ class MainMenuViewModel : ViewModel() {
         capabilitiesCardVisibility.value = View.VISIBLE
     }
 
-    private fun showPurchaseButton(plusProduct: InAppProduct) {
+    private fun showPurchaseAvailability(plusProduct: InAppProduct) {
         capabilitiesCardCopy.value = getStringFromResourcesOrFallback(
             R.string.mainMenuCapabilitiesCardPurchaseCopy
         )
