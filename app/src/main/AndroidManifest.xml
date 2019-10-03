@@ -39,7 +39,7 @@
         <activity
             android:name=".batch.BatchActivity"
             android:exported="false"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.Batch">
 
             <intent-filter>
                 <action android:name="eu.ezytarget.micopi.BATCH" />

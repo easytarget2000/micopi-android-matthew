@@ -26,7 +26,7 @@ class BatchActivity : Activity() {
                     as Array<ContactHashWrapper>
 
         viewModel.resources = resources
-        startService(contactHashWrappers)
+//        startService(contactHashWrappers)
     }
 
     private fun setupDataBinding() {
