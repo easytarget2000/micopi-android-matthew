@@ -86,7 +86,11 @@ class MainMenuViewModel : ViewModel() {
             return
         }
 
-        selectionListener?.onContactSelected(contacts.first())
+        if (contacts.size > 1) {
+            selectionListener?.onContactsSelected(contacts)
+        } else {
+            selectionListener?.onContactSelected(contacts.first())
+        }
     }
 
     private fun validatePermissionsAndSelectContactPicker(activity: Activity) {

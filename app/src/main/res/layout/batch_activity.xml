@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="eu.ezytarget.micopi.contact_preview.ContactPreviewViewModel" />
+            type="eu.ezytarget.micopi.batch.BatchViewModel" />
     </data>
 
     <LinearLayout
