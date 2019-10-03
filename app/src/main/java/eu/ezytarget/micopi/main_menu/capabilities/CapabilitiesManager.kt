@@ -2,17 +2,12 @@ package eu.ezytarget.micopi.main_menu.capabilities
 
 import android.app.Activity
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 
 class CapabilitiesManager {
 
     var purchaseManager: PurchaseManager = PurchaseManager()
-    var mainLoopHandler: Handler = Handler(Looper.getMainLooper())
     var listener: CapabilitiesManagerListener? = null
-//    var didPurchasePlusFeatures: Boolean? = null
-//        private set
-
+    
     fun setup(context: Context) {
         purchaseManager.listener = object : PurchaseManagerListener {
             override fun onPurchaseManagerFailedToConnect(errorMessage: String?) {
