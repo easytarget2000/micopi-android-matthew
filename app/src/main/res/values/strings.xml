@@ -2,7 +2,8 @@
 
 <resources>
     <string name="appName">Micopi</string>
-    <string name="launchMenuSelectButtonTitle">Select contact</string>
+    <string name="mainMenuContactPickerButtonDefaultText">Select contact</string>
+    <string name="mainMenuContactPickerButtonPluralText">Select contacts</string>
     <string name="contactPreviewImageContentDescription">Generated image</string>
     <string name="contactPreviewPickButtonText">Pick contact</string>
     <string name="contactPreviewNextImageButtonText">Next image</string>
@@ -44,4 +45,15 @@
     <string name="generatedImagesExternalPathName" translatable="false">generated_images</string>
     <string name="sharingCacheAuthority" translatable="false">"eu.ezytarget.micopi.fileprovider</string>
     <string name="contactPreviewAssignButtonText">Assign to contact</string>
+    <string name="mainMenuCapabilitiesCardLoadingCopy">Connecting to Google Play...</string>
+    <string name="mainMenuPurchaseButtonFormat">Buy %1$s - %2$s</string>
+    <string name="mainMenuCapabilitiesCardPurchaseCopy">
+        Get more out of Micopi with Plus Features.
+        \nYou get the option to select multiple contacts or all contacts at once
+        and automatically generate images for them.
+        This bundle will also grant you access to upcoming features,
+        such as backups and the ability to reset images.
+    </string>
+    <string name="mainMenuCapabilitiesCardPostPurchaseCopy">Thank you for purchasing Plus Features!</string>
+
 </resources>

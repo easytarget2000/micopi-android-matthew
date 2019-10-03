@@ -1,5 +1,6 @@
 package eu.ezytarget.micopi.main_menu
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -19,8 +20,9 @@ class MainMenuActivity : Activity() {
 
     var contactPickerIntentBuilder: ContactPickerIntentBuilder =
         ContactPickerIntentBuilder()
-    var tracker: MainMenuTracker = MainMenuTracker()
-    private lateinit var viewModel: MainMenuViewModel
+    private val viewModel: MainMenuViewModel by lazy {
+        getViewModel(MainMenuViewModel::class)
+    }
 
     /*
     Activity Life Cycle
@@ -53,7 +55,7 @@ class MainMenuActivity : Activity() {
      */
 
     private fun setupViewModel() {
-        viewModel = getViewModel(MainMenuViewModel::class)
+        viewModel.setup(this, getFirebaseInstance())
         viewModel.selectionListener = object : MainMenuSelectionListener {
             override fun onContactPickerSelected(allowMultipleSelection: Boolean) {
                 startContactPickerIntent(allowMultipleSelection)
@@ -63,12 +65,17 @@ class MainMenuActivity : Activity() {
                 startContactPreviewActivity(contactHashWrapper)
             }
         }
-        viewModel.firebaseInstance = getFirebaseInstance()
+        viewModel.paymentFlowListener = object : PaymentFlowListener {
+            override fun onPaymentFlowPlusProductPurchased() {
+                showPlusProductThankYouDialog()
+            }
+        }
     }
 
     private fun setupDataBinding() {
         val binding: MainMenuActivityBinding =
             DataBindingUtil.setContentView(this, R.layout.main_menu_activity)
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
     }
 
@@ -87,6 +94,13 @@ class MainMenuActivity : Activity() {
             contactHashWrapper
         )
         startActivity(contactPreviewIntent)
+    }
+
+    private fun showPlusProductThankYouDialog() {
+        AlertDialog.Builder(this)
+            .setMessage(R.string.mainMenuCapabilitiesCardPostPurchaseCopy)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
     }
 
     companion object {

@@ -3,17 +3,14 @@ package eu.ezytarget.micopi.contact_preview
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
-import androidx.annotation.StringRes
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
@@ -22,11 +19,10 @@ import eu.ezytarget.micopi.common.engine.ContactImageEngine
 import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
 import eu.ezytarget.micopi.common.permissions.WriteContactsPermissionManager
-import eu.ezytarget.micopi.main_menu.MainMenuTracker
+import eu.ezytarget.micopi.common.ui.ViewModel
 
 class ContactPreviewViewModel : ViewModel() {
 
-    var resources: Resources? = null
     var contentResolver: ContentResolver
         get() = databaseImageWriter.contentResolver
         set(value) {
@@ -253,13 +249,5 @@ class ContactPreviewViewModel : ViewModel() {
 
     private fun showMessage(message: String) {
         listener?.onMessageRequested(message)
-    }
-
-    private fun getStringFromResourcesOrFallback(@StringRes resourcesID: Int): String {
-        return resources?.getString(resourcesID) ?: RESOURCES_NULL_FALLBACK
-    }
-
-    companion object {
-        private const val RESOURCES_NULL_FALLBACK = "RESOURCES_NULL_FALLBACK"
     }
 }

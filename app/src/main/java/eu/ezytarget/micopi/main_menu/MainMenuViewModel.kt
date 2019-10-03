@@ -4,25 +4,67 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.View
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.analytics.FirebaseAnalytics
+import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
+import eu.ezytarget.micopi.common.ui.ViewModel
+import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManager
+import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManagerListener
+import eu.ezytarget.micopi.main_menu.capabilities.InAppProduct
 
 
-class MainMenuViewModel: ViewModel() {
+class MainMenuViewModel : ViewModel() {
 
     var selectionListener: MainMenuSelectionListener? = null
+    var paymentFlowListener: PaymentFlowListener? = null
     var contactPermissionManager: PermissionManager = ReadContactsPermissionManager()
     var contactPickerResultConverter: ContactPickerResultConverter = ContactPickerResultConverter()
+    var capabilitiesManager: CapabilitiesManager = CapabilitiesManager()
     var tracker: MainMenuTracker = MainMenuTracker()
-    lateinit var firebaseInstance: FirebaseAnalytics
-    private var allowMultipleSelection = false
+    var contactPickerButtonText: MutableLiveData<String> = MutableLiveData()
+        private set
+    var capabilitiesCardCopy = MutableLiveData<String>("")
+        private set
+    var purchaseButtonText: MutableLiveData<String> = MutableLiveData()
+        private set
+    var purchaseButtonVisibility = MutableLiveData<Int>(View.GONE)
+        private set
+    var capabilitiesCardVisibility = MutableLiveData<Int>(View.VISIBLE)
+        private set
+
+    init {
+        capabilitiesManager.listener = object : CapabilitiesManagerListener {
+            override fun onCapabilitiesManagerFailedToConnect(errorMessage: String?) {
+
+            }
+
+            override fun onCapabilitiesManagerLoadedPlusProduct(inAppProduct: InAppProduct) {
+                showPurchaseAvailability(inAppProduct)
+            }
+
+            override fun onCapabilitiesManagerFoundPlusPurchase(inPaymentFlow: Boolean) {
+                showPurchaseSuccess(inPaymentFlow)
+            }
+        }
+    }
+
+    fun setup(context: Context, firebaseInstance: FirebaseAnalytics) {
+        resources = context.resources
+        tracker.firebaseInstance = firebaseInstance
+        getCapabilities(context)
+    }
 
     fun handleSelectContactButtonClicked(view: View) {
         val activity = view.activity!!
         validatePermissionsAndSelectContactPicker(activity)
-        tracker.handleContactPickerButtonClicked(firebaseInstance)
+        tracker.handleContactPickerButtonClicked()
+    }
+
+    fun handlePurchaseButtonClicked(view: View) {
+        val activity = view.activity!!
+        startPlusPurchase(activity)
     }
 
     fun onRequestPermissionsResult(
@@ -61,6 +103,62 @@ class MainMenuViewModel: ViewModel() {
     }
 
     private fun selectContactPicker() {
+        val allowMultipleSelection = capabilitiesManager.hasPlusProduct
         selectionListener?.onContactPickerSelected(allowMultipleSelection)
     }
+
+    /*
+    Capabilities
+     */
+
+    private fun getCapabilities(context: Context) {
+        capabilitiesManager.setup(context)
+
+        contactPickerButtonText.value = context.getString(
+            R.string.mainMenuContactPickerButtonDefaultText
+        )
+        capabilitiesCardCopy.value = context.getString(R.string.mainMenuCapabilitiesCardLoadingCopy)
+        purchaseButtonText.value = ""
+        purchaseButtonVisibility.value = View.GONE
+        capabilitiesCardVisibility.value = View.VISIBLE
+    }
+
+    private fun showPurchaseAvailability(plusProduct: InAppProduct) {
+        capabilitiesCardCopy.value = getStringFromResourcesOrFallback(
+            R.string.mainMenuCapabilitiesCardPurchaseCopy
+        )
+
+        val purchaseButtonPurchaseFormat = getStringFromResourcesOrFallback(
+            R.string.mainMenuPurchaseButtonFormat
+        )
+        purchaseButtonText.value = String.format(
+            purchaseButtonPurchaseFormat,
+            plusProduct.title,
+            plusProduct.formattedPrice
+        )
+
+        contactPickerButtonText.value = getStringFromResourcesOrFallback(
+            R.string.mainMenuContactPickerButtonDefaultText
+        )
+        capabilitiesCardVisibility.value = View.VISIBLE
+        purchaseButtonVisibility.value = View.VISIBLE
+    }
+
+    private fun startPlusPurchase(activity: Activity) {
+        capabilitiesManager.startPlusProductPurchase(activity)
+    }
+
+    private fun showPurchaseSuccess(inPaymentFlow: Boolean) {
+        capabilitiesCardVisibility.value = View.GONE
+        purchaseButtonVisibility.value = View.GONE
+        contactPickerButtonText.value = getStringFromResourcesOrFallback(
+            R.string.mainMenuContactPickerButtonPluralText
+        )
+
+        if (inPaymentFlow) {
+            paymentFlowListener?.onPaymentFlowPlusProductPurchased()
+            paymentFlowListener = null
+        }
+    }
+
 }

@@ -5,6 +5,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 
 abstract class Tracker {
 
+    lateinit var firebaseInstance: FirebaseAnalytics
+
     protected fun handleEventViaFirebase(
         firebaseInstance: FirebaseAnalytics,
         eventID: String,
