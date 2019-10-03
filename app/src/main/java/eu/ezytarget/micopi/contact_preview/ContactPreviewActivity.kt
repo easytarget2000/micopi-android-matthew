@@ -78,7 +78,7 @@ class ContactPreviewActivity : Activity() {
     }
 
     companion object {
-        const val ACTION_IDENTIFIER = "eu.ezytarget.micopi.CONTACT_PREVIEW"
+        const val ACTION_IDENTIFIER = "eu.ezytarget.micopi.contact_preview.CONTACT_PREVIEW"
         const val CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME = "CONTACT_HASH_WRAPPER"
     }
 }
