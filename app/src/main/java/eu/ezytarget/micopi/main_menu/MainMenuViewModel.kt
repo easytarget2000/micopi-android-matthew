@@ -33,7 +33,6 @@ class MainMenuViewModel : ViewModel() {
         private set
     var capabilitiesCardVisibility = MutableLiveData<Int>(View.VISIBLE)
         private set
-    private var allowMultipleSelection = false
 
     init {
         capabilitiesManager.listener = object : CapabilitiesManagerListener {
@@ -104,6 +103,7 @@ class MainMenuViewModel : ViewModel() {
     }
 
     private fun selectContactPicker() {
+        val allowMultipleSelection = capabilitiesManager.hasPlusProduct
         selectionListener?.onContactPickerSelected(allowMultipleSelection)
     }
 

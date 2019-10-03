@@ -7,11 +7,14 @@ class CapabilitiesManager {
 
     var purchaseManager: PurchaseManager = PurchaseManager()
     var listener: CapabilitiesManagerListener? = null
-    
+    var hasPlusProduct = false
+        private set
+
     fun setup(context: Context) {
         purchaseManager.listener = object : PurchaseManagerListener {
             override fun onPurchaseManagerFailedToConnect(errorMessage: String?) {
                 listener?.onCapabilitiesManagerFailedToConnect(errorMessage)
+                hasPlusProduct = false
             }
 
             override fun onPurchaseManagerLoadedPlusProduct(plusProduct: InAppProduct) {
@@ -20,6 +23,7 @@ class CapabilitiesManager {
 
             override fun onPurchaseManagerPurchasedPlusProduct(inPaymentFlow: Boolean) {
                 listener?.onCapabilitiesManagerFoundPlusPurchase(inPaymentFlow)
+                hasPlusProduct = true
             }
 
         }
