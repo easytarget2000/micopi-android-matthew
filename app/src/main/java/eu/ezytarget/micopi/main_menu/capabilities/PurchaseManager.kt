@@ -13,6 +13,7 @@ class PurchaseManager {
 
     var skuDetailsConverter: SkuDetailsConverter = SkuDetailsConverter()
     var listener: PurchaseManagerListener? = null
+    private var startedBillingFlow = false
     private lateinit var billingClient: BillingClient
     private lateinit var plusSkuDetails: SkuDetails
 
@@ -43,6 +44,7 @@ class PurchaseManager {
     }
 
     fun startPlusPurchase(activity: Activity) {
+        startedBillingFlow = true
         val flowParams = BillingFlowParams.newBuilder()
             .setSkuDetails(plusSkuDetails)
             .build()
@@ -71,10 +73,12 @@ class PurchaseManager {
         }
 
         if (billingResult.responseCode == USER_CANCELED) {
+            startedBillingFlow = false
             return
         }
 
         if (billingResult.responseCode != OK) {
+            startedBillingFlow = false
             Log.e(tag, "handlePurchasesBillingResult(): ${billingResult.debugMessage}")
             queryAvailableProducts()
             return
@@ -83,10 +87,12 @@ class PurchaseManager {
         val purchasedPlus = purchases != null && purchases.isNotEmpty()
 
         if (purchasedPlus) {
-            listener?.onPurchaseManagerPurchasedPlusProduct()
+            listener?.onPurchaseManagerPurchasedPlusProduct(startedBillingFlow)
         } else {
             queryAvailableProducts()
         }
+
+        startedBillingFlow = false
     }
 
     private fun queryAvailableProducts() {

@@ -23,8 +23,8 @@ class CapabilitiesManager {
                 listener?.onCapabilitiesManagerLoadedPlusProduct(plusProduct)
             }
 
-            override fun onPurchaseManagerPurchasedPlusProduct() {
-                listener?.onCapabilitiesManagerFoundPlusPurchase()
+            override fun onPurchaseManagerPurchasedPlusProduct(inPaymentFlow: Boolean) {
+                listener?.onCapabilitiesManagerFoundPlusPurchase(inPaymentFlow)
             }
 
         }

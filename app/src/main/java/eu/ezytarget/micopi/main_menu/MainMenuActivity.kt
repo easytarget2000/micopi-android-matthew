@@ -1,5 +1,6 @@
 package eu.ezytarget.micopi.main_menu
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -22,7 +23,6 @@ class MainMenuActivity : Activity() {
     private val viewModel: MainMenuViewModel by lazy {
         getViewModel(MainMenuViewModel::class)
     }
-
 
     /*
     Activity Life Cycle
@@ -65,6 +65,11 @@ class MainMenuActivity : Activity() {
                 startContactPreviewActivity(contactHashWrapper)
             }
         }
+        viewModel.paymentFlowListener = object : PaymentFlowListener {
+            override fun onPaymentFlowPlusProductPurchased() {
+                showPlusProductThankYouDialog()
+            }
+        }
     }
 
     private fun setupDataBinding() {
@@ -89,6 +94,13 @@ class MainMenuActivity : Activity() {
             contactHashWrapper
         )
         startActivity(contactPreviewIntent)
+    }
+
+    private fun showPlusProductThankYouDialog() {
+        AlertDialog.Builder(this)
+            .setMessage(R.string.mainMenuCapabilitiesCardPostPurchaseCopy)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
     }
 
     companion object {

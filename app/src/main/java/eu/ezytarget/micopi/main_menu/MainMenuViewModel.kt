@@ -18,6 +18,7 @@ import eu.ezytarget.micopi.main_menu.capabilities.InAppProduct
 class MainMenuViewModel : ViewModel() {
 
     var selectionListener: MainMenuSelectionListener? = null
+    var paymentFlowListener: PaymentFlowListener? = null
     var contactPermissionManager: PermissionManager = ReadContactsPermissionManager()
     var contactPickerResultConverter: ContactPickerResultConverter = ContactPickerResultConverter()
     var capabilitiesManager: CapabilitiesManager = CapabilitiesManager()
@@ -49,8 +50,8 @@ class MainMenuViewModel : ViewModel() {
                 showPurchaseButton(inAppProduct)
             }
 
-            override fun onCapabilitiesManagerFoundPlusPurchase() {
-                showPurchaseSuccess()
+            override fun onCapabilitiesManagerFoundPlusPurchase(inPaymentFlow: Boolean) {
+                showPurchaseSuccess(inPaymentFlow)
             }
         }
     }
@@ -142,7 +143,7 @@ class MainMenuViewModel : ViewModel() {
             plusProduct.title,
             plusProduct.formattedPrice
         )
-        
+
         contactPickerButtonText.value = contactPickerButtonDefaultText
         capabilitiesCardVisibility.value = View.VISIBLE
         purchaseButtonVisibility.value = View.VISIBLE
@@ -152,9 +153,14 @@ class MainMenuViewModel : ViewModel() {
         capabilitiesManager.startPlusProductPurchase(activity)
     }
 
-    private fun showPurchaseSuccess() {
+    private fun showPurchaseSuccess(inPaymentFlow: Boolean) {
         capabilitiesCardVisibility.value = View.GONE
         purchaseButtonVisibility.value = View.GONE
         contactPickerButtonText.value = contactPickerButtonPluralText
+
+        if (inPaymentFlow) {
+            paymentFlowListener?.onPaymentFlowPlusProductPurchased()
+            paymentFlowListener = null
+        }
     }
 }
