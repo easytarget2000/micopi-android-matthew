@@ -127,10 +127,10 @@ class ContactPreviewViewModel : ViewModel() {
 
         isBusy = true
 
-        val contactWrappers = arrayOf(contactHashWrapper!!)
-        imageEngine.generateImageAsync(contactWrappers, resources) { _, bitmap, _, _ ->
-            handleGeneratedBitmap(bitmap)
-        }
+        imageEngine.populateColorProvider(resources ?: return)
+
+        val generatedBitmap = imageEngine.generateBitmap(contactHashWrapper ?: return)
+        handleGeneratedBitmap(generatedBitmap)
     }
 
     private fun handleGeneratedBitmap(bitmap: Bitmap?) {
