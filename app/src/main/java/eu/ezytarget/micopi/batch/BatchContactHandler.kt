@@ -20,8 +20,7 @@ class BatchContactHandler {
         val failedContacts = ArrayList<Contact>()
         val finishedContacts = ArrayList<Contact>()
 
-        for (index in contactWrappers.indices) {
-            val contactWrapper = contactWrappers[index]
+        contactWrappers.forEach { contactWrapper ->
             val contact = contactWrapper.contact
             val generatedBitmap = engine.generateBitmap(contactWrapper)
             val didAssignImage = contactDatabaseImageWriter.assignImageToContact(
