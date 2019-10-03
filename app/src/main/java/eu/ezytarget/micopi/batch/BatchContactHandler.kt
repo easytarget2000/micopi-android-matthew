@@ -1,6 +1,7 @@
 package eu.ezytarget.micopi.batch
 
 import android.content.ContentResolver
+import android.content.res.Resources
 import eu.ezytarget.micopi.common.data.Contact
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
@@ -17,6 +18,7 @@ class BatchContactHandler {
 
     fun generateAndAssign(
         contactWrappers: Array<ContactHashWrapper>,
+        resources: Resources?,
         listener: BatchContactHandlerListener? = null
     ) {
         val contacts = contactWrappers.map { contactWrapper ->
@@ -24,6 +26,10 @@ class BatchContactHandler {
         }.toTypedArray()
         val failedContacts = ArrayList<Contact>()
         val finishedContacts = ArrayList<Contact>()
+
+        if (resources != null) {
+            engine.populateColorProvider(resources)
+        }
 
         contactWrappers.forEach { contactWrapper ->
             val contact = contactWrapper.contact

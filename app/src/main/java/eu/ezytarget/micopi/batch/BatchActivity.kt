@@ -1,5 +1,6 @@
 package eu.ezytarget.micopi.batch
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import eu.ezytarget.micopi.R
@@ -25,6 +26,7 @@ class BatchActivity : Activity() {
                     as Array<ContactHashWrapper>
 
         viewModel.resources = resources
+        startService(contactHashWrappers)
     }
 
     private fun setupDataBinding() {
@@ -35,6 +37,12 @@ class BatchActivity : Activity() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+    }
+
+    private fun startService(contactHashWrappers: Array<ContactHashWrapper>) {
+        val batchService = Intent(this, BatchService::class.java)
+        batchService.putExtra(BatchService.CONTACT_WRAPPERS_EXTRA_KEY, contactHashWrappers)
+        startService(batchService)
     }
 
     companion object {

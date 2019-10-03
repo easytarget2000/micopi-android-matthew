@@ -18,7 +18,7 @@ class BatchService: IntentService(tag)  {
         ) as Array<ContactHashWrapper>
 
         batchContactHandler.setup(contentResolver)
-        batchContactHandler.generateAndAssign(contactWrappers)
+        batchContactHandler.generateAndAssign(contactWrappers, resources)
     }
 
     companion object {
