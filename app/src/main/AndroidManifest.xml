@@ -31,7 +31,7 @@
             android:exported="false"
             android:theme="@style/ContactPreviewTheme">
             <intent-filter>
-                <action android:name="eu.ezytarget.micopi.contact_preview.CONTACT_PREVIEW" />
+                <action android:name="eu.ezytarget.micopi.CONTACT_PREVIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
