@@ -6,7 +6,6 @@
     tools:context=".contact_preview.ContactPreviewActivity">
 
     <data>
-
         <variable
             name="viewModel"
             type="eu.ezytarget.micopi.contact_preview.ContactPreviewViewModel" />
