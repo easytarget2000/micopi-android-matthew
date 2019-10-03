@@ -1,5 +1,6 @@
 package eu.ezytarget.micopi.batch
 
+import android.content.ContentResolver
 import eu.ezytarget.micopi.common.data.Contact
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
@@ -9,6 +10,10 @@ class BatchContactHandler {
 
     var engine: ContactImageEngine = ContactImageEngine()
     var contactDatabaseImageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
+
+    fun setup(contentResolver: ContentResolver) {
+        contactDatabaseImageWriter.contentResolver = contentResolver
+    }
 
     fun generateAndAssign(
         contactWrappers: Array<ContactHashWrapper>,

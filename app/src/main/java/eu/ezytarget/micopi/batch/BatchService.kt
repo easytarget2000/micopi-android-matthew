@@ -17,6 +17,7 @@ class BatchService: IntentService(tag)  {
             CONTACT_WRAPPERS_EXTRA_KEY
         ) as Array<ContactHashWrapper>
 
+        batchContactHandler.setup(contentResolver)
         batchContactHandler.generateAndAssign(contactWrappers)
     }
 
