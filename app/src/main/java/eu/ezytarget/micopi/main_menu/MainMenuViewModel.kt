@@ -70,6 +70,57 @@ class MainMenuViewModel : ViewModel() {
             ),
             ContactHashWrapper(
                 Contact("1", "Bebbi Bebbos")
+            ),
+            ContactHashWrapper(
+                Contact("0", "Memmu Memms")
+            ),
+            ContactHashWrapper(
+                Contact("1", "Bebbi Bebbos")
+            ),
+            ContactHashWrapper(
+                Contact("0", "Memmu Memms")
+            ),
+            ContactHashWrapper(
+                Contact("1", "Bebbi Bebbos")
+            ),
+            ContactHashWrapper(
+                Contact("0", "Memmu Memms")
+            ),
+            ContactHashWrapper(
+                Contact("1", "Bebbi Bebbos")
+            ),ContactHashWrapper(
+                Contact("0", "Memmu Memms")
+            ),
+            ContactHashWrapper(
+                Contact("1", "Bebbi Bebbos")
+            ),
+            ContactHashWrapper(
+                Contact("0", "Memmu Memms")
+            ),
+            ContactHashWrapper(
+                Contact("1", "Bebbi Bebbos")
+            ),ContactHashWrapper(
+                Contact("0", "Memmu Memms")
+            ),
+            ContactHashWrapper(
+                Contact("1", "Bebbi Bebbos")
+            ),
+            ContactHashWrapper(
+                Contact("0", "Memmu Memms")
+            ),
+            ContactHashWrapper(
+                Contact("1", "Bebbi Bebbos")
+            ),ContactHashWrapper(
+                Contact("0", "Memmu Memms")
+            ),
+            ContactHashWrapper(
+                Contact("1", "Bebbi Bebbos")
+            ),
+            ContactHashWrapper(
+                Contact("0", "Memmu Memms")
+            ),
+            ContactHashWrapper(
+                Contact("1", "Bebbi Bebbos")
             )
         )
         selectionListener?.onContactsSelected(contactWrappers)
