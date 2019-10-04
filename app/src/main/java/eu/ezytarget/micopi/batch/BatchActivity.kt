@@ -2,11 +2,14 @@ package eu.ezytarget.micopi.batch
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.ui.Activity
 import eu.ezytarget.micopi.databinding.BatchActivityBinding
+
 
 class BatchActivity : Activity() {
 
@@ -18,6 +21,14 @@ class BatchActivity : Activity() {
         super.onCreate(savedInstanceState)
         setupViewModel()
         setupDataBinding()
+        setupActionBar()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupViewModel() {
@@ -37,6 +48,13 @@ class BatchActivity : Activity() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+    }
+
+    private fun setupActionBar() {
+        val toolbar: Toolbar = findViewById(R.id.batch_toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     private fun startService(contactHashWrappers: Array<ContactHashWrapper>) {
