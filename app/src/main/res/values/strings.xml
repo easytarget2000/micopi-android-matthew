@@ -57,5 +57,6 @@
     <string name="mainMenuCapabilitiesCardPostPurchaseCopy">Thank you for purchasing Plus Features!</string>
     <string name="batchTitle">Multiple Contacts</string>
     <string name="batchGenerateButtonText">Generate and assign</string>
+    <string name="batchSelectedContactsHeader">Selected Contacts</string>
 
 </resources>
