@@ -37,6 +37,7 @@ class BatchActivity : Activity() {
                     as Array<ContactHashWrapper>
 
         viewModel.resources = resources
+        viewModel.contactHashWrappers = contactHashWrappers
 //        startService(contactHashWrappers)
     }
 
