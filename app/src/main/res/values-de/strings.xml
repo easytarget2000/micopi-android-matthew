@@ -52,4 +52,5 @@
     </string>
     <string name="mainMenuCapabilitiesCardPostPurchaseCopy">Vielen Dank für deinen Kauf von Plus Features!</string>
     <string name="batchTitle">Mehrere Kontakte</string>
+    <string name="batchGenerateButtonText">Generieren und zuweisen</string>
 </resources>

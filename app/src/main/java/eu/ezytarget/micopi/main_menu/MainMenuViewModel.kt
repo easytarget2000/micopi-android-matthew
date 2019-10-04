@@ -56,7 +56,7 @@ class MainMenuViewModel : ViewModel() {
         getCapabilities(context)
     }
 
-    fun handleSelectContactButtonClicked(view: View) {
+    fun onSelectContactButtonClick(view: View) {
         val activity = view.activity!!
         validatePermissionsAndSelectContactPicker(activity)
         tracker.handleContactPickerButtonClicked()

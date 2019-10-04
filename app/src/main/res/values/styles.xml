@@ -24,9 +24,9 @@
         <item name="android:windowBackground">@color/contactPreviewBackground</item>
     </style>
 
-    <style name="AppTheme.Batch" parent="AppTheme" />
+    <style name="AppTheme.Batch" parent="Theme.AppCompat.DayNight.NoActionBar" />
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
