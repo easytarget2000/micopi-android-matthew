@@ -55,5 +55,6 @@
         such as backups and the ability to reset images.
     </string>
     <string name="mainMenuCapabilitiesCardPostPurchaseCopy">Thank you for purchasing Plus Features!</string>
+    <string name="batchTitle">Multiple Contacts</string>
 
 </resources>

@@ -5,6 +5,7 @@
     tools:context=".batch.BatchActivity">
 
     <data>
+
         <variable
             name="viewModel"
             type="eu.ezytarget.micopi.batch.BatchViewModel" />
@@ -20,11 +21,13 @@
             android:theme="@style/AppTheme.AppBarOverlay">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/batch_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:title="@string/batchTitle" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
