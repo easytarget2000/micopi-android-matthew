@@ -7,8 +7,6 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
-import eu.ezytarget.micopi.common.data.Contact
-import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
 import eu.ezytarget.micopi.common.ui.ViewModel
@@ -59,71 +57,9 @@ class MainMenuViewModel : ViewModel() {
     }
 
     fun onSelectContactButtonClick(view: View) {
-        // TODO: Clean up debug changes.
-//        val activity = view.activity!!
-//        validatePermissionsAndSelectContactPicker(activity)
-//        tracker.handleContactPickerButtonClicked()
-
-        val contactWrappers = arrayOf(
-            ContactHashWrapper(
-                Contact("0", "Memmu Memms")
-            ),
-            ContactHashWrapper(
-                Contact("1", "Bebbi Bebbos")
-            ),
-            ContactHashWrapper(
-                Contact("0", "Memmu Memms")
-            ),
-            ContactHashWrapper(
-                Contact("1", "Bebbi Bebbos")
-            ),
-            ContactHashWrapper(
-                Contact("0", "Memmu Memms")
-            ),
-            ContactHashWrapper(
-                Contact("1", "Bebbi Bebbos")
-            ),
-            ContactHashWrapper(
-                Contact("0", "Memmu Memms")
-            ),
-            ContactHashWrapper(
-                Contact("1", "Bebbi Bebbos")
-            ),ContactHashWrapper(
-                Contact("0", "Memmu Memms")
-            ),
-            ContactHashWrapper(
-                Contact("1", "Bebbi Bebbos")
-            ),
-            ContactHashWrapper(
-                Contact("0", "Memmu Memms")
-            ),
-            ContactHashWrapper(
-                Contact("1", "Bebbi Bebbos")
-            ),ContactHashWrapper(
-                Contact("0", "Memmu Memms")
-            ),
-            ContactHashWrapper(
-                Contact("1", "Bebbi Bebbos")
-            ),
-            ContactHashWrapper(
-                Contact("0", "Memmu Memms")
-            ),
-            ContactHashWrapper(
-                Contact("1", "Bebbi Bebbos")
-            ),ContactHashWrapper(
-                Contact("0", "Memmu Memms")
-            ),
-            ContactHashWrapper(
-                Contact("1", "Bebbi Bebbos")
-            ),
-            ContactHashWrapper(
-                Contact("0", "Memmu Memms")
-            ),
-            ContactHashWrapper(
-                Contact("1", "Bebbi Bebbos")
-            )
-        )
-        selectionListener?.onContactsSelected(contactWrappers)
+        val activity = view.activity!!
+        validatePermissionsAndSelectContactPicker(activity)
+        tracker.handleContactPickerButtonClicked()
     }
 
     fun handlePurchaseButtonClicked(view: View) {
