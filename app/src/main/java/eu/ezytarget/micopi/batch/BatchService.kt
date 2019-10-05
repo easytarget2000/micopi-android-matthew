@@ -83,11 +83,11 @@ class BatchService : IntentService(tag) {
         failedContactWrappers: Array<ContactHashWrapper>,
         contactWrappers: Array<ContactHashWrapper>
     ) {
-        val successBroadcast = Intent(CONTACT_ERROR_ACTION)
-        successBroadcast.putExtra(CURRENT_CONTACT_WRAPPER_EXTRA_KEY, failedContactWrapper)
-        successBroadcast.putExtra(FAILED_CONTACT_WRAPPERS_EXTRA_KEY, failedContactWrappers)
-        successBroadcast.putExtra(CONTACT_WRAPPERS_EXTRA_KEY, contactWrappers)
-        sendBroadcast(successBroadcast)
+        val errorBroadcast = Intent(CONTACT_ERROR_ACTION)
+        errorBroadcast.putExtra(CURRENT_CONTACT_WRAPPER_EXTRA_KEY, failedContactWrapper)
+        errorBroadcast.putExtra(FAILED_CONTACT_WRAPPERS_EXTRA_KEY, failedContactWrappers)
+        errorBroadcast.putExtra(CONTACT_WRAPPERS_EXTRA_KEY, contactWrappers)
+        sendBroadcast(errorBroadcast)
     }
 
     private fun broadcastFinish(
@@ -100,8 +100,10 @@ class BatchService : IntentService(tag) {
 
     companion object {
         const val CONTACT_WRAPPERS_EXTRA_KEY = "CONTACT_WRAPPERS"
+        const val CONTACT_START_ACTION = "CONTACT_START"
         const val CONTACT_SUCCESS_ACTION = "CONTACT_SUCCESS"
         const val CONTACT_ERROR_ACTION = "CONTACT_ERROR"
+        const val FINISH_ALL_ACTION = "FINISH_ALL"
         const val CURRENT_CONTACT_WRAPPER_EXTRA_KEY = "CURRENT_CONTACT_WRAPPER"
         const val FINISHED_CONTACT_WRAPPERS_EXTRA_KEY = "FINISHED_CONTACT_WRAPPERS"
         const val FAILED_CONTACT_WRAPPERS_EXTRA_KEY = "FAILED_CONTACT_WRAPPERS"
