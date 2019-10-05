@@ -1,6 +1,9 @@
 package eu.ezytarget.micopi.batch
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
@@ -15,10 +18,23 @@ import eu.ezytarget.micopi.databinding.BatchActivityBinding
 
 class BatchActivity : Activity() {
 
+    var contactsAdapter: BatchContactsAdapter = BatchContactsAdapter()
+    var broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent == null) {
+                return
+            }
+
+            when (intent.action) {
+                BatchService.CONTACT_SUCCESS_ACTION -> handleSuccessBroadcast(intent)
+                BatchService.CONTACT_ERROR_ACTION -> handleErrorBroadcast(intent)
+            }
+        }
+    }
+
     private val viewModel: BatchViewModel by lazy {
         getViewModel(BatchViewModel::class)
     }
-    private var contactsAdapter: BatchContactsAdapter = BatchContactsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +42,16 @@ class BatchActivity : Activity() {
         setupDataBinding()
         setupActionBar()
         setupRecyclerView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        registerBroadcastReceiver()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterBroadcastReceiver()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -76,6 +102,26 @@ class BatchActivity : Activity() {
         val batchService = Intent(this, BatchService::class.java)
         batchService.putExtra(BatchService.CONTACT_WRAPPERS_EXTRA_KEY, contactHashWrappers)
         startService(batchService)
+    }
+
+    private fun handleSuccessBroadcast(intent: Intent) {
+
+    }
+
+    private fun handleErrorBroadcast(intent: Intent) {
+
+    }
+
+    private fun registerBroadcastReceiver() {
+        val filter = IntentFilter(
+            BatchService.CONTACT_SUCCESS_ACTION,
+            BatchService.CONTACT_ERROR_ACTION
+        )
+        registerReceiver(broadcastReceiver, filter)
+    }
+
+    private fun unregisterBroadcastReceiver() {
+        unregisterReceiver(broadcastReceiver)
     }
 
     companion object {
