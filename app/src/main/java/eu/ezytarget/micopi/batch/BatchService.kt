@@ -63,7 +63,10 @@ class BatchService : IntentService(tag) {
         currentContactWrapper: ContactHashWrapper,
         contactWrappers: Array<ContactHashWrapper>
     ) {
-
+        val startBroadcast = Intent(CONTACT_START_ACTION)
+        startBroadcast.putExtra(CURRENT_CONTACT_WRAPPER_EXTRA_KEY, currentContactWrapper)
+        startBroadcast.putExtra(CONTACT_WRAPPERS_EXTRA_KEY, contactWrappers)
+        sendBroadcast(startBroadcast)
     }
 
     private fun broadcastContactSuccess(
@@ -95,7 +98,11 @@ class BatchService : IntentService(tag) {
         failedContactWrappers: Array<ContactHashWrapper>,
         contactWrappers: Array<ContactHashWrapper>
     ) {
-
+        val finishBroadcast = Intent(FINISH_ALL_ACTION)
+        finishBroadcast.putExtra(FINISHED_CONTACT_WRAPPERS_EXTRA_KEY, finishedContactWrappers)
+        finishBroadcast.putExtra(FAILED_CONTACT_WRAPPERS_EXTRA_KEY, failedContactWrappers)
+        finishBroadcast.putExtra(CONTACT_WRAPPERS_EXTRA_KEY, contactWrappers)
+        sendBroadcast(finishBroadcast)
     }
 
     companion object {

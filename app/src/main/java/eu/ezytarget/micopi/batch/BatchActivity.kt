@@ -26,8 +26,10 @@ class BatchActivity : Activity() {
             }
 
             when (intent.action) {
+                BatchService.CONTACT_START_ACTION -> handleStartBroadcast(intent)
                 BatchService.CONTACT_SUCCESS_ACTION -> handleSuccessBroadcast(intent)
                 BatchService.CONTACT_ERROR_ACTION -> handleErrorBroadcast(intent)
+                BatchService.FINISH_ALL_ACTION -> handleFinishBroadcast(intent)
             }
         }
     }
@@ -142,6 +144,10 @@ class BatchActivity : Activity() {
         viewModel.handleServiceStopped()
     }
 
+    private fun handleStartBroadcast(intent: Intent) {
+
+    }
+
     private fun handleSuccessBroadcast(intent: Intent) {
         val finishedContactWrappers = intent.getSerializableExtra(
             BatchService.FINISHED_CONTACT_WRAPPERS_EXTRA_KEY
@@ -158,10 +164,16 @@ class BatchActivity : Activity() {
         viewModel.failedContactWrappers = failedContactWrappers
     }
 
+    private fun handleFinishBroadcast(intent: Intent) {
+
+    }
+
     private fun registerBroadcastReceiver() {
         val filter = IntentFilter()
+        filter.addAction(BatchService.CONTACT_START_ACTION)
         filter.addAction(BatchService.CONTACT_SUCCESS_ACTION)
         filter.addAction(BatchService.CONTACT_ERROR_ACTION)
+        filter.addAction(BatchService.FINISH_ALL_ACTION)
         registerReceiver(broadcastReceiver, filter)
     }
 
