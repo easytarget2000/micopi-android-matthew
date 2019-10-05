@@ -18,12 +18,12 @@ class BatchService : IntentService(tag) {
         ) as Array<ContactHashWrapper>
 
         val listener = object : BatchContactHandlerListener {
-            override fun onBatchContactError(
-                failedContactWrapper: ContactHashWrapper,
-                failedContactWrappers: Array<ContactHashWrapper>,
+
+            override fun onBatchContactProcessingStarted(
+                currentContactWrapper: ContactHashWrapper,
                 contactWrappers: Array<ContactHashWrapper>
             ) {
-                broadcastContactError(failedContactWrapper, failedContactWrappers, contactWrappers)
+                broadcastProcessingStarted(currentContactWrapper, contactWrappers)
             }
 
             override fun onBatchContactSuccess(
@@ -37,10 +37,45 @@ class BatchService : IntentService(tag) {
                     contactWrappers
                 )
             }
+
+            override fun onBatchContactError(
+                failedContactWrapper: ContactHashWrapper,
+                failedContactWrappers: Array<ContactHashWrapper>,
+                contactWrappers: Array<ContactHashWrapper>
+            ) {
+                broadcastContactError(failedContactWrapper, failedContactWrappers, contactWrappers)
+            }
+
+            override fun onBatchFinish(
+                finishedContactWrappers: Array<ContactHashWrapper>,
+                failedContactWrappers: Array<ContactHashWrapper>,
+                contactWrappers: Array<ContactHashWrapper>
+            ) {
+                broadcastFinish(finishedContactWrappers, failedContactWrappers, contactWrappers)
+            }
         }
 
         batchContactHandler.setup(contentResolver)
         batchContactHandler.generateAndAssign(contactWrappers, resources, listener)
+    }
+
+    private fun broadcastProcessingStarted(
+        currentContactWrapper: ContactHashWrapper,
+        contactWrappers: Array<ContactHashWrapper>
+    ) {
+
+    }
+
+    private fun broadcastContactSuccess(
+        finishedContactWrapper: ContactHashWrapper,
+        finishedContactWrappers: Array<ContactHashWrapper>,
+        contactWrappers: Array<ContactHashWrapper>
+    ) {
+        val successBroadcast = Intent(CONTACT_SUCCESS_ACTION)
+        successBroadcast.putExtra(CURRENT_CONTACT_WRAPPER_EXTRA_KEY, finishedContactWrapper)
+        successBroadcast.putExtra(FINISHED_CONTACT_WRAPPERS_EXTRA_KEY, finishedContactWrappers)
+        successBroadcast.putExtra(CONTACT_WRAPPERS_EXTRA_KEY, contactWrappers)
+        sendBroadcast(successBroadcast)
     }
 
     private fun broadcastContactError(
@@ -55,16 +90,12 @@ class BatchService : IntentService(tag) {
         sendBroadcast(successBroadcast)
     }
 
-    private fun broadcastContactSuccess(
-        finishedContactWrapper: ContactHashWrapper,
+    private fun broadcastFinish(
         finishedContactWrappers: Array<ContactHashWrapper>,
+        failedContactWrappers: Array<ContactHashWrapper>,
         contactWrappers: Array<ContactHashWrapper>
     ) {
-        val successBroadcast = Intent(CONTACT_SUCCESS_ACTION)
-        successBroadcast.putExtra(CURRENT_CONTACT_WRAPPER_EXTRA_KEY, finishedContactWrapper)
-        successBroadcast.putExtra(FINISHED_CONTACT_WRAPPERS_EXTRA_KEY, finishedContactWrappers)
-        successBroadcast.putExtra(CONTACT_WRAPPERS_EXTRA_KEY, contactWrappers)
-        sendBroadcast(successBroadcast)
+
     }
 
     companion object {

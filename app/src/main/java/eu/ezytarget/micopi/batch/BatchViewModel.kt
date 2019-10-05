@@ -46,11 +46,11 @@ class BatchViewModel : ViewModel() {
         BatchContactViewModel.processingStateAppendix = resources.getString(
             R.string.batchContactProcessingStateAppendix
         )
-        BatchContactViewModel.failedStatateAppendix = resources.getString(
-            R.string.batchContactFailedStateAppendix
-        )
         BatchContactViewModel.doneStateAppendix = resources.getString(
             R.string.batchContactSuccessStateAppendix
+        )
+        BatchContactViewModel.failedStatateAppendix = resources.getString(
+            R.string.batchContactFailedStateAppendix
         )
     }
 

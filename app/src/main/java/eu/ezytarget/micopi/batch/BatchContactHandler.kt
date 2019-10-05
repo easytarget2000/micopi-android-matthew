@@ -28,27 +28,52 @@ class BatchContactHandler {
         }
 
         contactWrappers.forEach { contactWrapper ->
-            val generatedBitmap = engine.generateBitmap(contactWrapper)
-            val didAssignImage = contactDatabaseImageWriter.assignImageToContact(
-                generatedBitmap,
-                contactWrapper.contact
+            generateAndAssign(
+                contactWrapper,
+                contactWrappers,
+                finishedContactWrappers,
+                failedContactWrappers,
+                listener
             )
+        }
+    }
 
-            if (didAssignImage) {
-                finishedContactWrappers.add(contactWrapper)
-                listener?.onBatchContactSuccess(
-                    contactWrapper,
+    private fun generateAndAssign(
+        contactWrapper: ContactHashWrapper,
+        contactWrappers: Array<ContactHashWrapper>,
+        finishedContactWrappers: ArrayList<ContactHashWrapper>,
+        failedContactWrappers: ArrayList<ContactHashWrapper>,
+        listener: BatchContactHandlerListener?
+    ) {
+        listener?.onBatchContactProcessingStarted(contactWrapper, contactWrappers)
+
+        val generatedBitmap = engine.generateBitmap(contactWrapper)
+        val didAssignImage = contactDatabaseImageWriter.assignImageToContact(
+            generatedBitmap,
+            contactWrapper.contact
+        )
+
+        if (didAssignImage) {
+            finishedContactWrappers.add(contactWrapper)
+            listener?.onBatchContactSuccess(
+                contactWrapper,
+                finishedContactWrappers.toTypedArray(),
+                contactWrappers
+            )
+            if (contactWrappers.last() == contactWrapper) {
+                listener?.onBatchFinish(
                     finishedContactWrappers.toTypedArray(),
-                    contactWrappers
-                )
-            } else {
-                failedContactWrappers.add(contactWrapper)
-                listener?.onBatchContactError(
-                    contactWrapper,
                     failedContactWrappers.toTypedArray(),
                     contactWrappers
                 )
             }
+        } else {
+            failedContactWrappers.add(contactWrapper)
+            listener?.onBatchContactError(
+                contactWrapper,
+                failedContactWrappers.toTypedArray(),
+                contactWrappers
+            )
         }
     }
 }

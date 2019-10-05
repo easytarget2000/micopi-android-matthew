@@ -12,12 +12,12 @@ data class BatchContactViewModel(
         val stateAppendix = when (state) {
             BatchContactState.UNTOUCHED -> untouchedStateAppendix
             BatchContactState.PROCESSING -> processingStateAppendix
-            BatchContactState.FAILED -> failedStatateAppendix
             BatchContactState.DONE -> doneStateAppendix
+            BatchContactState.FAILED -> failedStatateAppendix
         }
-        return "${contactHashWrapper.contact.displayName}${stateAppendix}"
+        return "${contactHashWrapper.contact.displayName} $stateAppendix"
     }
-    
+
     val contact: Contact = contactHashWrapper.contact
 
     override fun equals(other: Any?): Boolean {
@@ -36,7 +36,7 @@ data class BatchContactViewModel(
     companion object {
         var untouchedStateAppendix = ""
         var processingStateAppendix = ""
-        var failedStatateAppendix = ""
         var doneStateAppendix = ""
+        var failedStatateAppendix = ""
     }
 }
