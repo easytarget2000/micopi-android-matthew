@@ -72,8 +72,8 @@ class BatchActivity : Activity() {
         val contactHashWrappers =
             intent.extras!![CONTACT_HASH_WRAPPERS_INTENT_EXTRA_NAME]
                     as Array<ContactHashWrapper>
-        viewModel.setup(
-            contactHashWrappers,
+        viewModel.contactWrappers = contactHashWrappers
+        viewModel.setupContactViewModels(
             viewModelsOwner = this,
             viewModelsObserver = Observer {
                 it?.let(contactsAdapter::submitList)
@@ -105,18 +105,19 @@ class BatchActivity : Activity() {
     }
 
     private fun handleSuccessBroadcast(intent: Intent) {
+        val finishedContactWrappers = intent.getSerializableExtra(
+            BatchService.FINISHED_CONTACT_WRAPPERS_EXTRA_KEY
+        ) as Array<ContactHashWrapper>
 
-        val finishedContactWrapper = intent.getSerializableExtra(
-            BatchService.CURRENT_CONTACT_WRAPPER_EXTRA_KEY
-        )
-//        successBroadcast.putExtra(BatchService.CURRENT_CONTACT_WRAPPER_EXTRA_KEY, finishedContact)
-//        successBroadcast.putExtra(BatchService.FINISHED_CONTACT_WRAPPERS_EXTRA_KEY, finishedContacts)
-//        successBroadcast.putExtra(BatchService.CONTACT_WRAPPERS_EXTRA_KEY, contacts)
-//        sendBroadcast(successBroadcast)
+        viewModel.finishedContactWrappers = finishedContactWrappers
     }
 
     private fun handleErrorBroadcast(intent: Intent) {
+        val failedContactWrappers = intent.getSerializableExtra(
+            BatchService.FAILED_CONTACT_WRAPPERS_EXTRA_KEY
+        ) as Array<ContactHashWrapper>
 
+        viewModel.failedContactWrappers = failedContactWrappers
     }
 
     private fun registerBroadcastReceiver() {
