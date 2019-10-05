@@ -73,10 +73,11 @@ class BatchViewModel : ViewModel() {
     }
 
     private fun handleButtonClick() {
-        if (isRunningLiveData.value != false) {
-            serviceListener?.onBatchServiceStartRequested(contactWrappers)
-        } else {
+        val isRunning = isRunningLiveData.value ?: true
+        if (isRunning) {
             serviceListener?.onBatchServiceStopRequested()
+        } else {
+            serviceListener?.onBatchServiceStartRequested(contactWrappers)
         }
     }
 
