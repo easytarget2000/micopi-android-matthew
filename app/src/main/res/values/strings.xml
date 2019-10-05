@@ -58,5 +58,7 @@
     <string name="batchTitle">Multiple Contacts</string>
     <string name="batchGenerateButtonText">Generate and assign</string>
     <string name="batchSelectedContactsHeader">Selected Contacts</string>
-
+    <string name="batchContactProcessingStateAppendix">…</string>
+    <string name="batchContactFailedStateAppendix"> - Failed to assign image</string>
+    <string name="batchContactSuccessStateAppendix"> - Done</string>
 </resources>

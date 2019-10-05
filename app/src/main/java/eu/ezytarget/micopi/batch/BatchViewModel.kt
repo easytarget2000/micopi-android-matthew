@@ -1,5 +1,6 @@
 package eu.ezytarget.micopi.batch
 
+import android.content.res.Resources
 import android.view.View
 import androidx.lifecycle.*
 import eu.ezytarget.micopi.R
@@ -39,6 +40,19 @@ class BatchViewModel : ViewModel() {
     private val contactWrapperViewModelsLiveData: MutableLiveData<List<BatchContactViewModel>> =
         MutableLiveData()
     private val isRunningLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
+
+    override fun onResourcesSet(resources: Resources) {
+        BatchContactViewModel.untouchedStateAppendix = ""
+        BatchContactViewModel.processingStateAppendix = resources.getString(
+            R.string.batchContactProcessingStateAppendix
+        )
+        BatchContactViewModel.failedStatateAppendix = resources.getString(
+            R.string.batchContactFailedStateAppendix
+        )
+        BatchContactViewModel.doneStateAppendix = resources.getString(
+            R.string.batchContactSuccessStateAppendix
+        )
+    }
 
     fun setupContactViewModels(
         viewModelsOwner: LifecycleOwner,

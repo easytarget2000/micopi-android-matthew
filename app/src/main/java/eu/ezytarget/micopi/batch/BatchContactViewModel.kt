@@ -7,7 +7,17 @@ data class BatchContactViewModel(
     private val contactHashWrapper: ContactHashWrapper,
     private val state: BatchContactState
 ) {
-    val displayName: String = "${contactHashWrapper.contact.displayName} ${state.name}"
+    val displayNameAndState: String
+    get() {
+        val stateAppendix = when (state) {
+            BatchContactState.UNTOUCHED -> untouchedStateAppendix
+            BatchContactState.PROCESSING -> processingStateAppendix
+            BatchContactState.FAILED -> failedStatateAppendix
+            BatchContactState.DONE -> doneStateAppendix
+        }
+        return "${contactHashWrapper.contact.displayName}${stateAppendix}"
+    }
+    
     val contact: Contact = contactHashWrapper.contact
 
     override fun equals(other: Any?): Boolean {
@@ -21,5 +31,12 @@ data class BatchContactViewModel(
 
         return other.contactHashWrapper == contactHashWrapper
                 && other.state == state
+    }
+
+    companion object {
+        var untouchedStateAppendix = ""
+        var processingStateAppendix = ""
+        var failedStatateAppendix = ""
+        var doneStateAppendix = ""
     }
 }
