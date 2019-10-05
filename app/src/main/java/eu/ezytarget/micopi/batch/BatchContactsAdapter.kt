@@ -11,14 +11,14 @@ class BatchContactsAdapter: DataBindingAdapter<BatchContactViewModel>(DiffCallba
             oldItem: BatchContactViewModel,
             newItem: BatchContactViewModel
         ): Boolean {
-            return oldItem.contact == newItem.contact
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(
             oldItem: BatchContactViewModel,
             newItem: BatchContactViewModel
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.contact == newItem.contact
         }
     }
 
