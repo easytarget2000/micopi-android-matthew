@@ -2,7 +2,6 @@ package eu.ezytarget.micopi.batch
 
 import android.content.ContentResolver
 import android.content.res.Resources
-import eu.ezytarget.micopi.common.data.Contact
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.engine.ContactImageEngine
@@ -21,30 +20,34 @@ class BatchContactHandler {
         resources: Resources?,
         listener: BatchContactHandlerListener? = null
     ) {
-        val contacts = contactWrappers.map { contactWrapper ->
-            contactWrapper.contact
-        }.toTypedArray()
-        val failedContacts = ArrayList<Contact>()
-        val finishedContacts = ArrayList<Contact>()
+        val failedContactWrappers = ArrayList<ContactHashWrapper>()
+        val finishedContactWrappers = ArrayList<ContactHashWrapper>()
 
         if (resources != null) {
             engine.populateColorProvider(resources)
         }
 
         contactWrappers.forEach { contactWrapper ->
-            val contact = contactWrapper.contact
             val generatedBitmap = engine.generateBitmap(contactWrapper)
             val didAssignImage = contactDatabaseImageWriter.assignImageToContact(
                 generatedBitmap,
-                contact
+                contactWrapper.contact
             )
 
             if (didAssignImage) {
-                finishedContacts.add(contact)
-                listener?.onBatchContactSuccess(contact, finishedContacts.toTypedArray(), contacts)
+                finishedContactWrappers.add(contactWrapper)
+                listener?.onBatchContactSuccess(
+                    contactWrapper,
+                    finishedContactWrappers.toTypedArray(),
+                    contactWrappers
+                )
             } else {
-                failedContacts.add(contact)
-                listener?.onBatchContactError(contact, failedContacts.toTypedArray(), contacts)
+                failedContactWrappers.add(contactWrapper)
+                listener?.onBatchContactError(
+                    contactWrapper,
+                    failedContactWrappers.toTypedArray(),
+                    contactWrappers
+                )
             }
         }
     }

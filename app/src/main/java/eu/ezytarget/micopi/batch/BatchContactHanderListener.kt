@@ -1,18 +1,18 @@
 package eu.ezytarget.micopi.batch
 
-import eu.ezytarget.micopi.common.data.Contact
+import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
 interface BatchContactHandlerListener {
 
     fun onBatchContactError(
-        failedContact: Contact,
-        failedContacts: Array<Contact>,
-        contacts: Array<Contact>
+        failedContact: ContactHashWrapper,
+        failedContacts: Array<ContactHashWrapper>,
+        contacts: Array<ContactHashWrapper>
     )
 
     fun onBatchContactSuccess(
-        finishedContact: Contact,
-        finishedContacts: Array<Contact>,
-        contacts: Array<Contact>
+        finishedContact: ContactHashWrapper,
+        finishedContacts: Array<ContactHashWrapper>,
+        contacts: Array<ContactHashWrapper>
     )
 }
