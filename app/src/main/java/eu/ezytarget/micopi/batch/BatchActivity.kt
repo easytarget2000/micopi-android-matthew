@@ -48,8 +48,8 @@ class BatchActivity : Activity() {
                     as Array<ContactHashWrapper>
         viewModel.setup(
             contactHashWrappers,
-            this,
-            Observer {
+            viewModelsOwner = this,
+            viewModelsObserver = Observer {
                 it?.let(contactsAdapter::submitList)
             }
         )

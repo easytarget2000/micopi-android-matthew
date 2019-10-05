@@ -9,20 +9,32 @@ import eu.ezytarget.micopi.common.ui.ViewModel
 
 class BatchViewModel: ViewModel() {
 
-    private val contactWrappersLiveData: MutableLiveData<List<ContactHashWrapper>>
+    private var contactHashWrappers: Array<ContactHashWrapper> = emptyArray()
+    set(value) {
+        field = value
+        setContactWrappersLiveData()
+    }
+
+    private val contactWrapperViewModelsLiveData: MutableLiveData<List<BatchContactViewModel>>
             = MutableLiveData()
 
     fun setup(
         contactHashWrappers: Array<ContactHashWrapper>,
-        lifecycleOwner: LifecycleOwner,
-        observer: Observer<List<ContactHashWrapper>>
+        viewModelsOwner: LifecycleOwner,
+        viewModelsObserver: Observer<List<BatchContactViewModel>>
     ) {
-        contactWrappersLiveData.value = contactHashWrappers.toList()
-        contactWrappersLiveData.observe(lifecycleOwner, observer)
+        this.contactHashWrappers = contactHashWrappers
+        contactWrapperViewModelsLiveData.observe(viewModelsOwner, viewModelsObserver)
     }
 
     fun onGenerateButtonClick(view: View) {
 
+    }
+
+    private fun setContactWrappersLiveData() {
+        contactWrapperViewModelsLiveData.value = contactHashWrappers.map { contactHashWrapper ->
+            BatchContactViewModel(contactHashWrapper)
+        }
     }
 
 }

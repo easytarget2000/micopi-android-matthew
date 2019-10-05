@@ -4,12 +4,12 @@
     <data>
 
         <variable
-            name="item"
-            type="eu.ezytarget.micopi.common.data.ContactHashWrapper" />
+            name="viewModel"
+            type="eu.ezytarget.micopi.batch.BatchContactViewModel" />
     </data>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{item.contact.displayName}" />
+        android:text="@{viewModel.displayName}" />
 </layout>
