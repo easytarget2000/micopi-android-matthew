@@ -20,7 +20,6 @@ class BatchContactsAdapter: DataBindingAdapter<BatchContactViewModel>(DiffCallba
         ): Boolean {
             return oldItem == newItem
         }
-        // your DiffCallback implementation
     }
 
     override fun getItemViewType(position: Int) = R.layout.batch_contact_item
