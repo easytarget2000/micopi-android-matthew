@@ -9,12 +9,21 @@ import eu.ezytarget.micopi.common.ui.ViewModel
 
 class BatchViewModel: ViewModel() {
 
-    private var contactHashWrappers: Array<ContactHashWrapper> = emptyArray()
+    private var allContactWrappers: Array<ContactHashWrapper> = emptyArray()
     set(value) {
         field = value
         setContactWrappersLiveData()
     }
-
+    private var finishedContactWrappers: Array<ContactHashWrapper> = emptyArray()
+        set(value) {
+            field = value
+            setContactWrappersLiveData()
+        }
+    private var failedContactWrappers: Array<ContactHashWrapper> = emptyArray()
+        set(value) {
+            field = value
+            setContactWrappersLiveData()
+        }
     private val contactWrapperViewModelsLiveData: MutableLiveData<List<BatchContactViewModel>>
             = MutableLiveData()
 
@@ -23,7 +32,7 @@ class BatchViewModel: ViewModel() {
         viewModelsOwner: LifecycleOwner,
         viewModelsObserver: Observer<List<BatchContactViewModel>>
     ) {
-        this.contactHashWrappers = contactHashWrappers
+        this.allContactWrappers = contactHashWrappers
         contactWrapperViewModelsLiveData.observe(viewModelsOwner, viewModelsObserver)
     }
 
@@ -32,8 +41,9 @@ class BatchViewModel: ViewModel() {
     }
 
     private fun setContactWrappersLiveData() {
-        contactWrapperViewModelsLiveData.value = contactHashWrappers.map { contactHashWrapper ->
-            BatchContactViewModel(contactHashWrapper)
+        contactWrapperViewModelsLiveData.value = allContactWrappers.map { contactHashWrapper ->
+            val state: BatchContactState = BatchContactState.UNTOUCHED
+            BatchContactViewModel(contactHashWrapper, state)
         }
     }
 
