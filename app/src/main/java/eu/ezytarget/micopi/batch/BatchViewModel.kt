@@ -1,9 +1,8 @@
 package eu.ezytarget.micopi.batch
 
 import android.view.View
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.*
+import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.ui.ViewModel
 
@@ -25,9 +24,21 @@ class BatchViewModel : ViewModel() {
             field = value
             setContactWrappersLiveData()
         }
-    var generateAndAssignImagesCallback: ((Array<ContactHashWrapper>) -> Unit)? = null
+    var serviceListener: BatchViewModelServiceListener? = null
+    val buttonText: LiveData<String>
+        get() {
+            return Transformations.map(isRunning) {
+                val resourceID = if (it) {
+                    android.R.string.cancel
+                } else {
+                    R.string.batchGenerateButtonText
+                }
+                getStringFromResourcesOrFallback(resourceID)
+            }
+        }
     private val contactWrapperViewModelsLiveData: MutableLiveData<List<BatchContactViewModel>> =
         MutableLiveData()
+    private val isRunning: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun setupContactViewModels(
         viewModelsOwner: LifecycleOwner,
@@ -36,8 +47,8 @@ class BatchViewModel : ViewModel() {
         contactWrapperViewModelsLiveData.observe(viewModelsOwner, viewModelsObserver)
     }
 
-    fun onGenerateButtonClick(view: View) {
-        generateAndAssignImages()
+    fun onButtonClick(view: View) {
+        handleButtonClick()
     }
 
     private fun setContactWrappersLiveData() {
@@ -53,8 +64,12 @@ class BatchViewModel : ViewModel() {
         }
     }
 
-    private fun generateAndAssignImages() {
-        generateAndAssignImagesCallback?.invoke(contactWrappers)
+    private fun handleButtonClick() {
+        if (isRunning.value == true) {
+            serviceListener?.onBatchServiceStartRequested(contactWrappers)
+        } else {
+            serviceListener?.onBatchServiceStopRequested()
+        }
     }
 
 }

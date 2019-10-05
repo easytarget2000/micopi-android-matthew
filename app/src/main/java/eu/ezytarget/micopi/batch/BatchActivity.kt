@@ -31,6 +31,7 @@ class BatchActivity : Activity() {
             }
         }
     }
+    private var batchServiceIntent: Intent? = null
 
     private val viewModel: BatchViewModel by lazy {
         getViewModel(BatchViewModel::class)
@@ -52,6 +53,16 @@ class BatchActivity : Activity() {
     override fun onPause() {
         super.onPause()
         unregisterBroadcastReceiver()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        stopService()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopService()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -79,8 +90,16 @@ class BatchActivity : Activity() {
                 it?.let(contactsAdapter::submitList)
             }
         )
-        viewModel.generateAndAssignImagesCallback = { contactHashWrappers ->
-            startService(contactHashWrappers)
+        viewModel.serviceListener = object : BatchViewModelServiceListener {
+            override fun onBatchServiceStartRequested(
+                contactHashWrappers: Array<ContactHashWrapper>
+            ) {
+                startService(contactHashWrappers)
+            }
+
+            override fun onBatchServiceStopRequested() {
+                stopService()
+            }
         }
     }
 
@@ -102,9 +121,23 @@ class BatchActivity : Activity() {
     }
 
     private fun startService(contactHashWrappers: Array<ContactHashWrapper>) {
-        val batchService = Intent(this, BatchService::class.java)
-        batchService.putExtra(BatchService.CONTACT_WRAPPERS_EXTRA_KEY, contactHashWrappers)
-        startService(batchService)
+        if (batchServiceIntent != null) {
+            stopService()
+        }
+
+        val batchServiceIntent = Intent(this, BatchService::class.java)
+        batchServiceIntent.putExtra(BatchService.CONTACT_WRAPPERS_EXTRA_KEY, contactHashWrappers)
+        startService(batchServiceIntent)
+
+        this.batchServiceIntent = batchServiceIntent
+    }
+
+    private fun stopService() {
+        if (batchServiceIntent == null) {
+            return
+        }
+        stopService(batchServiceIntent)
+        batchServiceIntent = null
     }
 
     private fun handleSuccessBroadcast(intent: Intent) {
