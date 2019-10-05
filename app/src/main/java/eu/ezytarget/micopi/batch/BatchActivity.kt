@@ -145,7 +145,11 @@ class BatchActivity : Activity() {
     }
 
     private fun handleStartBroadcast(intent: Intent) {
-
+        val currentContactWrapper = intent.getSerializableExtra(
+            BatchService.CURRENT_CONTACT_WRAPPER_EXTRA_KEY
+        ) as ContactHashWrapper
+        viewModel.currentContactWrapper = currentContactWrapper
+        viewModel.handleServiceStarted()
     }
 
     private fun handleSuccessBroadcast(intent: Intent) {
@@ -165,7 +169,7 @@ class BatchActivity : Activity() {
     }
 
     private fun handleFinishBroadcast(intent: Intent) {
-
+        viewModel.handleServiceStopped()
     }
 
     private fun registerBroadcastReceiver() {
