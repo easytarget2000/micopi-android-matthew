@@ -46,11 +46,13 @@ class BatchActivity : Activity() {
         val contactHashWrappers =
             intent.extras!![CONTACT_HASH_WRAPPERS_INTENT_EXTRA_NAME]
                     as Array<ContactHashWrapper>
-        viewModel.contactWrappersLiveData.value = contactHashWrappers.toList()
-
-        viewModel.contactWrappersLiveData.observe(this, Observer {
-            it?.let(contactsAdapter::submitList)
-        })
+        viewModel.setup(
+            contactHashWrappers,
+            this,
+            Observer {
+                it?.let(contactsAdapter::submitList)
+            }
+        )
     }
 
     private fun setupDataBinding() {
