@@ -130,6 +130,7 @@ class BatchActivity : Activity() {
         startService(batchServiceIntent)
 
         this.batchServiceIntent = batchServiceIntent
+        viewModel.handleServiceStarted()
     }
 
     private fun stopService() {
@@ -138,6 +139,7 @@ class BatchActivity : Activity() {
         }
         stopService(batchServiceIntent)
         batchServiceIntent = null
+        viewModel.handleServiceStopped()
     }
 
     private fun handleSuccessBroadcast(intent: Intent) {

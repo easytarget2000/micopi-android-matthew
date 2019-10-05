@@ -27,7 +27,7 @@ class BatchViewModel : ViewModel() {
     var serviceListener: BatchViewModelServiceListener? = null
     val buttonText: LiveData<String>
         get() {
-            return Transformations.map(isRunning) {
+            return Transformations.map(isRunningLiveData) {
                 val resourceID = if (it) {
                     android.R.string.cancel
                 } else {
@@ -38,7 +38,7 @@ class BatchViewModel : ViewModel() {
         }
     private val contactWrapperViewModelsLiveData: MutableLiveData<List<BatchContactViewModel>> =
         MutableLiveData()
-    private val isRunning: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val isRunningLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun setupContactViewModels(
         viewModelsOwner: LifecycleOwner,
@@ -49,6 +49,14 @@ class BatchViewModel : ViewModel() {
 
     fun onButtonClick(view: View) {
         handleButtonClick()
+    }
+
+    fun handleServiceStarted() {
+        isRunningLiveData.value = true
+    }
+
+    fun handleServiceStopped() {
+        isRunningLiveData.value = false
     }
 
     private fun setContactWrappersLiveData() {
@@ -65,7 +73,7 @@ class BatchViewModel : ViewModel() {
     }
 
     private fun handleButtonClick() {
-        if (isRunning.value == true) {
+        if (isRunningLiveData.value != false) {
             serviceListener?.onBatchServiceStartRequested(contactWrappers)
         } else {
             serviceListener?.onBatchServiceStopRequested()
