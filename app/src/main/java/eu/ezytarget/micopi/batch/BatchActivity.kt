@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.ui.Activity
@@ -16,12 +18,14 @@ class BatchActivity : Activity() {
     private val viewModel: BatchViewModel by lazy {
         getViewModel(BatchViewModel::class)
     }
+    private var contactsAdapter: BatchContactsAdapter = BatchContactsAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViewModel()
         setupDataBinding()
         setupActionBar()
+        setupRecyclerView()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -31,14 +35,22 @@ class BatchActivity : Activity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun setupRecyclerView() {
+        val recyclerView: RecyclerView = findViewById(R.id.batch_contacts_recycler)
+        recyclerView.adapter = contactsAdapter
+    }
+
     private fun setupViewModel() {
+        viewModel.resources = resources
+
         val contactHashWrappers =
             intent.extras!![CONTACT_HASH_WRAPPERS_INTENT_EXTRA_NAME]
                     as Array<ContactHashWrapper>
+        viewModel.contactWrappersLiveData.value = contactHashWrappers.toList()
 
-        viewModel.resources = resources
-        viewModel.contactHashWrappers = contactHashWrappers
-//        startService(contactHashWrappers)
+        viewModel.contactWrappersLiveData.observe(this, Observer {
+            it?.let(contactsAdapter::submitList)
+        })
     }
 
     private fun setupDataBinding() {
