@@ -106,6 +106,13 @@ class BatchActivity : Activity() {
 
     private fun handleSuccessBroadcast(intent: Intent) {
 
+        val finishedContactWrapper = intent.getSerializableExtra(
+            BatchService.CURRENT_CONTACT_WRAPPER_EXTRA_KEY
+        )
+//        successBroadcast.putExtra(BatchService.CURRENT_CONTACT_WRAPPER_EXTRA_KEY, finishedContact)
+//        successBroadcast.putExtra(BatchService.FINISHED_CONTACT_WRAPPERS_EXTRA_KEY, finishedContacts)
+//        successBroadcast.putExtra(BatchService.CONTACT_WRAPPERS_EXTRA_KEY, contacts)
+//        sendBroadcast(successBroadcast)
     }
 
     private fun handleErrorBroadcast(intent: Intent) {
