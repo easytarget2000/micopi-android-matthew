@@ -8,5 +8,5 @@ data class BatchContactViewModel(
 ) {
 
     val displayName: String = "${contactHashWrapper.contact.displayName} ${state.name}"
-
+    val contactID = contactHashWrapper.contact.entityID
 }

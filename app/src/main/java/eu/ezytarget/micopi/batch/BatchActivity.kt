@@ -79,6 +79,9 @@ class BatchActivity : Activity() {
                 it?.let(contactsAdapter::submitList)
             }
         )
+        viewModel.generateAndAssignImagesCallback = { contactHashWrappers ->
+            startService(contactHashWrappers)
+        }
     }
 
     private fun setupDataBinding() {

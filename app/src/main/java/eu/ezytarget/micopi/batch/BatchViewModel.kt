@@ -24,6 +24,7 @@ class BatchViewModel: ViewModel() {
             field = value
             setContactWrappersLiveData()
         }
+    var generateAndAssignImagesCallback: ((Array<ContactHashWrapper>) -> Unit)? = null
     private val contactWrapperViewModelsLiveData: MutableLiveData<List<BatchContactViewModel>>
             = MutableLiveData()
 
@@ -35,7 +36,7 @@ class BatchViewModel: ViewModel() {
     }
 
     fun onGenerateButtonClick(view: View) {
-
+        generateAndAssignImages()
     }
 
     private fun setContactWrappersLiveData() {
@@ -43,6 +44,10 @@ class BatchViewModel: ViewModel() {
             val state: BatchContactState = BatchContactState.UNTOUCHED
             BatchContactViewModel(contactHashWrapper, state)
         }
+    }
+
+    private fun generateAndAssignImages() {
+        generateAndAssignImagesCallback?.invoke(contactWrappers)
     }
 
 }
