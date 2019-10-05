@@ -121,10 +121,9 @@ class BatchActivity : Activity() {
     }
 
     private fun registerBroadcastReceiver() {
-        val filter = IntentFilter(
-            BatchService.CONTACT_SUCCESS_ACTION,
-            BatchService.CONTACT_ERROR_ACTION
-        )
+        val filter = IntentFilter()
+        filter.addAction(BatchService.CONTACT_SUCCESS_ACTION)
+        filter.addAction(BatchService.CONTACT_ERROR_ACTION)
         registerReceiver(broadcastReceiver, filter)
     }
 
