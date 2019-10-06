@@ -61,4 +61,6 @@
     <string name="batchContactProcessingStateAppendix">…</string>
     <string name="batchContactFailedStateAppendix"> - Failed to assign image</string>
     <string name="batchContactSuccessStateAppendix"> - Done</string>
+    <string name="mainMenuPlusAppPurchasedCopy">It looks like you have bought Micopi+ before. Please send an e-mail to hello@easy-target.eu with a proof of purchase, to receive a promo code for this in-app product.</string>
+    <string name="mainMenuSendMailButtonText">Send mail</string>
 </resources>

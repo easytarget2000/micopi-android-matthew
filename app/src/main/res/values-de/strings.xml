@@ -57,4 +57,6 @@
     <string name="batchContactSuccessStateAppendix">" - Fertig"</string>
     <string name="batchContactProcessingStateAppendix">…</string>
     <string name="batchContactFailedStateAppendix">" - Fehler beim Zuweisen"</string>
+    <string name="mainMenuPlusAppPurchasedCopy">Anscheinend hast du bereits Micopi+ gekauft. Bitte sende eine Email mit einem Kaufnachweis an hello@easy-target.eu, um einen Gutschein für dieses In-App-Produkt zu erhalten.</string>
+    <string name="mainMenuSendMailButtonText">Email senden</string>
 </resources>
