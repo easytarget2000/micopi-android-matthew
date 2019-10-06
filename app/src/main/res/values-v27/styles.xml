@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="AppTheme.Base">
-        <item name="android:statusBarColor">@color/navigationBarColor</item>
-        <item name="android:navigationBarColor">@color/navigationBarColor</item>
-    </style>
+<!--    <style name="AppTheme.ContactPicker" parent="AppTheme">-->
+<!--        <item name="colorControlNormal">@android:color/white</item>-->
+<!--        <item name="android:windowBackground">@color/contactPreviewBackground</item>-->
+<!--        <item name="android:navigationBarColor">@color/contactPreviewBackground</item>-->
+<!--        <item name="android:windowLightNavigationBar">true</item>-->
+<!--    </style>-->
 
-    <style name="AppTheme.ContactPicker" parent="AppTheme">
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="android:windowBackground">@color/contactPreviewBackground</item>
-        <item name="android:navigationBarColor">@color/contactPreviewBackground</item>
-        <item name="android:windowLightNavigationBar">true</item>
-    </style>
-
-    <style name="AppTheme.ContactPreview" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
-    </style>
+<!--    <style name="AppTheme.ContactPreview" parent="AppTheme">-->
+<!--        <item name="android:windowLightNavigationBar">true</item>-->
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
+<!--    </style>-->
 
 </resources>
