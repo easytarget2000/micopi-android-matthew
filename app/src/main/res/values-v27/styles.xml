@@ -13,9 +13,7 @@
         <item name="android:windowLightNavigationBar">true</item>
     </style>
 
-    <style name="AppTheme.ContactPreview" parent="AppTheme">
-        <item name="android:windowBackground">@color/contactPreviewBackground</item>
-        <item name="android:navigationBarColor">@color/contactPreviewBackground</item>
+    <style name="AppTheme.ContactPreview" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
