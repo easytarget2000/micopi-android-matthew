@@ -56,7 +56,7 @@ class MainMenuViewModel : ViewModel() {
         getCapabilities(context)
     }
 
-    fun handleSelectContactButtonClicked(view: View) {
+    fun onSelectContactButtonClick(view: View) {
         val activity = view.activity!!
         validatePermissionsAndSelectContactPicker(activity)
         tracker.handleContactPickerButtonClicked()
@@ -86,7 +86,11 @@ class MainMenuViewModel : ViewModel() {
             return
         }
 
-        selectionListener?.onContactSelected(contacts.first())
+        if (contacts.size > 1) {
+            selectionListener?.onContactsSelected(contacts)
+        } else {
+            selectionListener?.onContactSelected(contacts.first())
+        }
     }
 
     private fun validatePermissionsAndSelectContactPicker(activity: Activity) {

@@ -13,7 +13,7 @@
         <item name="android:windowLightNavigationBar">true</item>
     </style>
 
-    <style name="ContactPreviewTheme" parent="AppTheme.ContactPreview">
+    <style name="AppTheme.ContactPreview" parent="AppTheme">
         <item name="android:windowBackground">@color/contactPreviewBackground</item>
         <item name="android:navigationBarColor">@color/contactPreviewBackground</item>
         <item name="android:windowLightNavigationBar">true</item>

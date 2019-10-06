@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
+import eu.ezytarget.micopi.batch.BatchActivity
 import eu.ezytarget.micopi.common.ui.Activity
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.contact_preview.ContactPreviewActivity
@@ -64,6 +65,10 @@ class MainMenuActivity : Activity() {
             override fun onContactSelected(contactHashWrapper: ContactHashWrapper) {
                 startContactPreviewActivity(contactHashWrapper)
             }
+
+            override fun onContactsSelected(contactHashWrappers: Array<ContactHashWrapper>) {
+                startBatchActivity(contactHashWrappers)
+            }
         }
         viewModel.paymentFlowListener = object : PaymentFlowListener {
             override fun onPaymentFlowPlusProductPurchased() {
@@ -94,6 +99,15 @@ class MainMenuActivity : Activity() {
             contactHashWrapper
         )
         startActivity(contactPreviewIntent)
+    }
+
+    private fun startBatchActivity(contactHashWrappers: Array<ContactHashWrapper>) {
+        val batchIntent = Intent(BatchActivity.ACTION_IDENTIFIER)
+        batchIntent.putExtra(
+            BatchActivity.CONTACT_HASH_WRAPPERS_INTENT_EXTRA_NAME,
+            contactHashWrappers
+        )
+        startActivity(batchIntent)
     }
 
     private fun showPlusProductThankYouDialog() {

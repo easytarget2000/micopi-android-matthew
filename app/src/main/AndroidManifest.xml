@@ -29,12 +29,28 @@
         <activity
             android:name=".contact_preview.ContactPreviewActivity"
             android:exported="false"
-            android:theme="@style/ContactPreviewTheme">
+            android:theme="@style/AppTheme.ContactPreview">
             <intent-filter>
                 <action android:name="eu.ezytarget.micopi.CONTACT_PREVIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".batch.BatchActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.Batch">
+
+            <intent-filter>
+                <action android:name="eu.ezytarget.micopi.BATCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".batch.BatchService"
+            android:enabled="true"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

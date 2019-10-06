@@ -1,6 +1,7 @@
 package eu.ezytarget.micopi.common.engine
 
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import eu.ezytarget.matthew.Matthew
 import eu.ezytarget.matthew.util.RandomNumberGenerator
@@ -11,31 +12,15 @@ class ContactImageEngine(
     private val patternGenerator: PatternGenerator = PatternGenerator(),
     private val initialsPainter: InitialsPainter = InitialsPainter()
 ) {
-    private lateinit var contactHashWrappers: Array<ContactHashWrapper>
     private lateinit var randomNumberGenerator: RandomNumberGenerator
     private var stopped = false
     var numberOfInitials = 1
 
-    fun generateImageAsync(
-        contactHashWrappers: Array<ContactHashWrapper>,
-        resources: Resources?,
-        callback: ContatImageEngineCallback?
-    ) {
-        this.contactHashWrappers = contactHashWrappers
-        if (resources != null) {
-            matthew.populateColorProvider(resources)
-        }
-        stopped = false
-
-        contactHashWrappers.forEach {
-            generateImage(it, callback)
-        }
+    fun populateColorProvider(resources: Resources) {
+        matthew.populateColorProvider(resources)
     }
 
-    fun generateImage(
-        contactHashWrapper: ContactHashWrapper,
-        callback: ContatImageEngineCallback?
-    ) {
+    fun generateBitmap(contactHashWrapper: ContactHashWrapper): Bitmap {
         val contactHash = contactHashWrapper.hashCode()
         randomNumberGenerator = RandomNumberGenerator(contactHash)
         val bitmapBackedCanvas = matthew.configuredBitmapBackedCanvas(
@@ -47,7 +32,8 @@ class ContactImageEngine(
         paintBackground(bitmapBackedCanvas.canvas)
         paintPattern(bitmapBackedCanvas.canvas)
         paintInitials(bitmapBackedCanvas.canvas, contactHashWrapper)
-        callback?.invoke(contactHashWrapper, bitmapBackedCanvas.bitmap, true, true)
+
+        return bitmapBackedCanvas.bitmap
     }
 
     private fun paintBackground(canvas: Canvas) {
