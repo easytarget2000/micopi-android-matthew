@@ -22,109 +22,71 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp">
+            android:padding="16dp">
 
-            <androidx.cardview.widget.CardView style="@style/MainMenu.CardView">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/mainMenuFlowDescription" />
 
-                <!-- Top Card Child:-->
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:onClick="@{viewModel::onSelectContactButtonClick}"
+                android:text="@{viewModel.contactPickerButtonText}"
+                android:textColor="@android:color/white"
+                app:backgroundTint="@color/colorAccent" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <!-- Capabilities -->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/mainMenuFlowDescription" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{viewModel.capabilitiesCardCopy}"
+                android:visibility="@{viewModel.capabilitiesCardVisibility}" />
 
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:onClick="@{viewModel::onSelectContactButtonClick}"
-                        android:text="@{viewModel.contactPickerButtonText}"
-                        android:textColor="@android:color/white"
-                        app:backgroundTint="@color/colorAccent" />
+            <Button
+                style="?borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:onClick="@{viewModel::onPurchaseButtonClick}"
+                android:text="@{viewModel.purchaseButtonText}"
+                android:visibility="@{viewModel.purchaseButtonVisibility}" />
 
-                </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/mainMenuPlusAppPurchasedCopy"
+                android:visibility="@{viewModel.customerPromoVisibility}" />
 
-            </androidx.cardview.widget.CardView>
+            <Button
+                style="?borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:onClick="@{viewModel::onSendMailButtonClick}"
+                android:text="@string/mainMenuSendMailButtonText"
+                android:visibility="@{viewModel.customerPromoVisibility}" />
 
-            <!-- Capabilities / Google Play Card: -->
+            <!-- Disclaimer Card, to be replaced in issue #45: -->
 
-            <androidx.cardview.widget.CardView
-                style="@style/MainMenu.CardView"
-                android:visibility="@{viewModel.capabilitiesCardVisibility}">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/mainMenuDisclaimer" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+            <!-- Localization Card Child:-->
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewModel.capabilitiesCardCopy}" />
-
-                    <Button
-                        style="?borderlessButtonStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:onClick="@{viewModel::onPurchaseButtonClick}"
-                        android:text="@{viewModel.purchaseButtonText}"
-                        android:visibility="@{viewModel.purchaseButtonVisibility}" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/mainMenuPlusAppPurchasedCopy"
-                        android:visibility="@{viewModel.customerPromoVisibility}" />
-
-                    <Button
-                        style="?borderlessButtonStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/mainMenuSendMailButtonText"
-                        android:onClick="@{viewModel::onSendMailButtonClick}"
-                        android:visibility="@{viewModel.customerPromoVisibility}" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Warning Card, to be replaced in issue #45: -->
-
-            <androidx.cardview.widget.CardView style="@style/MainMenu.CardView">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/mainMenuDisclaimer" />
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView style="@style/MainMenu.CardView">
-
-                <!-- Localization Card Child:-->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/mainMenuLocalizationCopy" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/mainMenuLocalizationCopy" />
 
         </LinearLayout>
 
