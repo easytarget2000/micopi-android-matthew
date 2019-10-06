@@ -23,16 +23,12 @@ class MainMenuViewModel : ViewModel() {
     var contactPickerResultConverter: ContactPickerResultConverter = ContactPickerResultConverter()
     var capabilitiesManager: CapabilitiesManager = CapabilitiesManager()
     var tracker: MainMenuTracker = MainMenuTracker()
-    var contactPickerButtonText: MutableLiveData<String> = MutableLiveData()
-        private set
-    var capabilitiesCardCopy = MutableLiveData<String>("")
-        private set
-    var purchaseButtonText: MutableLiveData<String> = MutableLiveData()
-        private set
-    var purchaseButtonVisibility = MutableLiveData<Int>(View.GONE)
-        private set
-    var capabilitiesCardVisibility = MutableLiveData<Int>(View.VISIBLE)
-        private set
+    val contactPickerButtonText: MutableLiveData<String> = MutableLiveData()
+    val capabilitiesCardCopy = MutableLiveData<String>("")
+    val purchaseButtonText: MutableLiveData<String> = MutableLiveData()
+    val purchaseButtonVisibility = MutableLiveData<Int>(View.GONE)
+    val customerPromoVisibility = MutableLiveData<Int>(View.GONE)
+    val capabilitiesCardVisibility = MutableLiveData<Int>(View.VISIBLE)
 
     init {
         capabilitiesManager.listener = object : CapabilitiesManagerListener {
@@ -42,6 +38,10 @@ class MainMenuViewModel : ViewModel() {
 
             override fun onCapabilitiesManagerLoadedPlusProduct(inAppProduct: InAppProduct) {
                 showPurchaseAvailability(inAppProduct)
+            }
+
+            override fun onCapabilitiesManagerFoundPlusApp() {
+                showCustomerPromo()
             }
 
             override fun onCapabilitiesManagerFoundPlusPurchase(inPaymentFlow: Boolean) {
@@ -62,9 +62,13 @@ class MainMenuViewModel : ViewModel() {
         tracker.handleContactPickerButtonClicked()
     }
 
-    fun handlePurchaseButtonClicked(view: View) {
+    fun onPurchaseButtonClick(view: View) {
         val activity = view.activity!!
         startPlusPurchase(activity)
+    }
+
+    fun onSendMailButtonClick(view: View) {
+        selectionListener?.sendPromoMailSelected()
     }
 
     fun onRequestPermissionsResult(
@@ -152,12 +156,17 @@ class MainMenuViewModel : ViewModel() {
         capabilitiesManager.startPlusProductPurchase(activity)
     }
 
+    private fun showCustomerPromo() {
+        customerPromoVisibility.value = View.VISIBLE
+    }
+
     private fun showPurchaseSuccess(inPaymentFlow: Boolean) {
         capabilitiesCardVisibility.value = View.GONE
         purchaseButtonVisibility.value = View.GONE
         contactPickerButtonText.value = getStringFromResourcesOrFallback(
             R.string.mainMenuContactPickerButtonPluralText
         )
+        customerPromoVisibility.value = View.GONE
 
         if (inPaymentFlow) {
             paymentFlowListener?.onPaymentFlowPlusProductPurchased()
