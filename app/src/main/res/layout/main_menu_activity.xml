@@ -73,9 +73,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:onClick="@{viewModel::handlePurchaseButtonClicked}"
+                        android:onClick="@{viewModel::onPurchaseButtonClick}"
                         android:text="@{viewModel.purchaseButtonText}"
                         android:visibility="@{viewModel.purchaseButtonVisibility}" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/mainMenuPlusAppPurchasedCopy"
+                        android:visibility="@{viewModel.customerPromoVisibility}" />
+
+                    <Button
+                        style="?borderlessButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/mainMenuSendMailButtonText"
+                        android:onClick="@{viewModel::onSendMailButtonClick}"
+                        android:visibility="@{viewModel.customerPromoVisibility}" />
 
                 </LinearLayout>
 

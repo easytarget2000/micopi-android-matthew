@@ -6,4 +6,5 @@ interface MainMenuSelectionListener {
     fun onContactPickerSelected(allowMultipleSelection: Boolean = false)
     fun onContactSelected(contactHashWrapper: ContactHashWrapper)
     fun onContactsSelected(contactHashWrappers: Array<ContactHashWrapper>)
+    fun sendPromoMailSelected()
 }
