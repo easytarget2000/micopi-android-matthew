@@ -33,7 +33,6 @@ class MainMenuViewModel : ViewModel() {
     init {
         capabilitiesManager.listener = object : CapabilitiesManagerListener {
             override fun onCapabilitiesManagerFailedToConnect(errorMessage: String?) {
-
             }
 
             override fun onCapabilitiesManagerLoadedPlusProduct(inAppProduct: InAppProduct) {
@@ -41,7 +40,6 @@ class MainMenuViewModel : ViewModel() {
             }
 
             override fun onCapabilitiesManagerFoundPlusApp() {
-                showCustomerPromo()
             }
 
             override fun onCapabilitiesManagerFoundPlusPurchase(inPaymentFlow: Boolean) {
@@ -150,14 +148,16 @@ class MainMenuViewModel : ViewModel() {
         )
         capabilitiesCardVisibility.value = View.VISIBLE
         purchaseButtonVisibility.value = View.VISIBLE
+
+        if (capabilitiesManager.hasPlusApp) {
+            customerPromoVisibility.value = View.VISIBLE
+        } else {
+            customerPromoVisibility.value = View.GONE
+        }
     }
 
     private fun startPlusPurchase(activity: Activity) {
         capabilitiesManager.startPlusProductPurchase(activity)
-    }
-
-    private fun showCustomerPromo() {
-        customerPromoVisibility.value = View.VISIBLE
     }
 
     private fun showPurchaseSuccess(inPaymentFlow: Boolean) {

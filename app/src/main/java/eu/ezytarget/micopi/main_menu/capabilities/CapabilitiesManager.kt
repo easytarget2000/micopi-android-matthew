@@ -14,9 +14,11 @@ class CapabilitiesManager(
             field = value
             storage.didPurchasePlusBefore = value
         }
+    var hasPlusApp = false
+        private set
 
     fun getCapabilities(context: Context) {
-        val hasPlusApp = plusAppDetector.search(context.packageManager)
+        hasPlusApp = plusAppDetector.search(context.packageManager)
         if (hasPlusApp) {
             listener?.onCapabilitiesManagerFoundPlusApp()
         }
