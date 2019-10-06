@@ -8,7 +8,6 @@ class CapabilitiesManager(
     private val storage: CapabilitiesStorage = CapabilitiesStorage(),
     private val plusAppDetector: PlusAppDetector = PlusAppDetector()
 ) {
-
     var listener: CapabilitiesManagerListener? = null
     var hasPlusProduct = false
         private set(value) {
