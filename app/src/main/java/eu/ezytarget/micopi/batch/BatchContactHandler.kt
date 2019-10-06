@@ -60,17 +60,18 @@ class BatchContactHandler {
                 finishedContactWrappers.toTypedArray(),
                 contactWrappers
             )
-            if (contactWrappers.last() === contactWrapper) {
-                listener?.onBatchFinish(
-                    finishedContactWrappers.toTypedArray(),
-                    failedContactWrappers.toTypedArray(),
-                    contactWrappers
-                )
-            }
         } else {
             failedContactWrappers.add(contactWrapper)
             listener?.onBatchContactError(
                 contactWrapper,
+                failedContactWrappers.toTypedArray(),
+                contactWrappers
+            )
+        }
+
+        if (contactWrappers.last() === contactWrapper) {
+            listener?.onBatchFinish(
+                finishedContactWrappers.toTypedArray(),
                 failedContactWrappers.toTypedArray(),
                 contactWrappers
             )

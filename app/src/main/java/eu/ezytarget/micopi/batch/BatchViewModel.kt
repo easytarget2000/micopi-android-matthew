@@ -1,6 +1,7 @@
 package eu.ezytarget.micopi.batch
 
 import android.content.res.Resources
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import eu.ezytarget.micopi.R
@@ -15,6 +16,10 @@ class BatchViewModel : ViewModel() {
             setContactWrappersLiveData()
         }
     var currentContactWrapper: ContactHashWrapper? = null
+        set(value) {
+            field = value
+            setContactWrappersLiveData()
+        }
     var finishedContactWrappers: Array<ContactHashWrapper> = emptyArray()
         set(value) {
             field = value
@@ -49,7 +54,7 @@ class BatchViewModel : ViewModel() {
         BatchContactViewModel.doneStateAppendix = resources.getString(
             R.string.batchContactSuccessStateAppendix
         )
-        BatchContactViewModel.failedStatateAppendix = resources.getString(
+        BatchContactViewModel.failedStateAppendix = resources.getString(
             R.string.batchContactFailedStateAppendix
         )
     }
@@ -71,19 +76,25 @@ class BatchViewModel : ViewModel() {
 
     fun handleServiceStopped() {
         isRunningLiveData.value = false
+        currentContactWrapper = null
     }
 
     private fun setContactWrappersLiveData() {
         contactWrapperViewModelsLiveData.value = contactWrappers.map { contactHashWrapper ->
             val state: BatchContactState = when {
-                currentContactWrapper == contactHashWrapper -> BatchContactState.PROCESSING
                 failedContactWrappers.contains(contactHashWrapper) -> BatchContactState.FAILED
                 finishedContactWrappers.contains(contactHashWrapper) -> BatchContactState.DONE
+                currentContactWrapper == contactHashWrapper -> BatchContactState.PROCESSING
                 else -> BatchContactState.UNTOUCHED
             }
 
             BatchContactViewModel(contactHashWrapper, state)
         }
+
+        Log.d(
+            tag,
+            "setContactWrappersLiveData(): finishedContactWrappers: ${finishedContactWrappers.contentToString()} "
+        )
     }
 
     private fun handleButtonClick() {
@@ -95,4 +106,7 @@ class BatchViewModel : ViewModel() {
         }
     }
 
+    companion object {
+        val tag = BatchViewModel::class.java.name
+    }
 }

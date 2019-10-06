@@ -13,7 +13,7 @@ data class BatchContactViewModel(
             BatchContactState.UNTOUCHED -> untouchedStateAppendix
             BatchContactState.PROCESSING -> processingStateAppendix
             BatchContactState.DONE -> doneStateAppendix
-            BatchContactState.FAILED -> failedStatateAppendix
+            BatchContactState.FAILED -> failedStateAppendix
         }
         return "${contactHashWrapper.contact.displayName} $stateAppendix"
     }
@@ -37,6 +37,6 @@ data class BatchContactViewModel(
         var untouchedStateAppendix = ""
         var processingStateAppendix = ""
         var doneStateAppendix = ""
-        var failedStatateAppendix = ""
+        var failedStateAppendix = ""
     }
 }

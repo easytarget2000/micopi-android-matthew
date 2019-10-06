@@ -188,6 +188,7 @@ class BatchActivity : Activity() {
     companion object {
         const val ACTION_IDENTIFIER = "eu.ezytarget.micopi.BATCH"
         const val CONTACT_HASH_WRAPPERS_INTENT_EXTRA_NAME = "CONTACT_HASH_WRAPPERS"
+        val tag = BatchActivity::class.java.name
     }
 
 }
