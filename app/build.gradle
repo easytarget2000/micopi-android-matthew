@@ -44,6 +44,7 @@ dependencies {
     implementation 'eu.ezytarget.matthew:matthew-android:0.1.11'
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.android.billingclient:billing:2.0.3'
+    implementation "androidx.preference:preference-ktx:1.1.0"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
