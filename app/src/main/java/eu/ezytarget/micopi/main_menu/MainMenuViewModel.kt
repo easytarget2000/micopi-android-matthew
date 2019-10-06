@@ -120,7 +120,7 @@ class MainMenuViewModel : ViewModel() {
      */
 
     private fun getCapabilities(context: Context) {
-        capabilitiesManager.setup(context)
+        capabilitiesManager.getCapabilities(context)
 
         contactPickerButtonText.value = context.getString(
             R.string.mainMenuContactPickerButtonDefaultText

@@ -5,7 +5,8 @@ import android.content.Context
 
 class CapabilitiesManager(
     private val purchaseManager: PurchaseManager = PurchaseManager(),
-    private val storage: CapabilitiesStorage = CapabilitiesStorage()
+    private val storage: CapabilitiesStorage = CapabilitiesStorage(),
+    private val plusAppDetector: PlusAppDetector = PlusAppDetector()
 ) {
 
     var listener: CapabilitiesManagerListener? = null
@@ -15,7 +16,12 @@ class CapabilitiesManager(
             storage.didPurchasePlusBefore = value
         }
 
-    fun setup(context: Context) {
+    fun getCapabilities(context: Context) {
+        val hasPlusApp = plusAppDetector.search(context.packageManager)
+        if (hasPlusApp) {
+            listener?.onCapabilitiesManagerFoundPlusApp()
+        }
+
         storage.setup(context)
         if (storage.didPurchasePlusBefore) {
             listener?.onCapabilitiesManagerFoundPlusPurchase(false)
