@@ -12,7 +12,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.MainMenu" parent="AppTheme.MaterialComponents" />
+    <style name="AppTheme.MainMenu" parent="AppTheme.AppCompat" />
 
     <style name="AppTheme.ContactPicker" parent="AppTheme.AppCompat" />
 
