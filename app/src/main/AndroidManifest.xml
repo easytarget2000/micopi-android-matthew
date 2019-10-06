@@ -14,7 +14,7 @@
         android:label="@string/appName"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.AppCompat"
+        android:theme="@style/AppTheme.MaterialComponents"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:label">
 
