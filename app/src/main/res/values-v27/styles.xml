@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme.MaterialComponents" parent="AppTheme.AppCompat.Base">
+    <style name="AppTheme.MaterialComponents" parent="AppTheme.MaterialComponents.Base">
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:windowLightStatusBar">@bool/isDayTheme</item>
+        <item name="android:navigationBarColor">?android:colorBackground</item>
+    </style>
+
+    <style name="AppTheme.ContactPreview" parent="AppTheme.MaterialComponents">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
 </resources>
