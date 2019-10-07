@@ -6,7 +6,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.MaterialComponents" parent="AppTheme.MaterialComponents.Base" />
+    <style name="AppTheme.MaterialComponents" parent="AppTheme.MaterialComponents.Base" >
+        <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
+    </style>
 
     <style name="AppTheme.MainMenu" parent="AppTheme.MaterialComponents" />
 
@@ -15,7 +17,10 @@
     <style name="AppTheme.ContactPreview" parent="AppTheme.MaterialComponents" />
 
     <style name="AppTheme.Batch" parent="AppTheme.MaterialComponents">
-        
+    </style>
+
+    <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?android:attr/colorBackground</item>
     </style>
 
     <style name="ContactPreviewSelectable" parent="Widget.MaterialComponents.Button.TextButton">
