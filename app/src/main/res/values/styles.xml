@@ -20,7 +20,6 @@
 
     <style name="AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:background">?android:attr/colorBackground</item>
-<!--        <item name="android:background">@color/border_color</item>-->
     </style>
 
     <style name="ContactPreviewSelectable" parent="Widget.MaterialComponents.Button.TextButton">
