@@ -1,15 +1,17 @@
 package eu.ezytarget.micopi.batch
 
 import android.content.res.Resources
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
+import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
+import eu.ezytarget.micopi.batch.service.BatchViewModelServiceListener
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.ui.ViewModel
 
 class BatchViewModel : ViewModel() {
 
+    var tracker: BatchTracker = BatchTracker()
     var contactWrappers: Array<ContactHashWrapper> = emptyArray()
         set(value) {
             field = value
@@ -59,6 +61,10 @@ class BatchViewModel : ViewModel() {
         )
     }
 
+    fun setupTracker(firebaseInstance: FirebaseAnalytics) {
+        tracker.firebaseInstance = firebaseInstance
+    }
+
     fun setupContactViewModels(
         viewModelsOwner: LifecycleOwner,
         viewModelsObserver: Observer<List<BatchContactViewModel>>
@@ -90,19 +96,16 @@ class BatchViewModel : ViewModel() {
 
             BatchContactViewModel(contactHashWrapper, state)
         }
-
-        Log.d(
-            tag,
-            "setContactWrappersLiveData(): finishedContactWrappers: ${finishedContactWrappers.contentToString()} "
-        )
     }
 
     private fun handleButtonClick() {
         val isRunning = isRunningLiveData.value ?: true
         if (isRunning) {
             serviceListener?.onBatchServiceStopRequested()
+            tracker.handleCancelButtonClick()
         } else {
             serviceListener?.onBatchServiceStartRequested(contactWrappers)
+            tracker.handleStartButtonClick()
         }
     }
 

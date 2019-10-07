@@ -11,6 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import eu.ezytarget.micopi.R
+import eu.ezytarget.micopi.batch.service.BatchService
+import eu.ezytarget.micopi.batch.service.BatchViewModelServiceListener
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.ui.Activity
 import eu.ezytarget.micopi.databinding.BatchActivityBinding
@@ -86,13 +88,15 @@ class BatchActivity : Activity() {
             intent.extras!![CONTACT_HASH_WRAPPERS_INTENT_EXTRA_NAME]
                     as Array<ContactHashWrapper>
         viewModel.contactWrappers = contactHashWrappers
+        viewModel.setupTracker(getFirebaseInstance())
         viewModel.setupContactViewModels(
             viewModelsOwner = this,
             viewModelsObserver = Observer {
                 it?.let(contactsAdapter::submitList)
             }
         )
-        viewModel.serviceListener = object : BatchViewModelServiceListener {
+        viewModel.serviceListener = object :
+            BatchViewModelServiceListener {
             override fun onBatchServiceStartRequested(
                 contactHashWrappers: Array<ContactHashWrapper>
             ) {

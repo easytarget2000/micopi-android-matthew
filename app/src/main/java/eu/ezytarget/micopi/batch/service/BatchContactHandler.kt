@@ -1,4 +1,4 @@
-package eu.ezytarget.micopi.batch
+package eu.ezytarget.micopi.batch.service
 
 import android.content.ContentResolver
 import android.content.res.Resources

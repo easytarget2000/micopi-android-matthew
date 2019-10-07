@@ -1,4 +1,4 @@
-package eu.ezytarget.micopi.batch
+package eu.ezytarget.micopi.batch.service
 
 import android.app.IntentService
 import android.content.Intent
@@ -6,7 +6,8 @@ import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
 class BatchService : IntentService(tag) {
 
-    var batchContactHandler: BatchContactHandler = BatchContactHandler()
+    var batchContactHandler: BatchContactHandler =
+        BatchContactHandler()
 
     override fun onHandleIntent(intent: Intent?) {
         if (intent == null) {

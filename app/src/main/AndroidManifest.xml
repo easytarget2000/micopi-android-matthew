@@ -49,7 +49,7 @@
         </activity>
 
         <service
-            android:name=".batch.BatchService"
+            android:name=".batch.service.BatchService"
             android:enabled="true"
             android:exported="false" />
 

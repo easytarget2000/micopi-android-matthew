@@ -1,4 +1,4 @@
-package eu.ezytarget.micopi.main_menu.capabilities
+package eu.ezytarget.micopi.main_menu.capabilities.purchase
 
 import android.app.Activity
 import android.content.Context
@@ -7,15 +7,22 @@ import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import com.android.billingclient.api.BillingClient.BillingResponseCode.USER_CANCELED
 import com.android.billingclient.api.BillingClient.SkuType.INAPP
+import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.BuildConfig
 
-class PurchaseManager {
+class PurchaseManager(
+    private val skuDetailsConverter: SkuDetailsConverter = SkuDetailsConverter(),
+    private val tracker: PurchaseTracker = PurchaseTracker()
+) {
 
-    var skuDetailsConverter: SkuDetailsConverter = SkuDetailsConverter()
     var listener: PurchaseManagerListener? = null
     private var startedBillingFlow = false
     private lateinit var billingClient: BillingClient
     private lateinit var plusSkuDetails: SkuDetails
+
+    fun setupTracker(firebaseInstance: FirebaseAnalytics) {
+        tracker.firebaseInstance = firebaseInstance
+    }
 
     fun startConnectionAndQueryData(context: Context) {
         val billingClientBuilder = BillingClient.newBuilder(context)
@@ -29,8 +36,10 @@ class PurchaseManager {
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode != OK) {
-                    Log.e(tag, "onBillingSetupFinished(): ${billingResult.debugMessage}")
-                    listener?.onPurchaseManagerFailedToConnect(billingResult.debugMessage)
+                    val errorMessage = billingResult.debugMessage
+                    Log.e(tag, "onBillingSetupFinished(): $errorMessage")
+                    listener?.onPurchaseManagerFailedToConnect(errorMessage)
+                    tracker.handleBillingClientConnectionFailed(errorMessage)
                     return
                 }
 
@@ -50,6 +59,7 @@ class PurchaseManager {
             .build()
         val responseCode = billingClient.launchBillingFlow(activity, flowParams)
 
+        tracker.handlePlusBillingFlowLaunch()
         if (verbose) {
             Log.d(tag, "startPlusPurchase(): responseCode: $responseCode")
         }
@@ -74,6 +84,7 @@ class PurchaseManager {
 
         if (billingResult.responseCode == USER_CANCELED) {
             startedBillingFlow = false
+            tracker.handlePlusBillingFlowUserCancel()
             return
         }
 

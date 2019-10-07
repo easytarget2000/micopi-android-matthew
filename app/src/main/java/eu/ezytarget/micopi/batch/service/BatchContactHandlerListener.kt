@@ -1,4 +1,4 @@
-package eu.ezytarget.micopi.batch
+package eu.ezytarget.micopi.batch.service
 
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
