@@ -97,10 +97,10 @@ class BatchViewModel : ViewModel() {
         val isRunning = isRunningLiveData.value ?: true
         if (isRunning) {
             serviceListener?.onBatchServiceStopRequested()
-            tracker.handleStartButtonClick()
+            tracker.handleCancelButtonClick()
         } else {
             serviceListener?.onBatchServiceStartRequested(contactWrappers)
-            tracker.handleCancelButtonClick()
+            tracker.handleStartButtonClick()
         }
     }
 
