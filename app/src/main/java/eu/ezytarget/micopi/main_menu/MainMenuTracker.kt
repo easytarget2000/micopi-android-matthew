@@ -9,6 +9,6 @@ class MainMenuTracker: Tracker() {
     }
 
     companion object {
-        private const val CONTACT_PICKER_BUTTON_CLICKED_EVENT = "CONTACT_PICKER_BUTTON_CLICKED"
+        private const val CONTACT_PICKER_BUTTON_CLICKED_EVENT = "contact_picker_button_clicked"
     }
 }

@@ -30,11 +30,11 @@ class ContactPreviewTracker: Tracker() {
     }
 
     companion object {
-        private const val NEXT_IMAGE_BUTTON_CLICKED_EVENT = "NEXT_IMAGE_BUTTON_CLICKED"
-        private const val PREVIOUS_IMAGE_BUTTON_CLICKED_EVENT = "PREVIOUS_IMAGE_BUTTON_CLICKED"
-        private const val SAVE_IMAGE_BUTTON_CLICKED_EVENT = "SAVE_IMAGE_BUTTON_CLICKED"
-        private const val SHARE_IMAGE_BUTTON_CLICKED_EVENT = "SHARE_IMAGE_BUTTON_CLICKED"
-        private const val ASSIGN_IMAGE_BUTTON_CLICKED_EVENT = "ASSIGN_IMAGE_BUTTON_CLICKED"
-        private const val ASSIGNMENT_ERROR_EVENT = "ASSIGNMENT_ERROR"
+        private const val NEXT_IMAGE_BUTTON_CLICKED_EVENT = "next_image_button_clicked"
+        private const val PREVIOUS_IMAGE_BUTTON_CLICKED_EVENT = "previous_image_button_clicked"
+        private const val SAVE_IMAGE_BUTTON_CLICKED_EVENT = "save_image_button_clicked"
+        private const val SHARE_IMAGE_BUTTON_CLICKED_EVENT = FirebaseAnalytics.Event.SHARE
+        private const val ASSIGN_IMAGE_BUTTON_CLICKED_EVENT = "assign_image_button_clicked"
+        private const val ASSIGNMENT_ERROR_EVENT = "assignment_error"
     }
 }
