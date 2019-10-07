@@ -92,11 +92,6 @@ class BatchViewModel : ViewModel() {
 
             BatchContactViewModel(contactHashWrapper, state)
         }
-
-        Log.d(
-            tag,
-            "setContactWrappersLiveData(): finishedContactWrappers: ${finishedContactWrappers.contentToString()} "
-        )
     }
 
     private fun handleButtonClick() {
