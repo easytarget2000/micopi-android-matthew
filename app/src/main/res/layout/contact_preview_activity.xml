@@ -6,122 +6,126 @@
     tools:context=".contact_preview.ContactPreviewActivity">
 
     <data>
+
         <variable
             name="viewModel"
             type="eu.ezytarget.micopi.contact_preview.ContactPreviewViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Main Content-->
-
-        <ScrollView
-            android:id="@+id/contactPreviewScrollView"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <!-- Main Content-->
+
+            <ScrollView
+                android:id="@+id/contactPreviewScrollView"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="64dp">
+
+                    <ImageView
+                        android:id="@+id/contactPreviewImageView"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:background="@android:color/darker_gray"
+                        android:contentDescription="@string/contactPreviewImageContentDescription"
+                        android:minHeight="240dp"
+                        android:src="@{viewModel.generatedDrawable}" />
+
+                    <TextView
+                        android:id="@+id/contactPreviewNameView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="80dp"
+                        android:layout_marginRight="80dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@{viewModel.contactName}"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <!-- Secondary Buttons-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/ContactPreviewSelectable"
+                            android:drawableTop="@drawable/ic_arrow_back_black_24dp"
+                            android:enabled="@{viewModel.interactionEnabled}"
+                            android:onClick="@{viewModel::handlePreviousImageButtonClicked}"
+                            android:text="@string/contactPreviewPreviousImageButtonText" />
+
+                        <TextView
+                            style="@style/ContactPreviewSelectable"
+                            android:drawableTop="@drawable/ic_arrow_forward_black_24dp"
+                            android:enabled="@{viewModel.interactionEnabled}"
+                            android:onClick="@{viewModel::handleNextImageButtonClicked}"
+                            android:src="@android:drawable/ic_media_next"
+                            android:text="@string/contactPreviewNextImageButtonText" />
+
+                    </LinearLayout>
+
+                    <!-- Second row of buttons: -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/ContactPreviewSelectable"
+                            android:drawableTop="@drawable/ic_save_black_24dp"
+                            android:enabled="@{viewModel.interactionEnabled}"
+                            android:onClick="@{viewModel::handleSaveImageToDeviceButtonClicked}"
+                            android:text="@string/contactPreviewSaveButtonText" />
+
+                        <TextView
+                            style="@style/ContactPreviewSelectable"
+                            android:drawableTop="@drawable/ic_share_black_24dp"
+                            android:enabled="@{viewModel.interactionEnabled}"
+                            android:onClick="@{viewModel::handleShareImageButtonClicked}"
+                            android:text="@string/contactPreviewShareButtonText" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </ScrollView>
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="64dp">
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="16dp"
+                android:enabled="@{viewModel.interactionEnabled}"
+                android:onClick="@{viewModel::handleAssignImageButtonClicked}"
+                android:text="@string/contactPreviewAssignButtonText"
+                android:textColor="@color/fabForeground"
+                app:backgroundTint="@color/fabBackground"
+                app:icon="@drawable/ic_done_black_24dp"
+                app:iconTint="@color/fabForeground" />
 
-                <ImageView
-                    android:id="@+id/contactPreviewImageView"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-                    android:background="@android:color/darker_gray"
-                    android:contentDescription="@string/contactPreviewImageContentDescription"
-                    android:minHeight="240dp"
-                    android:src="@{viewModel.generatedDrawable}" />
+        </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/contactPreviewNameView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="80dp"
-                    android:layout_marginRight="80dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="@{viewModel.contactName}"
-                    android:textAppearance="?android:attr/textAppearanceLarge" />
-
-                <!-- Secondary Buttons-->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/ContactPreviewSelectable"
-                        android:drawableTop="@drawable/ic_arrow_back_black_24dp"
-                        android:enabled="@{viewModel.interactionEnabled}"
-                        android:onClick="@{viewModel::handlePreviousImageButtonClicked}"
-                        android:text="@string/contactPreviewPreviousImageButtonText" />
-
-                    <TextView
-                        style="@style/ContactPreviewSelectable"
-                        android:drawableTop="@drawable/ic_arrow_forward_black_24dp"
-                        android:enabled="@{viewModel.interactionEnabled}"
-                        android:onClick="@{viewModel::handleNextImageButtonClicked}"
-                        android:src="@android:drawable/ic_media_next"
-                        android:text="@string/contactPreviewNextImageButtonText" />
-
-                </LinearLayout>
-
-                <!-- Second row of buttons: -->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/ContactPreviewSelectable"
-                        android:drawableTop="@drawable/ic_save_black_24dp"
-                        android:enabled="@{viewModel.interactionEnabled}"
-                        android:onClick="@{viewModel::handleSaveImageToDeviceButtonClicked}"
-                        android:text="@string/contactPreviewSaveButtonText" />
-
-                    <TextView
-                        style="@style/ContactPreviewSelectable"
-                        android:drawableTop="@drawable/ic_share_black_24dp"
-                        android:enabled="@{viewModel.interactionEnabled}"
-                        android:onClick="@{viewModel::handleShareImageButtonClicked}"
-                        android:text="@string/contactPreviewShareButtonText" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </ScrollView>
-
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="16dp"
-            android:enabled="@{viewModel.interactionEnabled}"
-            android:onClick="@{viewModel::handleAssignImageButtonClicked}"
-            android:text="@string/contactPreviewAssignButtonText"
-            android:textColor="@color/fabForeground"
-            app:backgroundTint="@color/fabBackground"
-            app:icon="@drawable/ic_done_black_24dp"
-            app:iconTint="@color/fabForeground" />
-
-        <!--    <include layout="@layout/include_back_button" />-->
-        <!--    <include layout="@layout/include_success_arrow" />-->
-
-    </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

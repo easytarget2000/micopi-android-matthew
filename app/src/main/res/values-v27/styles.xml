@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="AppTheme.Base">
-        <item name="android:statusBarColor">@color/navigationBarColor</item>
-        <item name="android:navigationBarColor">@color/navigationBarColor</item>
+    <style name="AppTheme.MaterialComponents" parent="AppTheme.MaterialComponents.Base">
+        <item name="android:statusBarColor">?android:colorBackground</item>
+        <item name="android:windowLightStatusBar">@bool/isDayTheme</item>
+        <item name="android:windowLightNavigationBar">@bool/isDayTheme</item>
+        <item name="android:navigationBarColor">?android:colorBackground</item>
+        <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
     </style>
 
-    <style name="AppTheme.ContactPicker" parent="AppTheme">
-        <item name="colorControlNormal">@android:color/white</item>
-        <item name="android:windowBackground">@color/contactPreviewBackground</item>
-        <item name="android:navigationBarColor">@color/contactPreviewBackground</item>
-        <item name="android:windowLightNavigationBar">true</item>
-    </style>
-
-    <style name="AppTheme.ContactPreview" parent="AppTheme">
-        <item name="android:windowBackground">@color/contactPreviewBackground</item>
-        <item name="android:navigationBarColor">@color/contactPreviewBackground</item>
-        <item name="android:windowLightNavigationBar">true</item>
+    <style name="AppTheme.ContactPreview" parent="AppTheme.MaterialComponents">
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
 </resources>

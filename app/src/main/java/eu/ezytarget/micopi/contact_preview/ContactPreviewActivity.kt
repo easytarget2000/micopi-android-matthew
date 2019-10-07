@@ -42,10 +42,11 @@ class ContactPreviewActivity : Activity() {
         viewModel.resources = resources
         viewModel.contentResolver = contentResolver
         viewModel.contactHashWrapper = contactHashWrapper
-        viewModel.listener = object : ContactPreviewViewModelListener{
+        viewModel.listener = object : ContactPreviewViewModelListener {
             override fun onMessageRequested(message: String) {
                 showMessage(message)
             }
+
             override fun onImageUriSharingRequested(imageUri: Uri) {
                 shareImageUri(imageUri)
             }
