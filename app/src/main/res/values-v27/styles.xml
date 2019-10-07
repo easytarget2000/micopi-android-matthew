@@ -5,6 +5,7 @@
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:windowLightStatusBar">@bool/isDayTheme</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
+        <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
     </style>
 
     <style name="AppTheme.ContactPreview" parent="AppTheme.MaterialComponents">
