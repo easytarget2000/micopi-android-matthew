@@ -88,6 +88,7 @@ class BatchActivity : Activity() {
             intent.extras!![CONTACT_HASH_WRAPPERS_INTENT_EXTRA_NAME]
                     as Array<ContactHashWrapper>
         viewModel.contactWrappers = contactHashWrappers
+        viewModel.setupTracker(getFirebaseInstance())
         viewModel.setupContactViewModels(
             viewModelsOwner = this,
             viewModelsObserver = Observer {

@@ -3,6 +3,7 @@ package eu.ezytarget.micopi.batch
 import android.content.res.Resources
 import android.view.View
 import androidx.lifecycle.*
+import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.batch.service.BatchViewModelServiceListener
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
@@ -58,6 +59,10 @@ class BatchViewModel : ViewModel() {
         BatchContactViewModel.failedStateAppendix = resources.getString(
             R.string.batchContactFailedStateAppendix
         )
+    }
+
+    fun setupTracker(firebaseInstance: FirebaseAnalytics) {
+        tracker.firebaseInstance = firebaseInstance
     }
 
     fun setupContactViewModels(
