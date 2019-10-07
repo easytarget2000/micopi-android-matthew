@@ -6,8 +6,7 @@ import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
 class BatchService : IntentService(tag) {
 
-    var batchContactHandler: BatchContactHandler =
-        BatchContactHandler()
+    var batchContactHandler: BatchContactHandler = BatchContactHandler()
 
     override fun onHandleIntent(intent: Intent?) {
         if (intent == null) {
@@ -58,6 +57,15 @@ class BatchService : IntentService(tag) {
 
         batchContactHandler.setup(contentResolver)
         batchContactHandler.generateAndAssign(contactWrappers, resources, listener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopBatchHandler()
+    }
+
+    private fun stopBatchHandler() {
+        batchContactHandler.stopGenerateAndAssign()
     }
 
     private fun broadcastProcessingStarted(

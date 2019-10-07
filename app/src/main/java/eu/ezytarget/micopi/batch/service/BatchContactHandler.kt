@@ -10,6 +10,7 @@ class BatchContactHandler {
 
     var engine: ContactImageEngine = ContactImageEngine()
     var contactDatabaseImageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
+    var stopped = true
 
     fun setup(contentResolver: ContentResolver) {
         contactDatabaseImageWriter.contentResolver = contentResolver
@@ -20,6 +21,8 @@ class BatchContactHandler {
         resources: Resources?,
         listener: BatchContactHandlerListener? = null
     ) {
+        stopped = false
+
         val failedContactWrappers = ArrayList<ContactHashWrapper>()
         val finishedContactWrappers = ArrayList<ContactHashWrapper>()
 
@@ -38,6 +41,10 @@ class BatchContactHandler {
         }
     }
 
+    fun stopGenerateAndAssign() {
+        stopped = true
+    }
+
     private fun generateAndAssign(
         contactWrapper: ContactHashWrapper,
         contactWrappers: Array<ContactHashWrapper>,
@@ -45,9 +52,18 @@ class BatchContactHandler {
         failedContactWrappers: ArrayList<ContactHashWrapper>,
         listener: BatchContactHandlerListener?
     ) {
+        if (stopped) {
+            return
+        }
+
         listener?.onBatchContactProcessingStarted(contactWrapper, contactWrappers)
 
         val generatedBitmap = engine.generateBitmap(contactWrapper)
+
+        if (stopped) {
+            return
+        }
+
         val didAssignImage = contactDatabaseImageWriter.assignImageToContact(
             generatedBitmap,
             contactWrapper.contact
