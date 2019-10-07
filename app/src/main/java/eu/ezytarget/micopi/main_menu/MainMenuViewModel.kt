@@ -12,7 +12,7 @@ import eu.ezytarget.micopi.common.permissions.PermissionManager
 import eu.ezytarget.micopi.common.ui.ViewModel
 import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManager
 import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManagerListener
-import eu.ezytarget.micopi.main_menu.capabilities.InAppProduct
+import eu.ezytarget.micopi.main_menu.capabilities.purchase.InAppProduct
 
 
 class MainMenuViewModel : ViewModel() {

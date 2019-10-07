@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import eu.ezytarget.micopi.R
+import eu.ezytarget.micopi.batch.service.BatchViewModelServiceListener
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.ui.ViewModel
 
 class BatchViewModel : ViewModel() {
 
+    var tracker: BatchTracker = BatchTracker()
     var contactWrappers: Array<ContactHashWrapper> = emptyArray()
         set(value) {
             field = value
@@ -101,8 +103,10 @@ class BatchViewModel : ViewModel() {
         val isRunning = isRunningLiveData.value ?: true
         if (isRunning) {
             serviceListener?.onBatchServiceStopRequested()
+            tracker.handleStartButtonClick()
         } else {
             serviceListener?.onBatchServiceStartRequested(contactWrappers)
+            tracker.handleCancelButtonClick()
         }
     }
 

@@ -2,11 +2,15 @@ package eu.ezytarget.micopi.main_menu.capabilities
 
 import android.app.Activity
 import android.content.Context
+import eu.ezytarget.micopi.main_menu.capabilities.purchase.InAppProduct
+import eu.ezytarget.micopi.main_menu.capabilities.purchase.PurchaseManager
+import eu.ezytarget.micopi.main_menu.capabilities.purchase.PurchaseManagerListener
 
 class CapabilitiesManager(
     private val purchaseManager: PurchaseManager = PurchaseManager(),
     private val storage: CapabilitiesStorage = CapabilitiesStorage(),
-    private val plusAppDetector: PlusAppDetector = PlusAppDetector()
+    private val plusAppDetector: PlusAppDetector = PlusAppDetector(),
+    private val tracker: CapabilitiesTracker = CapabilitiesTracker()
 ) {
     var listener: CapabilitiesManagerListener? = null
     var hasPlusProduct = false
@@ -21,6 +25,7 @@ class CapabilitiesManager(
         hasPlusApp = plusAppDetector.search(context.packageManager)
         if (hasPlusApp) {
             listener?.onCapabilitiesManagerFoundPlusApp()
+            tracker.handlePlusAppFound()
         }
 
         storage.setup(context)
@@ -49,5 +54,6 @@ class CapabilitiesManager(
 
     fun startPlusProductPurchase(activity: Activity) {
         purchaseManager.startPlusPurchase(activity)
+        tracker.handlePlusProductPurchaseStart()
     }
 }

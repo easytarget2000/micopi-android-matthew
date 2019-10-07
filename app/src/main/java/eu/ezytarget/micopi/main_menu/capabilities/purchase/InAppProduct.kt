@@ -1,4 +1,4 @@
-package eu.ezytarget.micopi.main_menu.capabilities
+package eu.ezytarget.micopi.main_menu.capabilities.purchase
 
 data class InAppProduct(
     val sku: String,
