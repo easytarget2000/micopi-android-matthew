@@ -5,28 +5,28 @@ import eu.ezytarget.micopi.common.Tracker
 
 class ContactPreviewTracker: Tracker() {
 
-    fun handleNextImageButtonClicked(firebaseInstance: FirebaseAnalytics) {
-        handleEventViaFirebase(firebaseInstance, NEXT_IMAGE_BUTTON_CLICKED_EVENT)
+    fun handleNextImageButtonClicked() {
+        handleEventViaFirebase(NEXT_IMAGE_BUTTON_CLICKED_EVENT)
     }
 
-    fun handlePreviousImageButtonClicked(firebaseInstance: FirebaseAnalytics) {
-        handleEventViaFirebase(firebaseInstance, PREVIOUS_IMAGE_BUTTON_CLICKED_EVENT)
+    fun handlePreviousImageButtonClicked() {
+        handleEventViaFirebase(PREVIOUS_IMAGE_BUTTON_CLICKED_EVENT)
     }
 
-    fun handleSaveImageToDeviceButtonClicked(firebaseInstance: FirebaseAnalytics) {
-        handleEventViaFirebase(firebaseInstance, SAVE_IMAGE_BUTTON_CLICKED_EVENT)
+    fun handleSaveImageToDeviceButtonClicked() {
+        handleEventViaFirebase(SAVE_IMAGE_BUTTON_CLICKED_EVENT)
     }
 
-    fun handleShareImageButtonClicked(firebaseInstance: FirebaseAnalytics) {
-        handleEventViaFirebase(firebaseInstance, SHARE_IMAGE_BUTTON_CLICKED_EVENT)
+    fun handleShareImageButtonClicked() {
+        handleEventViaFirebase(SHARE_IMAGE_BUTTON_CLICKED_EVENT)
     }
 
-    fun handleAssignImageButtonClicked(firebaseInstance: FirebaseAnalytics) {
-        handleEventViaFirebase(firebaseInstance, ASSIGN_IMAGE_BUTTON_CLICKED_EVENT)
+    fun handleAssignImageButtonClicked() {
+        handleEventViaFirebase(ASSIGN_IMAGE_BUTTON_CLICKED_EVENT)
     }
 
-    fun handleAssignmentError(firebaseInstance: FirebaseAnalytics) {
-        handleEventViaFirebase(firebaseInstance, ASSIGNMENT_ERROR_EVENT)
+    fun handleAssignmentError() {
+        handleEventViaFirebase(ASSIGNMENT_ERROR_EVENT)
     }
 
     companion object {

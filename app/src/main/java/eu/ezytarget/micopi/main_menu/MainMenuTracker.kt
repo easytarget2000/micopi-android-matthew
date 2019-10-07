@@ -5,7 +5,7 @@ import eu.ezytarget.micopi.common.Tracker
 class MainMenuTracker: Tracker() {
 
     fun handleContactPickerButtonClicked() {
-        handleEventViaFirebase(firebaseInstance, CONTACT_PICKER_BUTTON_CLICKED_EVENT)
+        handleEventViaFirebase(CONTACT_PICKER_BUTTON_CLICKED_EVENT)
     }
 
     companion object {

@@ -72,29 +72,29 @@ class ContactPreviewViewModel : ViewModel() {
 
     fun handleNextImageButtonClicked(view: View) {
         generateNextImage()
-        tracker.handleNextImageButtonClicked(firebaseInstance)
+        tracker.handleNextImageButtonClicked()
     }
 
     fun handlePreviousImageButtonClicked(view: View) {
         generatePreviousImage()
-        tracker.handlePreviousImageButtonClicked(firebaseInstance)
+        tracker.handlePreviousImageButtonClicked()
     }
 
     fun handleSaveImageToDeviceButtonClicked(view: View) {
         val activity = view.activity!!
         validatePermissionsAndStoreImageToDevice(activity)
-        tracker.handleSaveImageToDeviceButtonClicked(firebaseInstance)
+        tracker.handleSaveImageToDeviceButtonClicked()
     }
 
     fun handleShareImageButtonClicked(view: View) {
         shareImage(view.context)
-        tracker.handleShareImageButtonClicked(firebaseInstance)
+        tracker.handleShareImageButtonClicked()
     }
 
     fun handleAssignImageButtonClicked(view: View) {
         val activity = view.activity!!
         validatePermissionsAndAssignImage(activity)
-        tracker.handleAssignImageButtonClicked(firebaseInstance)
+        tracker.handleAssignImageButtonClicked()
     }
 
     /*
@@ -241,7 +241,7 @@ class ContactPreviewViewModel : ViewModel() {
         val message: String = if (didAssign) {
             String.format(assignConfirmationFormat, contact.displayName)
         } else {
-            tracker.handleAssignmentError(firebaseInstance)
+            tracker.handleAssignmentError()
             genericErrorMessage
         }
         showMessage(message)

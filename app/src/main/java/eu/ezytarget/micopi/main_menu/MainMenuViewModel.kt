@@ -48,9 +48,10 @@ class MainMenuViewModel : ViewModel() {
         }
     }
 
-    fun setup(context: Context, firebaseInstance: FirebaseAnalytics) {
+    fun setupAndGetCapabilities(context: Context, firebaseInstance: FirebaseAnalytics) {
         resources = context.resources
         tracker.firebaseInstance = firebaseInstance
+        capabilitiesManager.setupTrackers(firebaseInstance)
         getCapabilities(context)
     }
 

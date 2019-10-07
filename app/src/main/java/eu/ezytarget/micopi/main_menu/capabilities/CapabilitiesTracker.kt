@@ -1,6 +1,8 @@
 package eu.ezytarget.micopi.main_menu.capabilities
 
-class CapabilitiesTracker {
+import eu.ezytarget.micopi.common.Tracker
+
+class CapabilitiesTracker: Tracker() {
 
     fun handlePlusAppFound() {
 

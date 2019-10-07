@@ -7,6 +7,7 @@ import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import com.android.billingclient.api.BillingClient.BillingResponseCode.USER_CANCELED
 import com.android.billingclient.api.BillingClient.SkuType.INAPP
+import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.BuildConfig
 
 class PurchaseManager(
@@ -18,6 +19,10 @@ class PurchaseManager(
     private var startedBillingFlow = false
     private lateinit var billingClient: BillingClient
     private lateinit var plusSkuDetails: SkuDetails
+
+    fun setupTracker(firebaseInstance: FirebaseAnalytics) {
+        tracker.firebaseInstance = firebaseInstance
+    }
 
     fun startConnectionAndQueryData(context: Context) {
         val billingClientBuilder = BillingClient.newBuilder(context)

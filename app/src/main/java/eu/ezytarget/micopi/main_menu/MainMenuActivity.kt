@@ -53,7 +53,7 @@ class MainMenuActivity : Activity() {
      */
 
     private fun setupViewModel() {
-        viewModel.setup(this, getFirebaseInstance())
+        viewModel.setupAndGetCapabilities(this, getFirebaseInstance())
         viewModel.selectionListener = object : MainMenuSelectionListener {
             override fun onContactPickerSelected(allowMultipleSelection: Boolean) {
                 startContactPickerIntent(allowMultipleSelection)

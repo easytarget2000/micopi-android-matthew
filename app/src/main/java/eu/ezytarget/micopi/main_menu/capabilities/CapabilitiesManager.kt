@@ -2,6 +2,7 @@ package eu.ezytarget.micopi.main_menu.capabilities
 
 import android.app.Activity
 import android.content.Context
+import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.main_menu.capabilities.purchase.InAppProduct
 import eu.ezytarget.micopi.main_menu.capabilities.purchase.PurchaseManager
 import eu.ezytarget.micopi.main_menu.capabilities.purchase.PurchaseManagerListener
@@ -20,6 +21,11 @@ class CapabilitiesManager(
         }
     var hasPlusApp = false
         private set
+
+    fun setupTrackers(firebaseInstance: FirebaseAnalytics) {
+        tracker.firebaseInstance = firebaseInstance
+        purchaseManager.setupTracker(firebaseInstance)
+    }
 
     fun getCapabilities(context: Context) {
         hasPlusApp = plusAppDetector.search(context.packageManager)
