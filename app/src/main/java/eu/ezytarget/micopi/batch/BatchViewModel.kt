@@ -53,6 +53,10 @@ class BatchViewModel : ViewModel() {
         MutableLiveData()
     private val isRunningLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    /*
+    Activity Input
+     */
+
     override fun onResourcesSet(resources: Resources) {
         BatchContactViewModel.untouchedStateAppendix = ""
         BatchContactViewModel.processingStateAppendix = resources.getString(
