@@ -1,5 +1,7 @@
 package eu.ezytarget.micopi.batch
 
+import android.content.res.Resources
+import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.Contact
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
@@ -38,5 +40,18 @@ data class BatchContactViewModel(
         var processingStateAppendix = ""
         var doneStateAppendix = ""
         var failedStateAppendix = ""
+
+        fun initStrings(resources: Resources) {
+            untouchedStateAppendix = ""
+            processingStateAppendix = resources.getString(
+                R.string.batchContactProcessingStateAppendix
+            )
+            doneStateAppendix = resources.getString(
+                R.string.batchContactSuccessStateAppendix
+            )
+            failedStateAppendix = resources.getString(
+                R.string.batchContactFailedStateAppendix
+            )
+        }
     }
 }

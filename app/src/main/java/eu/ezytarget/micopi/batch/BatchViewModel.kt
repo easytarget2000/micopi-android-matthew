@@ -58,16 +58,7 @@ class BatchViewModel : ViewModel() {
      */
 
     override fun onResourcesSet(resources: Resources) {
-        BatchContactViewModel.untouchedStateAppendix = ""
-        BatchContactViewModel.processingStateAppendix = resources.getString(
-            R.string.batchContactProcessingStateAppendix
-        )
-        BatchContactViewModel.doneStateAppendix = resources.getString(
-            R.string.batchContactSuccessStateAppendix
-        )
-        BatchContactViewModel.failedStateAppendix = resources.getString(
-            R.string.batchContactFailedStateAppendix
-        )
+        BatchContactViewModel.initStrings(resources)
     }
 
     fun setupTracker(firebaseInstance: FirebaseAnalytics) {
