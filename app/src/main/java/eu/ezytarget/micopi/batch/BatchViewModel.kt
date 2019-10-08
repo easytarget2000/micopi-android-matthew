@@ -1,5 +1,6 @@
 package eu.ezytarget.micopi.batch
 
+import android.app.Activity
 import android.content.res.Resources
 import android.view.View
 import androidx.lifecycle.*
@@ -7,11 +8,15 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.batch.service.BatchViewModelServiceListener
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
+import eu.ezytarget.micopi.common.extensions.activity
+import eu.ezytarget.micopi.common.permissions.PermissionManager
+import eu.ezytarget.micopi.common.permissions.WriteContactsPermissionManager
 import eu.ezytarget.micopi.common.ui.ViewModel
 
 class BatchViewModel : ViewModel() {
 
     var tracker: BatchTracker = BatchTracker()
+    var contactPermissionManager: PermissionManager = WriteContactsPermissionManager()
     var contactWrappers: Array<ContactHashWrapper> = emptyArray()
         set(value) {
             field = value
@@ -73,7 +78,8 @@ class BatchViewModel : ViewModel() {
     }
 
     fun onButtonClick(view: View) {
-        handleButtonClick()
+        val activity = view.activity!!
+        handleButtonClick(activity)
     }
 
     fun handleServiceStarted() {
@@ -84,6 +90,26 @@ class BatchViewModel : ViewModel() {
         isRunningLiveData.value = false
         currentContactWrapper = null
     }
+
+    /*
+    Permissions Callback
+     */
+
+    fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        contactPermissionManager.onRequestPermissionsResult(
+            requestCode,
+            permissions,
+            grantResults
+        )
+    }
+
+    /*
+    Implementations
+     */
 
     private fun setContactWrappersLiveData() {
         contactWrapperViewModelsLiveData.value = contactWrappers.map { contactHashWrapper ->
@@ -98,14 +124,20 @@ class BatchViewModel : ViewModel() {
         }
     }
 
-    private fun handleButtonClick() {
+    private fun handleButtonClick(activity: Activity) {
         val isRunning = isRunningLiveData.value ?: true
         if (isRunning) {
             serviceListener?.onBatchServiceStopRequested()
             tracker.handleCancelButtonClick()
         } else {
-            serviceListener?.onBatchServiceStartRequested(contactWrappers)
+            validatePermissionsAndStartService(activity)
             tracker.handleStartButtonClick()
+        }
+    }
+
+    private fun validatePermissionsAndStartService(activity: Activity) {
+        validatePermissionAndPerformAction(contactPermissionManager, activity) {
+            serviceListener?.onBatchServiceStartRequested(contactWrappers)
         }
     }
 

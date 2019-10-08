@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.ui.Activity
+import eu.ezytarget.micopi.common.ui.ViewModelMessageListener
 import eu.ezytarget.micopi.databinding.ContactPreviewActivityBinding
 
 
@@ -42,11 +43,12 @@ class ContactPreviewActivity : Activity() {
         viewModel.resources = resources
         viewModel.contentResolver = contentResolver
         viewModel.contactHashWrapper = contactHashWrapper
-        viewModel.listener = object : ContactPreviewViewModelListener {
+        viewModel.messageListener = object: ViewModelMessageListener {
             override fun onMessageRequested(message: String) {
                 showMessage(message)
             }
-
+        }
+        viewModel.listener = object : ContactPreviewViewModelListener {
             override fun onImageUriSharingRequested(imageUri: Uri) {
                 shareImageUri(imageUri)
             }
@@ -62,10 +64,6 @@ class ContactPreviewActivity : Activity() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-    }
-
-    private fun showMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
     private fun shareImageUri(imageUri: Uri) {

@@ -15,6 +15,7 @@ import eu.ezytarget.micopi.batch.service.BatchService
 import eu.ezytarget.micopi.batch.service.BatchViewModelServiceListener
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.ui.Activity
+import eu.ezytarget.micopi.common.ui.ViewModelMessageListener
 import eu.ezytarget.micopi.databinding.BatchActivityBinding
 
 
@@ -95,6 +96,11 @@ class BatchActivity : Activity() {
                 it?.let(contactsAdapter::submitList)
             }
         )
+        viewModel.messageListener = object: ViewModelMessageListener {
+            override fun onMessageRequested(message: String) {
+                showMessage(message)
+            }
+        }
         viewModel.serviceListener = object :
             BatchViewModelServiceListener {
             override fun onBatchServiceStartRequested(
