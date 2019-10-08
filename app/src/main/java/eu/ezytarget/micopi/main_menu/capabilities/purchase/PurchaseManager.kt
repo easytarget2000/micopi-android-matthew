@@ -21,7 +21,7 @@ class PurchaseManager(
     private lateinit var plusSkuDetails: SkuDetails
 
     fun setupTracker(firebaseInstance: FirebaseAnalytics) {
-        tracker.firebaseInstance = firebaseInstance
+        tracker.firebaseAnalytics = firebaseInstance
     }
 
     fun startConnectionAndQueryData(context: Context) {

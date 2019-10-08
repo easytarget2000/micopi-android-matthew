@@ -4,4 +4,5 @@ import android.net.Uri
 
 interface ContactPreviewViewModelListener {
     fun onImageUriSharingRequested(imageUri: Uri)
+    fun onImageAssigned()
 }

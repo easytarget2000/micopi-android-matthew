@@ -23,6 +23,10 @@ class ContactPreviewActivity : Activity() {
         Intent(Intent.ACTION_SEND)
     }
 
+    /*
+    Activityy Lifecycle
+     */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViewModel()
@@ -39,13 +43,13 @@ class ContactPreviewActivity : Activity() {
         viewModel.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private fun setupViewModel() {
-        val contactHashWrapper = intent.extras!![CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME]
-                as ContactHashWrapper
+    /*
+    Implementations
+     */
 
+    private fun setupViewModel() {
         viewModel.resources = resources
         viewModel.contentResolver = contentResolver
-        viewModel.contactHashWrapper = contactHashWrapper
         viewModel.messageListener = object: ViewModelMessageListener {
             override fun onMessageRequested(message: String) {
                 showMessage(message)
@@ -55,8 +59,16 @@ class ContactPreviewActivity : Activity() {
             override fun onImageUriSharingRequested(imageUri: Uri) {
                 shareImageUri(imageUri)
             }
+
+            override fun onImageAssigned() {
+                showAdIfAvailable()
+            }
         }
-        viewModel.firebaseInstance = getFirebaseInstance()
+        viewModel.setupTracker(getFirebaseInstance())
+
+        val contactHashWrapper = intent.extras!![CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME]
+                as ContactHashWrapper
+        viewModel.contactHashWrapper = contactHashWrapper
     }
 
     private fun setupDataBinding() {
@@ -86,6 +98,10 @@ class ContactPreviewActivity : Activity() {
         val chooserTitle = getString(R.string.contactPreviewSharingAppChooserTitle)
         val chooser = Intent.createChooser(shareIntent, chooserTitle)
         startActivity(chooser)
+    }
+
+    private fun showAdIfAvailable() {
+        adsLoader.showAdIfAvailable()
     }
 
     companion object {

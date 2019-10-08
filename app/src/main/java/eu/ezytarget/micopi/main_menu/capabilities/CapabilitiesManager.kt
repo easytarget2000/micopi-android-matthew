@@ -23,7 +23,7 @@ class CapabilitiesManager(
         private set
 
     fun setupTrackers(firebaseInstance: FirebaseAnalytics) {
-        tracker.firebaseInstance = firebaseInstance
+        tracker.firebaseAnalytics = firebaseInstance
         purchaseManager.setupTracker(firebaseInstance)
     }
 

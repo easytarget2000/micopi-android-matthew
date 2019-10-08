@@ -6,19 +6,19 @@ import com.google.firebase.analytics.FirebaseAnalytics
 
 abstract class Tracker {
 
-    var firebaseInstance: FirebaseAnalytics? = null
+    var firebaseAnalytics: FirebaseAnalytics? = null
 
     protected fun handleEventViaFirebase(
         eventID: String,
         eventDetails: Bundle? = null
     ) {
-        if (firebaseInstance == null) {
+        if (firebaseAnalytics == null) {
             Log.e(
                 javaClass.name,
-                "handleEventViaFirebase(): $eventID, firebaseInstance == null"
+                "handleEventViaFirebase(): $eventID, firebaseAnalytics == null"
             )
             return
         }
-        firebaseInstance?.logEvent(eventID, eventDetails)
+        firebaseAnalytics?.logEvent(eventID, eventDetails)
     }
 }

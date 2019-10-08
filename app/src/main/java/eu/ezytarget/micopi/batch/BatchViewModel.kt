@@ -62,7 +62,7 @@ class BatchViewModel : ViewModel() {
     }
 
     fun setupTracker(firebaseInstance: FirebaseAnalytics) {
-        tracker.firebaseInstance = firebaseInstance
+        tracker.firebaseAnalytics = firebaseInstance
     }
 
     fun setupContactViewModels(
