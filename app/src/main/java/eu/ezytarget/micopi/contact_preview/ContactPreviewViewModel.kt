@@ -134,7 +134,7 @@ class ContactPreviewViewModel : ViewModel() {
 
         imageEngine.populateColorProvider(resources ?: return)
 
-        val generatedBitmap = imageEngine.generateBitmap(contactHashWrapper ?: return)
+        val generatedBitmap = imageEngine.generateBitmap(contactHashWrapper)
         handleGeneratedBitmap(generatedBitmap)
     }
 
@@ -149,12 +149,12 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     private fun generateNextImage() {
-        contactHashWrapper?.increaseHashModifier()
+        contactHashWrapper.increaseHashModifier()
         generateImage()
     }
 
     private fun generatePreviousImage() {
-        contactHashWrapper?.decreaseHashModifier()
+        contactHashWrapper.decreaseHashModifier()
         generateImage()
     }
 

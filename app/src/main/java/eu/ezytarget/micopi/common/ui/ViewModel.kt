@@ -10,12 +10,12 @@ import eu.ezytarget.micopi.common.permissions.PermissionManager
 abstract class ViewModel : ViewModel() {
     var messageListener: ViewModelMessageListener? = null
     var resources: Resources? = null
-    set(value) {
-        field = value
-        if (value != null) {
-            onResourcesSet(value)
+        set(value) {
+            field = value
+            if (value != null) {
+                onResourcesSet(value)
+            }
         }
-    }
 
     protected fun validatePermissionAndPerformAction(
         permissionManager: PermissionManager,
@@ -41,10 +41,8 @@ abstract class ViewModel : ViewModel() {
         return resources?.getString(resourcesID) ?: RESOURCES_NULL_FALLBACK
     }
 
-    protected open fun onResourcesSet(resources: Resources) {
-
-    }
-
+    protected open fun onResourcesSet(resources: Resources) {}
+    
     private fun showPermissionRequiredAction() {
         val permissionRequiredMessage = getStringFromResourcesOrFallback(
             R.string.contactPreviewPermissionRequiredMessage
