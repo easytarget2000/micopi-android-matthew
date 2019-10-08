@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.google.android.gms.ads.MobileAds
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.batch.BatchActivity
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
@@ -30,6 +31,8 @@ class MainMenuActivity : Activity() {
         super.onCreate(savedInstanceState)
         setupViewModel()
         setupDataBinding()
+
+        MobileAds.initialize(this, getString(R.string.adMobAppId))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

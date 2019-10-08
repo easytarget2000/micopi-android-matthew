@@ -1,9 +1,9 @@
 package eu.ezytarget.micopi
 
-import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.multidex.MultiDexApplication
 
-class Application : Application() {
+class Application : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
