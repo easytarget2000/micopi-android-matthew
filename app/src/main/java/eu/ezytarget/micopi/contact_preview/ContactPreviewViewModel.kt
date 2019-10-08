@@ -37,13 +37,13 @@ class ContactPreviewViewModel : ViewModel() {
             databaseImageWriter.contentResolver = value
         }
     var listener: ContactPreviewViewModelListener? = null
-    var contactHashWrapper: ContactHashWrapper
-        get() = contactWrapperLiveData.value!!
+    var contactHashWrapper: ContactHashWrapper?
+        get() = contactWrapperLiveData.value
         set(value) {
             contactWrapperLiveData.value = value
             generateImage()
         }
-    val contact = contactHashWrapper.contact
+    val contact = contactHashWrapper?.contact
     val contactName: LiveData<String>
         get() {
             return Transformations.map(contactWrapperLiveData) { contactWrapper ->
@@ -132,9 +132,11 @@ class ContactPreviewViewModel : ViewModel() {
 
         isBusy = true
 
-        imageEngine.populateColorProvider(resources ?: return)
+        imageEngine.populateColorProvider(resources = resources ?: return)
 
-        val generatedBitmap = imageEngine.generateBitmap(contactHashWrapper)
+        val generatedBitmap = imageEngine.generateBitmap(
+            contactHashWrapper = contactHashWrapper ?: return
+        )
         handleGeneratedBitmap(generatedBitmap)
     }
 
@@ -149,12 +151,12 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     private fun generateNextImage() {
-        contactHashWrapper.increaseHashModifier()
+        contactHashWrapper?.increaseHashModifier()
         generateImage()
     }
 
     private fun generatePreviousImage() {
-        contactHashWrapper.decreaseHashModifier()
+        contactHashWrapper?.decreaseHashModifier()
         generateImage()
     }
 
@@ -182,7 +184,7 @@ class ContactPreviewViewModel : ViewModel() {
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
 
-        val imageName = "${contact.displayName}${contact.hashCode()}"
+        val imageName = "${contact?.displayName}${contact?.hashCode()}"
         val storeImageDescription = getStringFromResourcesOrFallback(
             R.string.contactPreviewStoreImageDescription
         )
