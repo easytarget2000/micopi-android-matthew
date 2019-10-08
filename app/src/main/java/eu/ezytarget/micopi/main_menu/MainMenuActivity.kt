@@ -31,8 +31,6 @@ class MainMenuActivity : Activity() {
         super.onCreate(savedInstanceState)
         setupViewModel()
         setupDataBinding()
-
-        MobileAds.initialize(this, getString(R.string.adMobAppId))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

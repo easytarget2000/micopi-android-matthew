@@ -3,17 +3,19 @@ package eu.ezytarget.micopi.contact_preview
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import eu.ezytarget.micopi.BuildConfig
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.ui.Activity
 import eu.ezytarget.micopi.common.ui.ViewModelMessageListener
+import eu.ezytarget.micopi.contact_preview.ads.AdsLoader
 import eu.ezytarget.micopi.databinding.ContactPreviewActivityBinding
 
 
 class ContactPreviewActivity : Activity() {
 
+    var adsLoader: AdsLoader = AdsLoader()
     private val viewModel: ContactPreviewViewModel by lazy {
         getViewModel(ContactPreviewViewModel::class)
     }
@@ -25,6 +27,7 @@ class ContactPreviewActivity : Activity() {
         super.onCreate(savedInstanceState)
         setupViewModel()
         setupDataBinding()
+        setupAdsPresenter()
     }
 
     override fun onRequestPermissionsResult(
@@ -64,6 +67,15 @@ class ContactPreviewActivity : Activity() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+    }
+
+    private fun setupAdsPresenter() {
+        val adUnitID = if (BuildConfig.DEBUG) {
+            AdsLoader.TEST_AD_MOB_INTERSTITIAL_AD_ID
+        } else {
+            getString(R.string.adMobContactPreviewInterstitialAdID)
+        }
+        adsLoader.setup(this, adUnitID)
     }
 
     private fun shareImageUri(imageUri: Uri) {
