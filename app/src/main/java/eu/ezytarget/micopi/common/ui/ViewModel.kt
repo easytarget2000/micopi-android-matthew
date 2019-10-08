@@ -42,7 +42,7 @@ abstract class ViewModel : ViewModel() {
     }
 
     protected open fun onResourcesSet(resources: Resources) {}
-    
+
     private fun showPermissionRequiredAction() {
         val permissionRequiredMessage = getStringFromResourcesOrFallback(
             R.string.contactPreviewPermissionRequiredMessage

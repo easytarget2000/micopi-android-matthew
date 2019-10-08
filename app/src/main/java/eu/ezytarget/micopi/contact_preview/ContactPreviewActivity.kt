@@ -34,6 +34,11 @@ class ContactPreviewActivity : Activity() {
         setupAdsPresenter()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        detachViewModel()
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -69,6 +74,11 @@ class ContactPreviewActivity : Activity() {
         val contactHashWrapper = intent.extras!![CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME]
                 as ContactHashWrapper
         viewModel.contactHashWrapper = contactHashWrapper
+    }
+
+    private fun detachViewModel() {
+        viewModel.messageListener = null
+        viewModel.listener = null
     }
 
     private fun setupDataBinding() {
