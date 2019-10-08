@@ -5,7 +5,7 @@ import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.Contact
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 
-data class BatchContactViewModel(
+data class BatchContactViewModel (
     private val contactHashWrapper: ContactHashWrapper,
     private val state: BatchContactState
 ) {
@@ -33,6 +33,12 @@ data class BatchContactViewModel(
 
         return other.contactHashWrapper == contactHashWrapper
                 && other.state == state
+    }
+
+    override fun hashCode(): Int {
+        var result = contactHashWrapper.hashCode()
+        result = 31 * result + state.hashCode()
+        return result
     }
 
     companion object {
