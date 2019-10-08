@@ -24,11 +24,11 @@ class MainMenuViewModel : ViewModel() {
     var capabilitiesManager: CapabilitiesManager = CapabilitiesManager()
     var tracker: MainMenuTracker = MainMenuTracker()
     val contactPickerButtonText: MutableLiveData<String> = MutableLiveData()
+    val capabilityViewsVisibility = MutableLiveData<Int>(View.VISIBLE)
     val capabilitiesCardCopy = MutableLiveData<String>("")
     val purchaseButtonText: MutableLiveData<String> = MutableLiveData()
     val purchaseButtonVisibility = MutableLiveData<Int>(View.GONE)
     val customerPromoVisibility = MutableLiveData<Int>(View.GONE)
-    val capabilitiesCardVisibility = MutableLiveData<Int>(View.VISIBLE)
 
     init {
         capabilitiesManager.listener = object : CapabilitiesManagerListener {
@@ -127,7 +127,7 @@ class MainMenuViewModel : ViewModel() {
         capabilitiesCardCopy.value = context.getString(R.string.mainMenuCapabilitiesCardLoadingCopy)
         purchaseButtonText.value = ""
         purchaseButtonVisibility.value = View.GONE
-        capabilitiesCardVisibility.value = View.VISIBLE
+        capabilityViewsVisibility.value = View.VISIBLE
     }
 
     private fun showPurchaseAvailability(plusProduct: InAppProduct) {
@@ -147,7 +147,7 @@ class MainMenuViewModel : ViewModel() {
         contactPickerButtonText.value = getStringFromResourcesOrFallback(
             R.string.mainMenuContactPickerButtonDefaultText
         )
-        capabilitiesCardVisibility.value = View.VISIBLE
+        capabilityViewsVisibility.value = View.VISIBLE
         purchaseButtonVisibility.value = View.VISIBLE
 
         if (capabilitiesManager.hasPlusApp) {
@@ -162,7 +162,7 @@ class MainMenuViewModel : ViewModel() {
     }
 
     private fun showPurchaseSuccess(inPaymentFlow: Boolean) {
-        capabilitiesCardVisibility.value = View.GONE
+        capabilityViewsVisibility.value = View.GONE
         purchaseButtonVisibility.value = View.GONE
         contactPickerButtonText.value = getStringFromResourcesOrFallback(
             R.string.mainMenuContactPickerButtonPluralText

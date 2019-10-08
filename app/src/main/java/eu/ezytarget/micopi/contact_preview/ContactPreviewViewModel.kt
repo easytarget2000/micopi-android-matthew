@@ -202,33 +202,6 @@ class ContactPreviewViewModel : ViewModel() {
         showMessage(message)
     }
 
-    private fun validatePermissionAndPerformAction(
-        permissionManager: PermissionManager,
-        activity: Activity,
-        action: () -> Unit
-    ) {
-        if (!permissionManager.hasPermission(activity)) {
-            permissionManager.requestPermission(activity) {
-                val permissionGranted = it
-                if (permissionGranted) {
-                    action()
-                } else {
-                    showPermissionRequiredAction()
-                }
-            }
-            return
-        }
-
-        action()
-    }
-
-    private fun showPermissionRequiredAction() {
-        val permissionRequiredMessage = getStringFromResourcesOrFallback(
-            R.string.contactPreviewPermissionRequiredMessage
-        )
-        showMessage(permissionRequiredMessage)
-    }
-
     private fun assignImageToContact() {
         val contact = contactHashWrapper?.contact ?: return
         val drawable = generatedDrawable.value ?: return
@@ -247,7 +220,4 @@ class ContactPreviewViewModel : ViewModel() {
         showMessage(message)
     }
 
-    private fun showMessage(message: String) {
-        listener?.onMessageRequested(message)
-    }
 }
