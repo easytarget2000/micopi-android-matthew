@@ -50,6 +50,15 @@ class BatchActivity : Activity() {
         setupRecyclerView()
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        viewModel.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
     override fun onResume() {
         super.onResume()
         registerBroadcastReceiver()
@@ -84,11 +93,6 @@ class BatchActivity : Activity() {
 
     private fun setupViewModel() {
         viewModel.resources = resources
-
-        val contactHashWrappers =
-            intent.extras!![CONTACT_HASH_WRAPPERS_INTENT_EXTRA_NAME]
-                    as Array<ContactHashWrapper>
-        viewModel.contactWrappers = contactHashWrappers
         viewModel.setupTracker(getFirebaseInstance())
         viewModel.setupContactViewModels(
             viewModelsOwner = this,
@@ -113,6 +117,11 @@ class BatchActivity : Activity() {
                 stopService()
             }
         }
+
+        val contactHashWrappers =
+            intent.extras!![CONTACT_HASH_WRAPPERS_INTENT_EXTRA_NAME]
+                    as Array<ContactHashWrapper>
+        viewModel.contactWrappers = contactHashWrappers
     }
 
     private fun setupDataBinding() {
