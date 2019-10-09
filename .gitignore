@@ -68,3 +68,6 @@ fastlane/readme.md
 
 # Firebase
 google-services.json
+
+# Secrets
+secret.xml

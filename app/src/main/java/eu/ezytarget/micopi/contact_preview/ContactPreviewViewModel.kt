@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
+import eu.ezytarget.micopi.common.data.Contact
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.engine.ContactImageEngine
@@ -23,31 +24,35 @@ import eu.ezytarget.micopi.common.ui.ViewModel
 
 class ContactPreviewViewModel : ViewModel() {
 
-    var contentResolver: ContentResolver
-        get() = databaseImageWriter.contentResolver
-        set(value) {
-            databaseImageWriter.contentResolver = value
-        }
-    var contactHashWrapper: ContactHashWrapper?
-        get() = contactWrapperLiveData.value
-        set(value) {
-            contactWrapperLiveData.value = value
-            generateImage()
-        }
     var imageEngine: ContactImageEngine = ContactImageEngine()
     var storageImageWriter: StorageImageWriter = StorageImageWriter()
     var sharingCache: SharingCache = SharingCache()
     var storagePermissionManager: StoragePermissionManager = StoragePermissionManager()
     var databaseImageWriter: ContactDatabaseImageWriter = ContactDatabaseImageWriter()
     var contactPermissionManager: PermissionManager = WriteContactsPermissionManager()
+    var tracker: ContactPreviewTracker = ContactPreviewTracker()
+
+    var contentResolver: ContentResolver
+        get() = databaseImageWriter.contentResolver
+        set(value) {
+            databaseImageWriter.contentResolver = value
+        }
     var listener: ContactPreviewViewModelListener? = null
-    val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
+    var contactHashWrapper: ContactHashWrapper?
+        get() = contactWrapperLiveData.value
+        set(value) {
+            contactWrapperLiveData.value = value
+            generateImage()
+        }
+    val contact: Contact
+        get() = contactHashWrapper?.contact!!
     val contactName: LiveData<String>
         get() {
             return Transformations.map(contactWrapperLiveData) { contactWrapper ->
-                contactWrapper?.contact?.displayName ?: ""
+                contactWrapper.contact.displayName
             }
         }
+    val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
     val interactionEnabled: LiveData<Boolean>
         get() {
             return Transformations.map(contactWrapperLiveData) {
@@ -58,8 +63,6 @@ class ContactPreviewViewModel : ViewModel() {
                 }
             }
         }
-    var tracker: ContactPreviewTracker = ContactPreviewTracker()
-    lateinit var firebaseInstance: FirebaseAnalytics
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
     private var isBusy = false
     private val genericErrorMessage: String by lazy {
@@ -67,8 +70,12 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     /*
-    UI Input
+    Activity Input
      */
+
+    fun setupTracker(firebaseAnalytics: FirebaseAnalytics) {
+        tracker.firebaseAnalytics = firebaseAnalytics
+    }
 
     fun handleNextImageButtonClicked(view: View) {
         generateNextImage()
@@ -127,9 +134,11 @@ class ContactPreviewViewModel : ViewModel() {
 
         isBusy = true
 
-        imageEngine.populateColorProvider(resources ?: return)
+        imageEngine.populateColorProvider(resources = resources ?: return)
 
-        val generatedBitmap = imageEngine.generateBitmap(contactHashWrapper ?: return)
+        val generatedBitmap = imageEngine.generateBitmap(
+            contactHashWrapper = contactHashWrapper ?: return
+        )
         handleGeneratedBitmap(generatedBitmap)
     }
 
@@ -174,7 +183,6 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     private fun storeImageOnDevice() {
-        val contact = contactHashWrapper?.contact ?: return
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
 
@@ -203,7 +211,6 @@ class ContactPreviewViewModel : ViewModel() {
     }
 
     private fun assignImageToContact() {
-        val contact = contactHashWrapper?.contact ?: return
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
         val didAssign = databaseImageWriter.assignImageToContact(bitmap, contact)
@@ -218,6 +225,10 @@ class ContactPreviewViewModel : ViewModel() {
             genericErrorMessage
         }
         showMessage(message)
+
+        if (didAssign) {
+            listener?.onImageAssigned()
+        }
     }
 
 }

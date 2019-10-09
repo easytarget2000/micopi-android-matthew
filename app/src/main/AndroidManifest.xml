@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.MaterialComponents"
-        tools:ignore="GoogleAppIndexingWarning"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:label">
 
         <activity
@@ -62,6 +62,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/adMobAppId"/>
 
     </application>
 

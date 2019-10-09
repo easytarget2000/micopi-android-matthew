@@ -3,17 +3,19 @@ package eu.ezytarget.micopi.contact_preview
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import eu.ezytarget.micopi.BuildConfig
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.ui.Activity
 import eu.ezytarget.micopi.common.ui.ViewModelMessageListener
+import eu.ezytarget.micopi.contact_preview.ads.AdsLoader
 import eu.ezytarget.micopi.databinding.ContactPreviewActivityBinding
 
 
 class ContactPreviewActivity : Activity() {
 
+    var adsLoader: AdsLoader = AdsLoader()
     private val viewModel: ContactPreviewViewModel by lazy {
         getViewModel(ContactPreviewViewModel::class)
     }
@@ -21,10 +23,20 @@ class ContactPreviewActivity : Activity() {
         Intent(Intent.ACTION_SEND)
     }
 
+    /*
+    Activity Lifecycle
+     */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupViewModel()
         setupDataBinding()
+        setupAdsPresenter()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        detachViewModel()
     }
 
     override fun onRequestPermissionsResult(
@@ -36,13 +48,13 @@ class ContactPreviewActivity : Activity() {
         viewModel.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    private fun setupViewModel() {
-        val contactHashWrapper = intent.extras!![CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME]
-                as ContactHashWrapper
+    /*
+    Implementations
+     */
 
+    private fun setupViewModel() {
         viewModel.resources = resources
         viewModel.contentResolver = contentResolver
-        viewModel.contactHashWrapper = contactHashWrapper
         viewModel.messageListener = object: ViewModelMessageListener {
             override fun onMessageRequested(message: String) {
                 showMessage(message)
@@ -52,8 +64,21 @@ class ContactPreviewActivity : Activity() {
             override fun onImageUriSharingRequested(imageUri: Uri) {
                 shareImageUri(imageUri)
             }
+
+            override fun onImageAssigned() {
+                showAdIfAvailable()
+            }
         }
-        viewModel.firebaseInstance = getFirebaseInstance()
+        viewModel.setupTracker(getFirebaseInstance())
+
+        val contactHashWrapper = intent.extras!![CONTACT_HASH_WRAPPER_INTENT_EXTRA_NAME]
+                as ContactHashWrapper
+        viewModel.contactHashWrapper = contactHashWrapper
+    }
+
+    private fun detachViewModel() {
+        viewModel.messageListener = null
+        viewModel.listener = null
     }
 
     private fun setupDataBinding() {
@@ -66,6 +91,15 @@ class ContactPreviewActivity : Activity() {
         binding.viewModel = viewModel
     }
 
+    private fun setupAdsPresenter() {
+        val adUnitID = if (BuildConfig.DEBUG) {
+            AdsLoader.TEST_AD_MOB_INTERSTITIAL_AD_ID
+        } else {
+            getString(R.string.adMobContactPreviewInterstitialAdID)
+        }
+        adsLoader.setup(this, adUnitID)
+    }
+
     private fun shareImageUri(imageUri: Uri) {
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         shareIntent.setDataAndType(imageUri, contentResolver.getType(imageUri))
@@ -74,6 +108,10 @@ class ContactPreviewActivity : Activity() {
         val chooserTitle = getString(R.string.contactPreviewSharingAppChooserTitle)
         val chooser = Intent.createChooser(shareIntent, chooserTitle)
         startActivity(chooser)
+    }
+
+    private fun showAdIfAvailable() {
+        adsLoader.showAdIfAvailable()
     }
 
     companion object {
