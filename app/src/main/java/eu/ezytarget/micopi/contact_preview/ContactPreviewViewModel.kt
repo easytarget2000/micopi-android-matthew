@@ -52,6 +52,16 @@ class ContactPreviewViewModel : ViewModel() {
                 contactWrapper.contact.displayName
             }
         }
+    val progressIndicatorVisibility: LiveData<Int>
+        get() {
+            return Transformations.map(interactionEnabled) {
+                 if (it) {
+                     View.GONE
+                 } else {
+                     View.VISIBLE
+                 }
+            }
+        }
     val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
     val interactionEnabled: MutableLiveData<Boolean> = MutableLiveData()
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
