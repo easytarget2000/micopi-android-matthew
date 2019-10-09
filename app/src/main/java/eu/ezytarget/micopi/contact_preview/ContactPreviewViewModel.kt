@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.google.firebase.analytics.FirebaseAnalytics
 import eu.ezytarget.micopi.R
+import eu.ezytarget.micopi.common.data.Contact
 import eu.ezytarget.micopi.common.data.ContactDatabaseImageWriter
 import eu.ezytarget.micopi.common.data.ContactHashWrapper
 import eu.ezytarget.micopi.common.engine.ContactImageEngine
@@ -43,7 +44,8 @@ class ContactPreviewViewModel : ViewModel() {
             contactWrapperLiveData.value = value
             generateImage()
         }
-    val contact = contactHashWrapper?.contact
+    val contact: Contact?
+        get() = contactHashWrapper?.contact
     val contactName: LiveData<String>
         get() {
             return Transformations.map(contactWrapperLiveData) { contactWrapper ->
@@ -217,7 +219,7 @@ class ContactPreviewViewModel : ViewModel() {
         )
 
         val message: String = if (didAssign) {
-            String.format(assignConfirmationFormat, contact.displayName)
+            String.format(assignConfirmationFormat, contactName.value)
         } else {
             tracker.handleAssignmentError()
             genericErrorMessage

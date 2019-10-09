@@ -24,7 +24,7 @@ class ContactPreviewActivity : Activity() {
     }
 
     /*
-    Activityy Lifecycle
+    Activity Lifecycle
      */
 
     override fun onCreate(savedInstanceState: Bundle?) {
