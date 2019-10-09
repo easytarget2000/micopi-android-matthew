@@ -13,7 +13,6 @@ class ContactImageEngine(
     private val initialsPainter: InitialsPainter = InitialsPainter()
 ) {
     private lateinit var randomNumberGenerator: RandomNumberGenerator
-    private var stopped = false
     var numberOfInitials = 1
 
     fun populateColorProvider(resources: Resources) {
@@ -36,6 +35,14 @@ class ContactImageEngine(
         return bitmapBackedCanvas.bitmap
     }
 
+    fun generateBitmapAsync(
+        contactHashWrapper: ContactHashWrapper,
+        callback: ContatImageEngineCallback
+    ) {
+        val asyncTask = AsyncTask(this, contactHashWrapper, callback)
+        asyncTask.execute()
+    }
+
     private fun paintBackground(canvas: Canvas) {
         val backgroundColor = matthew.colorAtModuloIndex(randomNumberGenerator.positiveInt())
         matthew.fillCanvas(canvas, backgroundColor)
@@ -46,8 +53,24 @@ class ContactImageEngine(
     }
 
     private fun paintInitials(canvas: Canvas, contactHashWrapper: ContactHashWrapper) {
-        var initials = contactHashWrapper.initials(numberOfInitials)
+        val initials = contactHashWrapper.initials(numberOfInitials)
         initialsPainter.paint(initials, canvas)
+    }
+
+    private class AsyncTask(
+        private val engine: ContactImageEngine,
+        private val contactHashWrapper: ContactHashWrapper,
+        private val callback: ContatImageEngineCallback? = null
+    ): android.os.AsyncTask<ContactHashWrapper, Bitmap?, Bitmap?>() {
+
+        override fun doInBackground(vararg p0: ContactHashWrapper?): Bitmap? {
+            return engine.generateBitmap(contactHashWrapper)
+        }
+
+        override fun onPostExecute(result: Bitmap?) {
+            super.onPostExecute(result)
+            callback?.invoke(contactHashWrapper, result, true)
+        }
     }
 
     companion object {

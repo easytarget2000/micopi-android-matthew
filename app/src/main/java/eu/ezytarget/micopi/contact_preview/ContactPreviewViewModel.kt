@@ -52,19 +52,19 @@ class ContactPreviewViewModel : ViewModel() {
                 contactWrapper.contact.displayName
             }
         }
-    val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
-    val interactionEnabled: LiveData<Boolean>
+    val progressIndicatorVisibility: LiveData<Int>
         get() {
-            return Transformations.map(contactWrapperLiveData) {
-                if (generatedDrawable.value == null) {
-                    return@map false
-                } else {
-                    return@map !isBusy
-                }
+            return Transformations.map(interactionEnabled) {
+                 if (it) {
+                     View.GONE
+                 } else {
+                     View.VISIBLE
+                 }
             }
         }
+    val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
+    val interactionEnabled: MutableLiveData<Boolean> = MutableLiveData()
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
-    private var isBusy = false
     private val genericErrorMessage: String by lazy {
         getStringFromResourcesOrFallback(R.string.genericErrorMessage)
     }
@@ -128,18 +128,15 @@ class ContactPreviewViewModel : ViewModel() {
      */
 
     private fun generateImage() {
-        if (isBusy) {
-            return
+        val resources = this.resources ?: return
+        val contactHashWrapper = this.contactHashWrapper ?: return
+
+        interactionEnabled.value = false
+
+        imageEngine.populateColorProvider(resources)
+        imageEngine.generateBitmapAsync(contactHashWrapper) { _, generatedBitmap, _ ->
+            handleGeneratedBitmap(generatedBitmap)
         }
-
-        isBusy = true
-
-        imageEngine.populateColorProvider(resources = resources ?: return)
-
-        val generatedBitmap = imageEngine.generateBitmap(
-            contactHashWrapper = contactHashWrapper ?: return
-        )
-        handleGeneratedBitmap(generatedBitmap)
     }
 
     private fun handleGeneratedBitmap(bitmap: Bitmap?) {
@@ -149,7 +146,7 @@ class ContactPreviewViewModel : ViewModel() {
             BitmapDrawable(resources, bitmap)
         }
 
-        isBusy = false
+        interactionEnabled.value = true
     }
 
     private fun generateNextImage() {
