@@ -53,18 +53,8 @@ class ContactPreviewViewModel : ViewModel() {
             }
         }
     val generatedDrawable: MutableLiveData<Drawable?> = MutableLiveData()
-    val interactionEnabled: LiveData<Boolean>
-        get() {
-            return Transformations.map(contactWrapperLiveData) {
-                if (generatedDrawable.value == null) {
-                    return@map false
-                } else {
-                    return@map !isBusy
-                }
-            }
-        }
+    val interactionEnabled: MutableLiveData<Boolean> = MutableLiveData()
     private var contactWrapperLiveData: MutableLiveData<ContactHashWrapper> = MutableLiveData()
-    private var isBusy = false
     private val genericErrorMessage: String by lazy {
         getStringFromResourcesOrFallback(R.string.genericErrorMessage)
     }
@@ -131,11 +121,7 @@ class ContactPreviewViewModel : ViewModel() {
         val resources = this.resources ?: return
         val contactHashWrapper = this.contactHashWrapper ?: return
 
-        if (isBusy) {
-            return
-        }
-
-        isBusy = true
+        interactionEnabled.value = false
 
         imageEngine.populateColorProvider(resources)
         imageEngine.generateBitmapAsync(contactHashWrapper) { _, generatedBitmap, _ ->
@@ -150,7 +136,7 @@ class ContactPreviewViewModel : ViewModel() {
             BitmapDrawable(resources, bitmap)
         }
 
-        isBusy = false
+        interactionEnabled.value = true
     }
 
     private fun generateNextImage() {
