@@ -40,7 +40,7 @@
                         android:adjustViewBounds="true"
                         android:background="@color/contactPreviewImageBackground"
                         android:contentDescription="@string/contactPreviewImageContentDescription"
-                        android:minHeight="240dp"
+                        android:minHeight="400dp"
                         android:src="@{viewModel.generatedDrawable}" />
 
                     <TextView
