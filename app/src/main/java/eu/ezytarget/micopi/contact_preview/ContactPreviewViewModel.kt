@@ -44,8 +44,8 @@ class ContactPreviewViewModel : ViewModel() {
             contactWrapperLiveData.value = value
             generateImage()
         }
-    val contact: Contact?
-        get() = contactHashWrapper?.contact
+    val contact: Contact
+        get() = contactHashWrapper?.contact!!
     val contactName: LiveData<String>
         get() {
             return Transformations.map(contactWrapperLiveData) { contactWrapper ->
@@ -186,7 +186,7 @@ class ContactPreviewViewModel : ViewModel() {
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
 
-        val imageName = "${contact?.displayName}${contact?.hashCode()}"
+        val imageName = "${contact.displayName}${contact.hashCode()}"
         val storeImageDescription = getStringFromResourcesOrFallback(
             R.string.contactPreviewStoreImageDescription
         )
@@ -213,13 +213,13 @@ class ContactPreviewViewModel : ViewModel() {
     private fun assignImageToContact() {
         val drawable = generatedDrawable.value ?: return
         val bitmap = drawable.toBitmap()
-        val didAssign = databaseImageWriter.assignImageToContact(bitmap, contact ?: return)
+        val didAssign = databaseImageWriter.assignImageToContact(bitmap, contact)
         val assignConfirmationFormat = getStringFromResourcesOrFallback(
             R.string.contactPreviewAssignConfirmationFormat
         )
 
         val message: String = if (didAssign) {
-            String.format(assignConfirmationFormat, contactName.value)
+            String.format(assignConfirmationFormat, contact.displayName)
         } else {
             tracker.handleAssignmentError()
             genericErrorMessage
