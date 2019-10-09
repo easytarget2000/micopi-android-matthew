@@ -38,7 +38,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
-                        android:background="@android:color/darker_gray"
+                        android:background="@color/contactPreviewImageBackground"
                         android:contentDescription="@string/contactPreviewImageContentDescription"
                         android:minHeight="240dp"
                         android:src="@{viewModel.generatedDrawable}" />

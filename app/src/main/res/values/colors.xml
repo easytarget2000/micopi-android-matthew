@@ -7,4 +7,6 @@
     <color name="fabForeground">@android:color/white</color>
     <color name="fabBackground">@color/colorAccent</color>
     <color name="dividerColor">@android:color/darker_gray</color>
+    <color name="contactPreviewImageBackground">#10808080</color>
+
 </resources>
