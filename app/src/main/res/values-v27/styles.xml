@@ -9,9 +9,4 @@
         <item name="toolbarStyle">@style/AppTheme.Toolbar</item>
     </style>
 
-    <style name="AppTheme.ContactPreview" parent="AppTheme.MaterialComponents">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
-
 </resources>

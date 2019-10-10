@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.analytics.FirebaseAnalytics
+import eu.ezytarget.micopi.BuildConfig
 import eu.ezytarget.micopi.R
 import eu.ezytarget.micopi.common.extensions.activity
 import eu.ezytarget.micopi.common.permissions.PermissionManager
@@ -110,7 +111,7 @@ class MainMenuViewModel : ViewModel() {
     }
 
     private fun selectContactPicker() {
-        val allowMultipleSelection = capabilitiesManager.hasPlusProduct
+        val allowMultipleSelection = capabilitiesManager.hasPlusProduct || BuildConfig.DEBUG
         selectionListener?.onContactPickerSelected(allowMultipleSelection)
     }
 
