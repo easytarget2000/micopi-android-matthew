@@ -5,9 +5,10 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
+import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManager
 
 
-class AdsLoader {
+class AdsLoader(private val capabilitiesManager: CapabilitiesManager = CapabilitiesManager()) {
 
     private lateinit var interstitialAd: InterstitialAd
 
@@ -17,6 +18,8 @@ class AdsLoader {
     }
 
     fun setup(context: Context, adMobAppID: String, adUnitID: String) {
+        capabilitiesManager.getCapabilities(context)
+
         MobileAds.initialize(context, adMobAppID)
         interstitialAd = InterstitialAd(context)
         interstitialAd.adUnitId = adUnitID
@@ -34,6 +37,10 @@ class AdsLoader {
     }
 
     fun showAdIfAvailable() {
+        if (capabilitiesManager.hasPlusProduct) {
+            return
+        }
+
         if (interstitialAd.isLoaded) {
             interstitialAd.show()
         }
