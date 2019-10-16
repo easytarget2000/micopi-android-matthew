@@ -1,10 +1,8 @@
 package eu.ezytarget.micopi.contact_preview.ads
 
 import android.content.Context
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.RequestConfiguration.TAG_FOR_CHILD_DIRECTED_TREATMENT_TRUE
 import eu.ezytarget.micopi.main_menu.capabilities.CapabilitiesManager
 
 
@@ -20,7 +18,13 @@ class AdsLoader(private val capabilitiesManager: CapabilitiesManager = Capabilit
     fun setup(context: Context, adMobAppID: String, adUnitID: String) {
         capabilitiesManager.getCapabilities(context)
 
+        val adsRequestConfig = RequestConfiguration.Builder()
+            .setTagForChildDirectedTreatment(TAG_FOR_CHILD_DIRECTED_TREATMENT_TRUE)
+            .build()
+
+        MobileAds.setRequestConfiguration(adsRequestConfig)
         MobileAds.initialize(context, adMobAppID)
+
         interstitialAd = InterstitialAd(context)
         interstitialAd.adUnitId = adUnitID
         preloadAd()
