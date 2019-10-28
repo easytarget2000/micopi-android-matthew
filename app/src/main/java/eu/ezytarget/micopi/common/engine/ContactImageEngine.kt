@@ -74,7 +74,7 @@ class ContactImageEngine(
     }
 
     companion object {
-        private const val IMAGE_WIDTH = 1080
+        private const val IMAGE_WIDTH = 1024
         private const val IMAGE_HEIGHT = IMAGE_WIDTH
 
     }
