@@ -175,7 +175,7 @@ class ContactDatabaseImageWriter {
 
     companion object {
         val tag = ContactDatabaseImageWriter::class.java.simpleName
-        private const val DOWNSCALED_IMAGE_WIDTH = 64
+        private const val DOWNSCALED_IMAGE_WIDTH = 256
         private const val DOWNSCALED_IMAGE_HEIGHT = DOWNSCALED_IMAGE_WIDTH
         private const val DOWNSCALED_IMAGE_COMPRESSION_QUALITY = 100
         private const val HI_RES_IMAGE_COMPRESSION_QUALITY = 100
