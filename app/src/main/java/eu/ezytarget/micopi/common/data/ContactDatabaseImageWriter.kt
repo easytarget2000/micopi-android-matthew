@@ -1,7 +1,6 @@
 package eu.ezytarget.micopi.common.data
 
 import android.content.ContentResolver
-import android.content.ContentUris
 import android.content.ContentValues
 import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
@@ -183,6 +182,6 @@ class ContactDatabaseImageWriter {
         private const val FILTER_DOWNSCALE = true
         private const val FILE_DESCRIPTOR_WRITE_MODE = "w"
         private val downscaledImageFormat = Bitmap.CompressFormat.JPEG
-        private val hiResImageFormat = Bitmap.CompressFormat.PNG
+        private val hiResImageFormat = Bitmap.CompressFormat.JPEG
     }
 }
