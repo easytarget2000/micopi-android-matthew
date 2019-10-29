@@ -20,16 +20,18 @@ class ContactDatabaseImageWriter {
         val rawContactUri = getContactUri(contact.entityID) ?: return false
 
         val thumbnailValues = ContentValues()
-        thumbnailValues.put(ContactsContract.Data.RAW_CONTACT_ID, ContentUris.parseId(rawContactUri))
+        thumbnailValues.put(
+            ContactsContract.Data.RAW_CONTACT_ID,
+            ContentUris.parseId(rawContactUri)
+        )
         thumbnailValues.put(ContactsContract.Data.IS_SUPER_PRIMARY, 1)
-
-        val downscaledImageBytes = downscaleAndCompressIntoBytes(bitmap)
-        thumbnailValues.put(ContactsContract.CommonDataKinds.Photo.PHOTO, downscaledImageBytes)
-
         thumbnailValues.put(
             ContactsContract.Data.MIMETYPE,
             ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
         )
+
+        val downscaledImageBytes = downscaleAndCompressIntoBytes(bitmap)
+        thumbnailValues.put(ContactsContract.CommonDataKinds.Photo.PHOTO, downscaledImageBytes)
 
         return overwriteHiResPhoto(rawContactUri, bitmap)
     }
