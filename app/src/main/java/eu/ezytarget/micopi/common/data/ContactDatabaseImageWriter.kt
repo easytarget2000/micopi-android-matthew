@@ -1,6 +1,7 @@
 package eu.ezytarget.micopi.common.data
 
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.ContentValues
 import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
@@ -19,7 +20,7 @@ class ContactDatabaseImageWriter {
         val rawContactUri = getContactUri(contact.entityID) ?: return false
 
         val thumbnailValues = ContentValues()
-        thumbnailValues.put(ContactsContract.Data.RAW_CONTACT_ID, contact.entityID)
+        thumbnailValues.put(ContactsContract.Data.RAW_CONTACT_ID, ContentUris.parseId(rawContactUri))
         thumbnailValues.put(ContactsContract.Data.IS_SUPER_PRIMARY, 1)
 
         val downscaledImageBytes = downscaleAndCompressIntoBytes(bitmap)
@@ -29,22 +30,6 @@ class ContactDatabaseImageWriter {
             ContactsContract.Data.MIMETYPE,
             ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
         )
-
-        val photoID = getContactPhotoID(contact.entityID)
-        val hasPhoto = photoID != null
-        if (hasPhoto) {
-            contentResolver.update(
-                ContactsContract.Data.CONTENT_URI,
-                thumbnailValues,
-                ContactsContract.Data._ID + "=" + photoID,
-                null
-            )
-        } else {
-            contentResolver.insert(
-                ContactsContract.Data.CONTENT_URI,
-                thumbnailValues
-            )
-        }
 
         return overwriteHiResPhoto(rawContactUri, bitmap)
     }
@@ -77,34 +62,6 @@ class ContactDatabaseImageWriter {
         uriCursor.close()
 
         return rawContactUri
-    }
-
-    private fun getContactPhotoID(contactID: String): Int? {
-        val photoSelection = (ContactsContract.Data.RAW_CONTACT_ID + "=="
-                + contactID
-                + " AND "
-                + ContactsContract.RawContacts.Data.MIMETYPE + "=='"
-                + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "'")
-
-        val existingPhotoCursor = contentResolver.query(
-            ContactsContract.Data.CONTENT_URI,
-            null,
-            photoSelection,
-            null,
-            null
-        )
-
-        var photoID: Int? = null
-
-        if (existingPhotoCursor != null) {
-            val index = existingPhotoCursor.getColumnIndex(ContactsContract.Data._ID)
-            if (index > 0 && existingPhotoCursor.moveToFirst()) {
-                photoID = existingPhotoCursor.getInt(index)
-            }
-            existingPhotoCursor.close()
-        }
-
-        return photoID
     }
 
     private fun overwriteHiResPhoto(
@@ -182,6 +139,6 @@ class ContactDatabaseImageWriter {
         private const val FILTER_DOWNSCALE = true
         private const val FILE_DESCRIPTOR_WRITE_MODE = "w"
         private val downscaledImageFormat = Bitmap.CompressFormat.JPEG
-        private val hiResImageFormat = Bitmap.CompressFormat.JPEG
+        private val hiResImageFormat = Bitmap.CompressFormat.WEBP
     }
 }
