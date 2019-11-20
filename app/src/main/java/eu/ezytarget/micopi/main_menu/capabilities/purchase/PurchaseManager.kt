@@ -92,7 +92,11 @@ class PurchaseManager(
             return
         }
 
-        val purchaseToken = purchases?.first()?.purchaseToken
+        val purchaseToken = if (purchases == null || purchases.isEmpty()) {
+            null
+        } else {
+            purchases.first().purchaseToken
+        }
 
         if (purchaseToken == null) {
             queryAvailableProducts()
