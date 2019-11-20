@@ -83,26 +83,56 @@ class PurchaseManager(
         }
 
         if (billingResult.responseCode == USER_CANCELED) {
-            startedBillingFlow = false
-            tracker.handlePlusBillingFlowUserCancel()
+            handleBillingCancel()
             return
         }
 
         if (billingResult.responseCode != OK) {
-            startedBillingFlow = false
-            Log.e(tag, "handlePurchasesBillingResult(): ${billingResult.debugMessage}")
-            queryAvailableProducts()
+            handleBillingNotOK(billingResult)
             return
         }
 
-        val purchasedPlus = purchases != null && purchases.isNotEmpty()
+        val purchaseToken = purchases?.first()?.purchaseToken
 
-        if (purchasedPlus) {
-            listener?.onPurchaseManagerPurchasedPlusProduct(startedBillingFlow)
-        } else {
+        if (purchaseToken == null) {
             queryAvailableProducts()
+            startedBillingFlow = false
+        } else {
+            if (startedBillingFlow) {
+                acknowledgePurchase(purchaseToken)
+            } else {
+                handleBillingComplete()
+            }
         }
+    }
 
+    private fun acknowledgePurchase(purchaseToken: String) {
+        val consumeParams = ConsumeParams.newBuilder()
+            .setPurchaseToken(purchaseToken)
+            .build()
+
+        billingClient.consumeAsync(consumeParams) { billingResult, _ ->
+            when {
+                billingResult.responseCode == USER_CANCELED -> handleBillingCancel()
+                billingResult.responseCode != OK -> handleBillingNotOK(billingResult)
+                else -> handleBillingComplete()
+            }
+        }
+    }
+
+    private fun handleBillingCancel() {
+        startedBillingFlow = false
+        tracker.handlePlusBillingFlowUserCancel()
+    }
+
+    private fun handleBillingNotOK(billingResult: BillingResult) {
+        startedBillingFlow = false
+        Log.e(tag, "handleBillingNotOK(): ${billingResult.debugMessage}")
+        queryAvailableProducts()
+    }
+
+    private fun handleBillingComplete() {
+        listener?.onPurchaseManagerPurchasedPlusProduct(startedBillingFlow)
         startedBillingFlow = false
     }
 
