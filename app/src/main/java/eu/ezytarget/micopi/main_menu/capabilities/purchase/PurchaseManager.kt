@@ -28,7 +28,27 @@ class PurchaseManager(
         val billingClientBuilder = BillingClient.newBuilder(context)
         billingClientBuilder.enablePendingPurchases()
         billingClientBuilder.setListener { billingResult, purchases ->
-            handlePurchasesBillingResult(billingResult, purchases)
+            if (billingResult.responseCode == USER_CANCELED) {
+                handleBillingCancel()
+                return@setListener
+            }
+
+            if (billingResult.responseCode != OK) {
+                handleBillingNotOK(billingResult)
+                return@setListener
+            }
+
+            val purchaseToken = if (purchases == null || purchases.isEmpty()) {
+                null
+            } else {
+                purchases.first().purchaseToken
+            }
+
+            if (purchaseToken == null) {
+                handleBillingNotOK(billingResult)
+            } else {
+                acknowledgePurchase(purchaseToken)
+            }
         }
 
         billingClient = billingClientBuilder.build()
@@ -66,44 +86,19 @@ class PurchaseManager(
     }
 
     private fun getCachedPurchasesAndAvailableProductsIfNeeded() {
-        val purchasesResult = billingClient.queryPurchases(INAPP)
-        handlePurchasesBillingResult(purchasesResult.billingResult, purchasesResult.purchasesList)
-    }
+        billingClient.queryPurchaseHistoryAsync(INAPP) { billingResult, recordList ->
+            if (billingResult.responseCode == USER_CANCELED) {
+                handleBillingCancel()
+                return@queryPurchaseHistoryAsync
+            }
 
-    private fun handlePurchasesBillingResult(
-        billingResult: BillingResult,
-        purchases: List<Purchase>?
-    ) {
-        if (verbose) {
-            Log.d(
-                tag,
-                "handlePurchasesBillingResult(): ${billingResult.debugMessage}," +
-                        purchases.toString()
-            )
-        }
+            if (billingResult.responseCode != OK) {
+                handleBillingNotOK(billingResult)
+                return@queryPurchaseHistoryAsync
+            }
 
-        if (billingResult.responseCode == USER_CANCELED) {
-            handleBillingCancel()
-            return
-        }
-
-        if (billingResult.responseCode != OK) {
-            handleBillingNotOK(billingResult)
-            return
-        }
-
-        val purchaseToken = if (purchases == null || purchases.isEmpty()) {
-            null
-        } else {
-            purchases.first().purchaseToken
-        }
-
-        if (purchaseToken == null) {
-            queryAvailableProducts()
-            startedBillingFlow = false
-        } else {
-            if (startedBillingFlow) {
-                acknowledgePurchase(purchaseToken)
+            if (recordList.isEmpty() || recordList.first().purchaseToken.isNullOrEmpty()) {
+                queryAvailableProducts()
             } else {
                 handleBillingComplete()
             }
