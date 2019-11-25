@@ -66,6 +66,9 @@ class PurchaseManager(
     }
 
     private fun getCachedPurchasesAndAvailableProductsIfNeeded() {
+        // Workaround, see issue #101.
+        billingClient.queryPurchaseHistoryAsync(INAPP) { _, _ -> }
+
         val purchasesResult = billingClient.queryPurchases(INAPP)
         handlePurchasesBillingResult(purchasesResult.billingResult, purchasesResult.purchasesList)
     }
@@ -114,6 +117,7 @@ class PurchaseManager(
         val acknowledgeParams = AcknowledgePurchaseParams.newBuilder()
             .setPurchaseToken(purchaseToken)
             .build()
+
         billingClient.acknowledgePurchase(acknowledgeParams) { billingResult ->
             when {
                 billingResult.responseCode == USER_CANCELED -> handleBillingCancel()
