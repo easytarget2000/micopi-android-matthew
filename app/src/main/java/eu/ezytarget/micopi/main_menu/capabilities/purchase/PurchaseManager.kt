@@ -111,11 +111,10 @@ class PurchaseManager(
     }
 
     private fun acknowledgePurchase(purchaseToken: String) {
-        val consumeParams = ConsumeParams.newBuilder()
+        val acknowledgeParams = AcknowledgePurchaseParams.newBuilder()
             .setPurchaseToken(purchaseToken)
             .build()
-
-        billingClient.consumeAsync(consumeParams) { billingResult, _ ->
+        billingClient.acknowledgePurchase(acknowledgeParams) { billingResult ->
             when {
                 billingResult.responseCode == USER_CANCELED -> handleBillingCancel()
                 billingResult.responseCode != OK -> handleBillingNotOK(billingResult)
